@@ -1,0 +1,57 @@
+{
+  "jurisdiction": "DE",
+  "template_code": "NDA_MUTUAL_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law",
+        "text": "the laws of the Federal Republic of Germany"
+      },
+      {
+        "id": "venue",
+        "text": "the courts of {{german_venue_city}}, Germany"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "header",
+        "body_md": "# GEGENSEITIGE GEHEIMHALTUNGSVEREINBARUNG\n# (MUTUAL NON-DISCLOSURE AGREEMENT)\n\nDiese gegenseitige Geheimhaltungsvereinbarung (diese \"**Vereinbarung**\") wird geschlossen am {{effective_date}} (das \"**Datum des Inkrafttretens**\") zwischen:\n\n**{{party1_name}}**, ein Unternehmen mit Sitz in {{party1_jurisdiction}}, mit Geschäftsanschrift {{party1_address}} (\"**Partei 1**\"); und\n\n**{{party2_name}}**, ein Unternehmen mit Sitz in {{party2_jurisdiction}}, mit Geschäftsanschrift {{party2_address}} (\"**Partei 2**\").\n\nPartei 1 und Partei 2 werden jeweils einzeln als \"**Partei**\" und zusammen als \"**Parteien**\" bezeichnet."
+      },
+      {
+        "id": "recitals",
+        "title": "PRÄAMBEL (RECITALS)",
+        "body_md": "**IN ANBETRACHT DESSEN**, dass die Parteien {{purpose}} prüfen möchten (der \"**Zweck**\"); und\n\n**IN ANBETRACHT DESSEN**, dass jede Partei der anderen Partei im Zusammenhang mit dem Zweck bestimmte vertrauliche und geschützte Informationen offenlegen kann; und\n\n**IN ANBETRACHT DESSEN**, dass die Parteien die Vertraulichkeit solcher Informationen schützen und die Bedingungen festlegen möchten, unter denen solche Informationen offengelegt und verwendet werden dürfen.\n\n**DAHER** vereinbaren die Parteien in Anbetracht der gegenseitigen Verpflichtungen und Vereinbarungen hierin und für andere wertvolle Gegenleistungen, deren Erhalt und Angemessenheit hiermit bestätigt werden, wie folgt:"
+      },
+      {
+        "id": "non_solicit",
+        "title": "4. ABWERBEVERBOT (NON-SOLICITATION)",
+        "body_md": "Während der Laufzeit dieser Vereinbarung und für einen Zeitraum von {{non_solicit_period_months}} Monaten danach wird keine Partei direkt oder indirekt Mitarbeiter, Berater oder Auftragnehmer der anderen Partei abwerben, anwerben oder einstellen, die der werbenden Partei aufgrund von Gesprächen oder im Rahmen dieser Vereinbarung offengelegten Informationen bekannt wurden, ohne vorherige schriftliche Zustimmung der anderen Partei.\n\nDiese Einschränkung gilt nicht für: (a) allgemeine Stellenausschreibungen, die nicht speziell auf das Personal der anderen Partei ausgerichtet sind, oder (b) Personen, die die werbende Partei unabhängig und ohne direkte oder indirekte Anwerbung kontaktieren.\n\n**Hinweis zum deutschen Recht**: Abwerbeverbote müssen verhältnismäßig sein und dürfen die Berufsfreiheit (Art. 12 GG) nicht unverhältnismäßig einschränken. Die Vereinbarung muss ein berechtigtes geschäftliches Interesse schützen.",
+        "condition": {"var": "include_non_solicit"}
+      },
+      {
+        "id": "remedies",
+        "title": "{{order_remedies}}. RECHTSBEHELFE (REMEDIES)",
+        "body_md": "**{{order_remedies}}.1 Unterlassungsanspruch.** Die empfangende Partei erkennt an und stimmt zu, dass jede Verletzung oder drohende Verletzung dieser Vereinbarung der offenlegenden Partei einen nicht wiedergutzumachenden Schaden zufügen kann, für den Schadensersatz kein angemessenes Rechtsmittel darstellt. Dementsprechend ist die offenlegende Partei berechtigt, eine einstweilige Verfügung oder Unterlassung gemäß §§ 935, 940 ZPO zu beantragen, zusätzlich zu allen anderen nach Gesetz oder Billigkeit verfügbaren Rechtsbehelfen.\n\n**{{order_remedies}}.2 Kumulative Rechtsbehelfe.** Die in dieser Vereinbarung vorgesehenen Rechte und Rechtsbehelfe sind kumulativ und ergänzen alle anderen gesetzlich oder billigkeitsrechtlich verfügbaren Rechte und Rechtsbehelfe.\n\n**{{order_remedies}}.3 Vertragsstrafe.** [Optional: Die Parteien können eine angemessene Vertragsstrafe gemäß §§ 339-345 BGB vereinbaren.]"
+      },
+      {
+        "id": "general",
+        "title": "{{order_general}}. ALLGEMEINE BESTIMMUNGEN (GENERAL PROVISIONS)",
+        "body_md": "**{{order_general}}.1 Anwendbares Recht.** Diese Vereinbarung unterliegt den Gesetzen der Bundesrepublik Deutschland und ist nach diesen auszulegen, unter Ausschluss des UN-Kaufrechts (CISG) und der Kollisionsnormen.\n\n**{{order_general}}.2 Gerichtsstand.** Ausschließlicher Gerichtsstand für alle Streitigkeiten aus oder im Zusammenhang mit dieser Vereinbarung ist {{venue}}.\n\n**{{order_general}}.3 Gesamte Vereinbarung.** Diese Vereinbarung stellt die gesamte Vereinbarung zwischen den Parteien in Bezug auf den Vertragsgegenstand dar und ersetzt alle vorherigen oder gleichzeitigen Vereinbarungen, ob schriftlich oder mündlich.\n\n**{{order_general}}.4 Änderungen.** Änderungen oder Ergänzungen dieser Vereinbarung bedürfen der Schriftform. Dies gilt auch für die Aufhebung dieser Schriftformklausel.\n\n**{{order_general}}.5 Verzicht.** Der Verzicht auf die Geltendmachung einer Bestimmung dieser Vereinbarung gilt nicht als Verzicht auf andere Bestimmungen oder als fortlaufender Verzicht.\n\n**{{order_general}}.6 Salvatorische Klausel.** Sollte eine Bestimmung dieser Vereinbarung unwirksam oder undurchführbar sein oder werden, so berührt dies die Wirksamkeit der übrigen Bestimmungen nicht. Die unwirksame oder undurchführbare Bestimmung ist durch eine wirksame Regelung zu ersetzen, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt.\n\n**{{order_general}}.7 Schriftform und Ausfertigungen.** Diese Vereinbarung kann in mehreren Ausfertigungen unterzeichnet werden, von denen jede als Original gilt und die zusammen ein und dasselbe Dokument darstellen. Elektronische Signaturen sind gemäß eIDAS-Verordnung (EU) Nr. 910/2014 zulässig.\n\n**{{order_general}}.8 Mitteilungen.** Alle Mitteilungen im Rahmen dieser Vereinbarung müssen schriftlich erfolgen und gelten als zugestellt: (a) bei persönlicher Übergabe, (b) bei Versand per bestätigter E-Mail, (c) einen Werktag nach Aufgabe bei einem anerkannten Kurierdienst, oder (d) drei Werktage nach Versand per Einschreiben mit Rückschein an die oben angegebenen Adressen."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "German Rechtsanwalt",
+    "effective_date": "2025-10-25",
+    "compliance_notes": "Adapted for German law (BGB, ZPO, GG). Key aspects: (1) Bilingual headings recommended; (2) Abwerbeverbot must not violate Art. 12 GG (freedom of occupation); (3) Schriftformklausel (written form requirement) included; (4) Salvatorische Klausel (severability) must specify replacement provision; (5) CISG explicitly excluded; (6) Vertragsstrafe (contractual penalty) optional under §§ 339-345 BGB; (7) Electronic signatures valid under eIDAS.",
+    "statutory_references": [
+      "Bürgerliches Gesetzbuch (BGB) - German Civil Code (§§ 339-345 contractual penalties, § 305 et seq. standard terms)",
+      "Zivilprozessordnung (ZPO) - Code of Civil Procedure (§§ 935, 940 injunctions)",
+      "Grundgesetz (GG) Art. 12 - Basic Law (freedom of occupation)",
+      "eIDAS-Verordnung (EU) Nr. 910/2014 - electronic signatures",
+      "Gesetz gegen den unlauteren Wettbewerb (UWG) - Unfair Competition Act"
+    ],
+    "practice_notes": "German law requires clarity and explicitness. Abwerbeverbot (non-solicitation) is enforceable if reasonable and protecting legitimate interests. Consider including a Vertragsstrafe (penalty clause) for enforceability. Written form clauses are strictly construed. For B2B, standard terms (AGB) rules apply if one party unilaterally imposes terms."
+  }
+}

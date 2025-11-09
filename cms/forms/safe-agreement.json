@@ -1,0 +1,19 @@
+{
+  "schema": {
+    "title": "SAFE Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name" },
+      "investorName": { "type": "string", "title": "Investor Name" },
+      "purchaseAmount": { "type": "number", "title": "Purchase Amount", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR"], "default": "USD" },
+      "valuationCap": { "type": "number", "title": "Valuation Cap (optional)", "minimum": 0 },
+      "discount": { "type": "number", "title": "Discount % (optional)", "minimum": 0, "maximum": 30 },
+      "safeType": { "type": "string", "enum": ["cap-only", "discount-only", "cap-and-discount", "mfn"], "enumNames": ["Valuation cap only", "Discount only", "Cap + Discount", "MFN (Most Favored Nation)"], "default": "cap-and-discount" },
+      "jurisdiction": { "type": "string", "enum": ["US-DE", "US-CA"], "default": "US-DE" },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Purchase Date" }
+    },
+    "required": ["companyName", "investorName", "purchaseAmount", "safeType", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "currency": "USD", "safeType": "cap-and-discount", "jurisdiction": "US-DE" }
+}

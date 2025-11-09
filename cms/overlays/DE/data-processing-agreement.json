@@ -1,0 +1,31 @@
+{
+  "templateCode": "data-processing-agreement",
+  "jurisdiction": "DE",
+  "language": "en",
+  "overlay": {
+    "governingLaw": "Federal Republic of Germany",
+    "disputeResolution": "German courts",
+    "clauses": {
+      "gdprCompliance": "This DPA complies with Article 28 GDPR and German Federal Data Protection Act (BDSG).",
+      "dataSubjects": "Data subjects are EU residents whose personal data is processed.",
+      "supervisoryAuthority": "Competent supervisory authority is the relevant German Data Protection Authority (Landesdatenschutzbeauftragte) or Federal Commissioner (BfDI).",
+      "subProcessors": "Sub-processors may only be engaged with prior written consent and must be located in EU/EEA or provide adequate safeguards under GDPR Chapter V.",
+      "dataBreachNotification": "Processor shall notify Controller without undue delay (within 24 hours) upon becoming aware of a personal data breach.",
+      "dataRetention": "Personal data shall be deleted or returned upon termination unless retention required by German law."
+    },
+    "terminology": {
+      "controller": "Verantwortlicher",
+      "processor": "Auftragsverarbeiter",
+      "dataSubject": "betroffene Person",
+      "personalData": "personenbezogene Daten"
+    },
+    "compliance": [
+      "EU GDPR (Regulation 2016/679)",
+      "Bundesdatenschutzgesetz (BDSG - German Federal Data Protection Act)",
+      "Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG)"
+    ],
+    "annexes": {
+      "technicalMeasures": "Processor implements technical and organizational measures per Art. 32 GDPR including encryption, pseudonymization, and access controls."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema": {
+    "title": "Unilateral NDA",
+    "type": "object",
+    "properties": {
+      "disclosingParty": { "type": "string", "title": "Disclosing Party Name" },
+      "receivingParty": { "type": "string", "title": "Receiving Party Name" },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "purpose": { "type": "string", "title": "Purpose of Disclosure" },
+      "termYears": { "type": "integer", "title": "Term (years)", "default": 3, "minimum": 1, "maximum": 10 }
+    },
+    "required": ["disclosingParty", "receivingParty", "jurisdiction", "effectiveDate", "purpose"]
+  },
+  "defaults": { "termYears": 3 }
+}

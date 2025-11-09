@@ -1,0 +1,148 @@
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import helmet from 'helmet';
+import compression from 'compression';
+import { AppModule } from './app.module';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+
+async function bootstrap() {
+  // Configure logging
+  const logger = WinstonModule.createLogger({
+    transports: [
+      new winston.transports.Console({
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.json(),
+        ),
+      }),
+    ],
+  });
+
+  const app = await NestFactory.create(AppModule, {
+    logger,
+    rawBody: true, // Enable raw body for webhook signature verification
+  });
+
+  const configService = app.get(ConfigService);
+
+  // Security middleware
+  app.use(helmet());
+
+  // Compression middleware
+  app.use(compression());
+
+  // CORS configuration
+  const corsOrigins = configService
+    .get<string>('CORS_ORIGINS', 'http://localhost:3001')
+    .split(',')
+    .map(origin => origin.trim());
+
+  app.enableCors({
+    origin: corsOrigins,
+    credentials: true,
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    exposedHeaders: ['X-Total-Count', 'X-Page-Number'],
+  });
+
+  // Global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
+
+  // API versioning
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+    prefix: 'v',
+  });
+
+  // Swagger API documentation (only in non-production)
+  if (configService.get('NODE_ENV') !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('Legmint API')
+      .setDescription(
+        'API for Legmint - Legal docs, minted for startups. Interactive legal template generation with paywall, guided questionnaire flow, and attorney referral system.',
+      )
+      .setVersion('1.0.0')
+      .setContact(
+        'Legmint Support',
+        'https://legmint.com',
+        'support@legmint.com',
+      )
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description: 'JWT token from authentication flow',
+        },
+        'BearerAuth',
+      )
+      .addApiKey(
+        {
+          type: 'apiKey',
+          in: 'header',
+          name: 'X-API-Key',
+          description: 'Partner API key for webhooks',
+        },
+        'ApiKeyAuth',
+      )
+      .addServer('http://localhost:3000/v1', 'Local Development')
+      .addServer('https://api-staging.legmint.com/v1', 'Staging')
+      .addServer('https://api.legmint.com/v1', 'Production')
+      .addTag('Packs', 'Template pack catalog and listing')
+      .addTag('Templates', 'Template metadata (no raw content)')
+      .addTag('Questionnaires', 'Guided questionnaire flow')
+      .addTag('Generation', 'Template rendering and document generation')
+      .addTag('Purchase', 'Subscription and payment')
+      .addTag('Referrals', 'Attorney referral system')
+      .addTag('Users', 'User account management')
+      .addTag('Admin', 'Admin operations (internal only)')
+      .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document, {
+      customSiteTitle: 'Legmint API Documentation',
+      customfavIcon: 'https://legmint.com/favicon.ico',
+      swaggerOptions: {
+        persistAuthorization: true,
+        displayRequestDuration: true,
+      },
+    });
+  }
+
+  // Health check endpoint
+  app.getHttpAdapter().get('/v1/health', (req, res) => {
+    res.status(200).json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: configService.get('NODE_ENV'),
+    });
+  });
+
+  const port = configService.get('PORT', 3000);
+  await app.listen(port);
+
+  logger.log(`🚀 Legmint API is running on: http://localhost:${port}/v1`);
+  logger.log(`📚 API Documentation: http://localhost:${port}/api-docs`);
+  logger.log(`🏥 Health Check: http://localhost:${port}/v1/health`);
+}
+
+bootstrap();

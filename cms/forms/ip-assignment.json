@@ -1,0 +1,27 @@
+{
+  "schema": {
+    "title": "IP Assignment Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name (Assignee)" },
+      "assignorName": { "type": "string", "title": "Assignor Name (Individual/Entity)" },
+      "assignorEmail": { "type": "string", "format": "email", "title": "Assignor Email" },
+      "jurisdiction": { "type": "string", "title": "Governing Law", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "ipDescription": { "type": "string", "title": "IP Being Assigned", "description": "Describe the intellectual property (software, patents, trademarks, etc.)" },
+      "ipTypes": {
+        "type": "array",
+        "title": "Types of IP",
+        "items": { "type": "string", "enum": ["copyright", "patents", "trademarks", "trade-secrets", "know-how"], "enumNames": ["Copyrights", "Patents", "Trademarks", "Trade Secrets", "Know-how"] },
+        "uniqueItems": true,
+        "minItems": 1
+      },
+      "consideration": { "type": "string", "title": "Consideration", "description": "e.g., Employment, $100, equity, etc." },
+      "warrantsOwnership": { "type": "boolean", "title": "Assignor warrants they own the IP?", "default": true },
+      "futureWork": { "type": "boolean", "title": "Include future work/improvements?", "default": true }
+    },
+    "required": ["companyName", "assignorName", "jurisdiction", "effectiveDate", "ipDescription", "ipTypes"]
+  },
+  "uiSchema": { "ipDescription": { "ui:widget": "textarea" }, "ipTypes": { "ui:widget": "checkboxes" } },
+  "defaults": { "warrantsOwnership": true, "futureWork": true }
+}

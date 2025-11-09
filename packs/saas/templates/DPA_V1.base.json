@@ -1,0 +1,202 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "DPA_V1",
+  "name": "Data Processing Agreement (GDPR)",
+  "pack": "saas",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "pro",
+  "description": "GDPR-compliant Data Processing Agreement for SaaS and data processing services",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["controller_name", "processor_name", "processing_purpose", "data_categories", "data_subject_categories"],
+    "properties": {
+      "controller_name": {"type": "string", "title": "Data Controller Name"},
+      "processor_name": {"type": "string", "title": "Data Processor Name"},
+      "main_agreement_date": {"type": "string", "format": "date", "title": "Date of Main Service Agreement"},
+      "processing_purpose": {"type": "string", "title": "Purpose of Processing"},
+      "data_categories": {
+        "type": "array",
+        "title": "Categories of Personal Data",
+        "items": {"type": "string"},
+        "examples": [["Contact details", "Account credentials", "Usage data", "Payment information"]]
+      },
+      "data_subject_categories": {
+        "type": "array",
+        "title": "Categories of Data Subjects",
+        "items": {"type": "string"},
+        "examples": [["Employees", "Customers", "Suppliers", "Website visitors"]]
+      },
+      "retention_period": {"type": "string", "default": "Duration of service + 30 days"},
+      "international_transfers": {"type": "boolean", "default": false},
+      "sub_processors_list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "service": {"type": "string"},
+            "location": {"type": "string"}
+          }
+        }
+      }
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "",
+      "body_md": "# DATA PROCESSING AGREEMENT\n\n**This Data Processing Agreement** (\"**DPA**\") forms part of the agreement dated {{main_agreement_date}} (the \"**Main Agreement**\") between:\n\n**(1) {{controller_name}}** (the \"**Controller**\" or \"**Customer**\"); and\n\n**(2) {{processor_name}}** (the \"**Processor**\" or \"**Provider**\").\n\n**WHEREAS:**\n\nA. Under the Main Agreement, the Processor provides [describe services] to the Controller.\n\nB. In providing such services, the Processor processes Personal Data on behalf of the Controller.\n\nC. The parties wish to comply with the requirements of the Data Protection Legislation, including the GDPR.\n\nD. This DPA sets out the terms on which the Processor will process Personal Data on behalf of the Controller.\n\n**IT IS AGREED:**"
+    },
+    {
+      "id": "definitions",
+      "order": 2,
+      "title": "1. DEFINITIONS AND INTERPRETATION",
+      "body_md": "1.1 In this DPA:\n\n**\"Controller\"**, **\"Processor\"**, **\"Data Subject\"**, **\"Personal Data\"**, **\"Personal Data Breach\"**, **\"processing\"** (and related terms), and **\"Supervisory Authority\"** have the meanings given to them in the GDPR.\n\n**\"Data Protection Legislation\"** means:\n\n(a) the UK GDPR and Data Protection Act 2018 (and regulations made thereunder) to the extent applicable;\n\n(b) Regulation (EU) 2016/679 (\"**GDPR**\") and any national implementing laws in any Member State, to the extent applicable; and\n\n(c) any other applicable law relating to the processing of Personal Data and privacy,\n\nin each case as amended, superseded, or replaced from time to time.\n\n**\"Main Agreement\"** means the agreement identified in the recitals to which this DPA is annexed or forms part.\n\n**\"Processing Details\"** means the details of the processing operations set out in Schedule 1.\n\n**\"Security Measures\"** means the technical and organisational security measures set out in Schedule 2.\n\n**\"Standard Contractual Clauses\"** or **\"SCCs\"** means the standard contractual clauses for the transfer of personal data to third countries approved by the European Commission pursuant to Article 46(2)(c) GDPR (currently Decision 2021/914), as amended, superseded, or replaced from time to time.\n\n**\"Sub-processor\"** means any processor engaged by the Processor to process Personal Data on behalf of the Controller.\n\n1.2 The terms **\"controller\"**, **\"processor\"**, **\"data subject\"**, **\"personal data\"**, **\"personal data breach\"**, and **\"processing\"** (and related terms) shall be interpreted in accordance with applicable Data Protection Legislation.\n\n1.3 In the event of any conflict between this DPA and the Main Agreement, this DPA shall prevail to the extent of the conflict. In all other respects, the Main Agreement remains in full force and effect."
+    },
+    {
+      "id": "scope_roles",
+      "order": 3,
+      "title": "2. SCOPE AND ROLES",
+      "body_md": "2.1 **Scope**: This DPA applies to the processing of Personal Data by the Processor on behalf of the Controller in connection with the provision of the services under the Main Agreement.\n\n2.2 **Controller**: The Controller is the data controller (or equivalent under applicable Data Protection Legislation) in respect of the Personal Data processed under this DPA.\n\n2.3 **Processor**: The Processor is the data processor (or equivalent under applicable Data Protection Legislation) acting on behalf of the Controller.\n\n2.4 **Processing Details**: The subject matter, duration, nature and purpose of the processing, the types of Personal Data, and categories of Data Subjects are set out in Schedule 1 (Processing Details).\n\n2.5 **Controller Responsibilities**: The Controller:\n\n   (a) is solely responsible for compliance with its obligations as a controller under Data Protection Legislation;\n   \n   (b) warrants that it has all necessary rights and has obtained all necessary consents and authorisations to enable the Processor to process the Personal Data as contemplated by the Main Agreement and this DPA; and\n   \n   (c) shall provide clear, documented instructions to the Processor regarding the processing of Personal Data."
+    },
+    {
+      "id": "processor_obligations",
+      "order": 4,
+      "title": "3. PROCESSOR OBLIGATIONS",
+      "body_md": "3.1 **Compliance**: The Processor shall process Personal Data in compliance with:\n\n   (a) applicable Data Protection Legislation;\n   \n   (b) the Controller's documented instructions as set out in this DPA, the Main Agreement, and as otherwise communicated in writing by the Controller from time to time; and\n   \n   (c) the Processing Details and Security Measures.\n\n3.2 **Limitations on Processing**: The Processor shall:\n\n   (a) process Personal Data only on documented instructions from the Controller, unless required to do so by applicable law (in which case the Processor shall inform the Controller of such legal requirement before processing, unless prohibited by law);\n   \n   (b) not process Personal Data for any purpose other than as set out in Schedule 1 or as otherwise instructed by the Controller;\n   \n   (c) not disclose, transfer, or otherwise make available Personal Data to any third party except as expressly authorised by this DPA or the Controller;\n   \n   (d) not retain, use, or disclose Personal Data outside the scope of the Main Agreement; and\n   \n   (e) immediately inform the Controller if, in the Processor's opinion, an instruction from the Controller infringes Data Protection Legislation.\n\n3.3 **Confidentiality**: The Processor shall:\n\n   (a) ensure that all personnel authorised to process Personal Data are subject to binding obligations of confidentiality (whether by contract or statutory duty); and\n   \n   (b) ensure that such personnel process Personal Data only as necessary to provide the services under the Main Agreement or as instructed by the Controller.\n\n3.4 **Records**: The Processor shall maintain records of all processing activities carried out on behalf of the Controller as required by Article 30(2) GDPR and shall make such records available to the Controller or a Supervisory Authority upon request."
+    },
+    {
+      "id": "security",
+      "order": 5,
+      "title": "4. SECURITY",
+      "body_md": "4.1 **Security Measures**: The Processor shall implement and maintain the Security Measures set out in Schedule 2 to protect Personal Data against Personal Data Breaches.\n\n4.2 **Appropriateness**: The Security Measures shall:\n\n   (a) be appropriate to the risks presented by the processing, taking into account the state of the art, the costs of implementation, and the nature, scope, context, and purposes of processing as well as the risk of varying likelihood and severity for the rights and freedoms of natural persons; and\n   \n   (b) include measures to:\n   \n      (i) ensure the ongoing confidentiality, integrity, availability, and resilience of processing systems and services;\n      \n      (ii) restore the availability and access to Personal Data in a timely manner in the event of a physical or technical incident;\n      \n      (iii) regularly test, assess, and evaluate the effectiveness of Security Measures; and\n      \n      (iv) pseudonymise and encrypt Personal Data where appropriate.\n\n4.3 **Updates**: The Processor shall regularly review and update the Security Measures as necessary to maintain an appropriate level of security.\n\n4.4 **Assistance**: The Processor shall provide reasonable assistance to the Controller in ensuring compliance with the Controller's obligations regarding the security of processing under Articles 32 to 36 GDPR, taking into account the nature of processing and the information available to the Processor."
+    },
+    {
+      "id": "sub_processors",
+      "order": 6,
+      "title": "5. SUB-PROCESSORS",
+      "body_md": "5.1 **General Authorisation**: The Controller provides general authorisation for the Processor to engage Sub-processors, subject to this Clause 5.\n\n5.2 **Current Sub-processors**: The Controller consents to the Processor engaging the Sub-processors listed in Schedule 3 as of the date of this DPA.\n\n5.3 **New Sub-processors**: The Processor shall:\n\n   (a) maintain an up-to-date list of Sub-processors at [URL or specify method of notification];\n   \n   (b) inform the Controller of any intended changes concerning the addition or replacement of Sub-processors at least [30 days] in advance of such change; and\n   \n   (c) provide the Controller with sufficient information about each new Sub-processor to enable the Controller to assess compliance with Data Protection Legislation.\n\n5.4 **Objection Rights**: The Controller may object to the Processor's appointment of a new Sub-processor on reasonable data protection grounds by notifying the Processor in writing within [14 days] of receiving notice under Clause 5.3(b). If the Controller objects:\n\n   (a) the parties shall discuss the objection in good faith with a view to achieving a commercially reasonable resolution;\n   \n   (b) if no resolution is reached within [30 days], the Controller may suspend or terminate the relevant service that requires the use of the objected Sub-processor without liability to the Processor (but without prejudice to any fees incurred prior to suspension or termination); and\n   \n   (c) if the Controller does not object within [14 days], the Controller shall be deemed to have consented to the new Sub-processor.\n\n5.5 **Sub-processor Obligations**: The Processor shall:\n\n   (a) impose data protection obligations on each Sub-processor that are materially the same as those imposed on the Processor under this DPA, and in particular requiring the Sub-processor to implement appropriate Security Measures;\n   \n   (b) ensure that each Sub-processor complies with such obligations; and\n   \n   (c) remain fully liable to the Controller for the performance of each Sub-processor's obligations.\n\n5.6 **International Sub-processors**: Where a Sub-processor is located in a country outside the {{eea_or_uk_text}} that is not recognised by the {{relevant_authority_text}} as providing adequate protection for Personal Data:\n\n   (a) the Processor shall ensure that appropriate safeguards are in place, such as entering into Standard Contractual Clauses with the Sub-processor; and\n   \n   (b) the Processor shall provide copies of such safeguards to the Controller upon request."
+    },
+    {
+      "id": "data_subject_rights",
+      "order": 7,
+      "title": "6. DATA SUBJECT RIGHTS",
+      "body_md": "6.1 **Assistance**: Taking into account the nature of the processing, the Processor shall provide reasonable assistance (at the Controller's cost) to enable the Controller to respond to:\n\n   (a) requests from Data Subjects exercising their rights under Data Protection Legislation, including rights of access, rectification, erasure, restriction, data portability, objection, and rights related to automated decision-making; and\n   \n   (b) any complaints, inquiries, or requests from Supervisory Authorities relating to the processing of Personal Data under this DPA.\n\n6.2 **Notification**: If the Processor receives a request directly from a Data Subject, the Processor shall:\n\n   (a) not respond to that request except on the documented instructions of the Controller or as required by applicable law; and\n   \n   (b) promptly notify the Controller of the request and provide reasonable assistance to enable the Controller to respond.\n\n6.3 **Rectification and Deletion**: The Processor shall, at the Controller's written request:\n\n   (a) rectify inaccurate Personal Data; and\n   \n   (b) delete or anonymise Personal Data,\n\nin each case without undue delay, except to the extent the Processor is required by applicable law to retain such Personal Data."
+    },
+    {
+      "id": "data_breaches",
+      "order": 8,
+      "title": "7. PERSONAL DATA BREACHES",
+      "body_md": "7.1 **Notification**: The Processor shall notify the Controller without undue delay (and in any event within {{breach_notification_hours}} hours) after becoming aware of a Personal Data Breach affecting the Controller's Personal Data.\n\n7.2 **Breach Information**: The notification under Clause 7.1 shall, to the extent possible, include:\n\n   (a) a description of the nature of the Personal Data Breach, including, where possible, the categories and approximate number of Data Subjects concerned and the categories and approximate number of Personal Data records concerned;\n   \n   (b) the likely consequences of the Personal Data Breach;\n   \n   (c) a description of the measures taken or proposed to be taken by the Processor to address the Personal Data Breach and, where appropriate, to mitigate its possible adverse effects; and\n   \n   (d) the name and contact details of the Processor's data protection officer or other contact point from whom more information may be obtained.\n\n7.3 **Investigation and Remediation**: The Processor shall:\n\n   (a) investigate the Personal Data Breach promptly and diligently;\n   \n   (b) take reasonable steps to mitigate the effects of the Personal Data Breach and to prevent further breaches;\n   \n   (c) provide such information and assistance as the Controller may reasonably request in relation to the Personal Data Breach; and\n   \n   (d) cooperate with the Controller in any investigation, including any investigation by a Supervisory Authority.\n\n7.4 **Documentation**: The Processor shall maintain records of all Personal Data Breaches, including the facts relating to the breach, its effects, and the remedial action taken, and shall make such records available to the Controller and Supervisory Authorities upon request."
+    },
+    {
+      "id": "audits",
+      "order": 9,
+      "title": "8. AUDITS AND INSPECTIONS",
+      "body_md": "8.1 **Audit Rights**: The Processor shall, at the Controller's written request and cost:\n\n   (a) make available to the Controller all information reasonably necessary to demonstrate compliance with this DPA and Data Protection Legislation; and\n   \n   (b) allow for and contribute to audits, including inspections, conducted by the Controller or an auditor mandated by the Controller.\n\n8.2 **Audit Procedure**:\n\n   (a) The Controller shall provide the Processor with at least [30 days'] prior written notice of any audit or inspection, unless a shorter notice period is required by a Supervisory Authority or in the case of a suspected Personal Data Breach.\n   \n   (b) Audits shall be conducted during normal business hours and shall not unreasonably interfere with the Processor's business operations.\n   \n   (c) The Controller shall ensure that any auditor is bound by obligations of confidentiality.\n   \n   (d) The Processor may charge reasonable fees for assistance provided during audits that require more than [4 hours] of the Processor's time per calendar year.\n\n8.3 **Certifications**: The Processor may provide certifications, reports, or other documentation (such as ISO 27001, SOC 2 Type II, or equivalent) in lieu of an on-site audit, provided such documentation has been issued within the preceding [12 months] and covers the relevant processing operations.\n\n8.4 **Supervisory Authority Audits**: The Processor shall cooperate with and provide reasonable assistance to any audit or inspection conducted by a Supervisory Authority."
+    },
+    {
+      "id": "international_transfers",
+      "order": 10,
+      "title": "9. INTERNATIONAL TRANSFERS",
+      "body_md": "9.1 **Location of Processing**: The Processor shall process Personal Data in {{processing_location}}.\n\n{{#if international_transfers}}\n9.2 **Transfers Outside {{eea_or_uk_text}}**: Where Personal Data is transferred to, or processed in, a country outside the {{eea_or_uk_text}} that has not been recognised by the {{relevant_authority_text}} as providing adequate protection:\n\n   (a) the parties shall enter into the Standard Contractual Clauses, which are hereby incorporated by reference and shall form part of this DPA;\n   \n   (b) for the purposes of the Standard Contractual Clauses:\n   \n      (i) the Controller is the \"data exporter\" and the Processor is the \"data importer\";\n      \n      (ii) the parties agree to comply with the relevant modules and clauses of the Standard Contractual Clauses as applicable to the relationship between controller and processor; and\n      \n      (iii) any terms not defined in this DPA shall have the meaning given in the Standard Contractual Clauses;\n   \n   (c) the Processor shall implement appropriate supplementary measures (technical, organisational, and contractual) to ensure that the level of protection guaranteed by the GDPR is not undermined, taking into account:\n   \n      (i) the circumstances of the transfer;\n      \n      (ii) the laws and practices of the destination country, including any government access to data; and\n      \n      (iii) the Security Measures applied;\n   \n   (d) the Processor shall provide the Controller with all information reasonably necessary to assess the adequacy of supplementary measures and compliance with Data Protection Legislation in relation to international transfers.\n\n9.3 **UK Transfers**: Where Personal Data protected by the UK GDPR is transferred outside the UK:\n\n   (a) the UK Addendum to the Standard Contractual Clauses (as approved by the UK Information Commissioner's Office) shall apply in addition to the Standard Contractual Clauses; and\n   \n   (b) the Processor shall comply with any additional requirements under UK Data Protection Legislation.\n{{/if}}\n\n{{^if international_transfers}}\n9.2 **No International Transfers**: The Processor warrants that Personal Data shall not be transferred to, or processed in, any country outside the {{eea_or_uk_text}} without the Controller's prior written consent and without implementing appropriate safeguards as required by Data Protection Legislation.\n{{/if}}"
+    },
+    {
+      "id": "dpia_consultation",
+      "order": 11,
+      "title": "10. DATA PROTECTION IMPACT ASSESSMENTS",
+      "body_md": "10.1 The Processor shall provide reasonable assistance (at the Controller's cost) to the Controller in conducting any data protection impact assessment (DPIA) required under Article 35 GDPR or prior consultation with a Supervisory Authority required under Article 36 GDPR, taking into account the nature of processing and the information available to the Processor.\n\n10.2 Such assistance may include:\n\n   (a) providing information about the Processor's processing operations, Security Measures, and Sub-processors;\n   \n   (b) assessing the risks presented by the processing; and\n   \n   (c) identifying measures to mitigate such risks."
+    },
+    {
+      "id": "data_return_deletion",
+      "order": 12,
+      "title": "11. DATA RETURN AND DELETION",
+      "body_md": "11.1 **On Termination**: Within [30 days] following termination or expiry of the Main Agreement, the Processor shall (at the Controller's election):\n\n   (a) return all Personal Data to the Controller in a commonly used, structured, and machine-readable format; and/or\n   \n   (b) securely delete or anonymise all Personal Data,\n\nexcept to the extent the Processor is required by applicable law to retain some or all of the Personal Data, in which case the Processor shall:\n\n   (i) isolate and protect the Personal Data from any further processing except as required by such law; and\n   \n   (ii) delete the Personal Data as soon as the legal retention requirement ends.\n\n11.2 **Certification**: The Processor shall, upon request, provide written certification to the Controller that it has complied with this Clause 11.\n\n11.3 **Sub-processors**: The Processor shall procure that all Sub-processors comply with the obligations in this Clause 11.\n\n11.4 **Backup Copies**: Personal Data held in backup systems may be retained for up to [90 days] after deletion, provided that such backup copies are securely isolated and not accessed or used except for disaster recovery purposes."
+    },
+    {
+      "id": "liability_indemnity",
+      "order": 13,
+      "title": "12. LIABILITY AND INDEMNITY",
+      "body_md": "12.1 **Liability Under GDPR**: Each party's liability under or in connection with this DPA, whether in contract, tort, or otherwise, shall be subject to the exclusions and limitations of liability set out in the Main Agreement, except that:\n\n   (a) nothing shall limit or exclude either party's liability for:\n   \n      (i) breach of its obligations under this DPA where such breach results in a fine or penalty imposed by a Supervisory Authority; or\n      \n      (ii) compensation payable to Data Subjects under Article 82 GDPR;\n   \n   (b) the Processor's liability for breaches of its obligations under this DPA relating to Personal Data processing shall not exceed the greater of:\n   \n      (i) [amount or formula from Main Agreement]; or\n      \n      (ii) the amount of any fine or penalty imposed by a Supervisory Authority as a result of the Processor's breach.\n\n12.2 **Right to Compensation**: Under Article 82 GDPR:\n\n   (a) a Controller or Processor that has suffered material or non-material damage as a result of an infringement of the GDPR may claim compensation from the Controller or Processor responsible for the infringement;\n   \n   (b) a Processor is liable for damage caused by processing only where it has not complied with obligations specifically directed at processors or where it has acted outside or contrary to lawful instructions from the Controller; and\n   \n   (c) a Processor is exempt from liability if it proves that it is not in any way responsible for the event giving rise to the damage.\n\n12.3 **Indemnity**: The Processor shall indemnify and hold harmless the Controller against all claims, liabilities, costs, and expenses (including reasonable legal fees) arising from:\n\n   (a) any breach by the Processor of its obligations under this DPA;\n   \n   (b) any unlawful processing of Personal Data by the Processor or its Sub-processors; or\n   \n   (c) any Personal Data Breach caused by the Processor or its Sub-processors,\n\nexcept to the extent such claim arises from the Controller's instructions or breach of this DPA or Data Protection Legislation."
+    },
+    {
+      "id": "term_termination",
+      "order": 14,
+      "title": "13. TERM AND TERMINATION",
+      "body_md": "13.1 **Duration**: This DPA shall commence on the date of the Main Agreement and shall continue in force for so long as the Processor processes Personal Data on behalf of the Controller under the Main Agreement.\n\n13.2 **Effect of Termination**: Upon termination or expiry of the Main Agreement:\n\n   (a) the Processor shall cease processing Personal Data (except as necessary to comply with Clause 11 (Data Return and Deletion));\n   \n   (b) the obligations in Clauses [7 (Personal Data Breaches), 8 (Audits), 11 (Data Return and Deletion), 12 (Liability), and 14 (General)] shall survive for [3 years] or such longer period as required by applicable Data Protection Legislation; and\n   \n   (c) the Standard Contractual Clauses (if applicable) shall remain in force for the duration specified therein.\n\n13.3 **Early Termination**: The Controller may terminate this DPA with immediate effect by written notice if:\n\n   (a) the Processor commits a material breach of this DPA that is not capable of remedy; or\n   \n   (b) the Processor commits a material breach of this DPA that is capable of remedy but fails to remedy such breach within [30 days] of receiving written notice specifying the breach."
+    },
+    {
+      "id": "general",
+      "order": 15,
+      "title": "14. GENERAL",
+      "body_md": "14.1 **Precedence**: In the event of any conflict between this DPA and the Main Agreement in relation to the processing of Personal Data, this DPA shall prevail.\n\n14.2 **Amendment**: This DPA may be amended by written agreement of the parties or as necessary to comply with changes in Data Protection Legislation, provided that any such amendment does not reduce the protection afforded to Personal Data.\n\n14.3 **Severability**: If any provision of this DPA is held to be invalid or unenforceable, that provision shall be deemed severed and the validity and enforceability of the remaining provisions shall not be affected.\n\n14.4 **Waiver**: No failure or delay by a party in exercising any right or remedy under this DPA shall constitute a waiver of that right or remedy.\n\n14.5 **Governing Law**: This DPA and any dispute or claim arising out of or in connection with it shall be governed by {{governing_law_text}}.\n\n14.6 **Jurisdiction**: The courts of {{venue_text}} shall have exclusive jurisdiction to settle any dispute or claim arising out of or in connection with this DPA."
+    },
+    {
+      "id": "schedules_header",
+      "order": 16,
+      "title": "SCHEDULES",
+      "body_md": "The following Schedules form part of this DPA:\n\n- **Schedule 1**: Processing Details\n- **Schedule 2**: Security Measures\n- **Schedule 3**: List of Sub-processors"
+    },
+    {
+      "id": "schedule_1",
+      "order": 17,
+      "title": "SCHEDULE 1 - PROCESSING DETAILS",
+      "body_md": "### Subject Matter of Processing\n\nThe Processor will process Personal Data as necessary to provide the services described in the Main Agreement.\n\n### Duration of Processing\n\n{{retention_period}}\n\n### Nature and Purpose of Processing\n\n{{processing_purpose}}\n\n### Types of Personal Data\n\nThe following categories of Personal Data may be processed:\n\n{{#data_categories}}- {{this}}\n{{/data_categories}}\n\n### Categories of Data Subjects\n\nThe Personal Data relates to the following categories of Data Subjects:\n\n{{#data_subject_categories}}- {{this}}\n{{/data_subject_categories}}\n\n### Sensitive Personal Data\n\n[Specify if special categories of data under Article 9 GDPR or criminal conviction data under Article 10 GDPR will be processed, or state \"None\" if not applicable.]\n\n### Processing Operations\n\nThe Personal Data will be subject to the following processing operations:\n\n- Collection\n- Recording\n- Organisation\n- Structuring\n- Storage\n- Adaptation or alteration\n- Retrieval\n- Consultation\n- Use\n- Disclosure by transmission\n- Restriction\n- Erasure or destruction\n- [Specify any other specific operations]"
+    },
+    {
+      "id": "schedule_2",
+      "order": 18,
+      "title": "SCHEDULE 2 - SECURITY MEASURES",
+      "body_md": "The Processor has implemented and will maintain the following technical and organisational security measures:\n\n### 1. Access Control\n\n- **User Authentication**: Multi-factor authentication (MFA) for all user accounts with access to Personal Data\n- **Role-Based Access Control (RBAC)**: Access to Personal Data restricted based on job function and principle of least privilege\n- **Access Logging**: All access to Personal Data is logged with timestamps and user identification\n- **Access Reviews**: Periodic reviews of user access rights (at least quarterly)\n- **Revocation**: Immediate revocation of access rights upon termination of employment or change of role\n\n### 2. Data Security\n\n- **Encryption at Rest**: Personal Data encrypted using [AES-256 or equivalent] when stored\n- **Encryption in Transit**: Personal Data encrypted using [TLS 1.2+ or equivalent] during transmission\n- **Pseudonymisation**: Personal Data pseudonymised where appropriate and feasible\n- **Data Segregation**: Logical separation of Personal Data belonging to different customers\n- **Secure Deletion**: Secure deletion or anonymisation procedures for Personal Data that is no longer required\n\n### 3. Network and Infrastructure Security\n\n- **Firewalls**: Network-level firewalls to protect processing systems\n- **Intrusion Detection/Prevention**: Systems to detect and prevent unauthorised access attempts\n- **Network Segmentation**: Segregation of processing environments from other networks\n- **Vulnerability Management**: Regular vulnerability scanning and patching of systems\n- **Anti-Malware**: Up-to-date anti-malware software on all relevant systems\n\n### 4. Physical Security\n\n- **Data Centre Security**: Personal Data hosted in Tier III or higher certified data centres with:\n  - 24/7 physical security and surveillance\n  - Controlled access via biometric or multi-factor systems\n  - Environmental controls (fire suppression, climate control, power redundancy)\n- **Device Security**: Encryption of laptops and mobile devices; secure disposal of hardware\n\n### 5. Organisational Measures\n\n- **Security Policies**: Documented information security policies and procedures\n- **Personnel Training**: Regular data protection and security awareness training for all personnel with access to Personal Data\n- **Confidentiality**: All personnel bound by contractual or statutory obligations of confidentiality\n- **Background Checks**: Pre-employment screening of personnel with access to Personal Data (where legally permitted)\n- **Incident Response**: Documented incident response plan and breach notification procedures\n\n### 6. Business Continuity and Disaster Recovery\n\n- **Backup**: Regular automated backups of Personal Data\n- **Backup Testing**: Periodic testing of backup restoration procedures\n- **Disaster Recovery Plan**: Documented disaster recovery plan with defined RTOs and RPOs\n- **Redundancy**: Redundant systems and infrastructure to ensure availability\n\n### 7. Development and Maintenance\n\n- **Secure Development**: Secure software development lifecycle (SDLC) practices\n- **Testing**: Security testing of applications processing Personal Data\n- **Change Management**: Formal change management procedures for systems processing Personal Data\n- **Maintenance Windows**: Scheduled maintenance with advance notice to minimise disruption\n\n### 8. Monitoring and Testing\n\n- **Security Monitoring**: Continuous monitoring of security events and alerts\n- **Logging**: Comprehensive logging of security-relevant events with log retention of at least [12 months]\n- **Penetration Testing**: Annual third-party penetration testing and vulnerability assessments\n- **Compliance Audits**: Regular audits of compliance with security measures\n\n### 9. Third-Party Management\n\n- **Sub-processor Security**: Due diligence and contractual requirements for Sub-processor security\n- **Vendor Management**: Assessment and monitoring of third-party service providers\n\n### 10. Certifications\n\nThe Processor holds the following security and privacy certifications:\n\n- [ISO/IEC 27001:2013 (Information Security Management)]\n- [SOC 2 Type II]\n- [ISO/IEC 27018 (Cloud Privacy)]\n- [ISO/IEC 27701 (Privacy Information Management)]\n- [Other relevant certifications]\n\n**Review and Updates**: These Security Measures are reviewed and updated regularly to address evolving threats and maintain an appropriate level of security."
+    },
+    {
+      "id": "schedule_3",
+      "order": 19,
+      "title": "SCHEDULE 3 - SUB-PROCESSORS",
+      "body_md": "The Controller consents to the Processor engaging the following Sub-processors:\n\n{{#if sub_processors_list}}\n{{#sub_processors_list}}\n### {{name}}\n\n- **Service Provided**: {{service}}\n- **Location**: {{location}}\n- **Data Processed**: [Specify type of Personal Data processed by this Sub-processor]\n\n{{/sub_processors_list}}\n{{else}}\n[No Sub-processors as of the date of this DPA. The Processor will notify the Controller of any Sub-processors in accordance with Clause 5.]\n{{/if}}\n\n**Updated List**: An up-to-date list of Sub-processors is maintained at: [URL or specify notification method]"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law_text",
+      "text": "the laws of [Jurisdiction]"
+    },
+    {
+      "id": "venue_text",
+      "text": "the courts of [Jurisdiction]"
+    },
+    {
+      "id": "breach_notification_hours",
+      "text": "48"
+    },
+    {
+      "id": "processing_location",
+      "text": "[Specify country/region]"
+    },
+    {
+      "id": "eea_or_uk_text",
+      "text": "European Economic Area (EEA) or United Kingdom"
+    },
+    {
+      "id": "relevant_authority_text",
+      "text": "European Commission or UK Secretary of State"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-22",
+    "compliance_notes": "GDPR-compliant DPA template. Incorporates requirements from GDPR Articles 28, 30, 32-36, 46, 82. Must be adapted for UK GDPR (UK DPA 2018) where applicable. Standard Contractual Clauses (SCCs) to be attached for international transfers. Ensure alignment with Schrems II and subsequent CJEU/EDPB guidance. Regular updates required to reflect evolving data protection law.",
+    "statutory_references": [
+      "Regulation (EU) 2016/679 (GDPR) - Articles 4, 28, 30, 32-36, 44-49, 82",
+      "UK GDPR and Data Protection Act 2018 (UK)",
+      "Commission Implementing Decision (EU) 2021/914 (Standard Contractual Clauses)",
+      "EDPB Guidelines 07/2020 on SCCs",
+      "Schrems II (Case C-311/18)"
+    ],
+    "review_required": true,
+    "tags": ["gdpr", "dpa", "data-protection", "privacy", "controller-processor"]
+  }
+}

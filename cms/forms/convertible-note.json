@@ -1,0 +1,20 @@
+{
+  "schema": {
+    "title": "Convertible Note",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name" },
+      "investorName": { "type": "string", "title": "Investor Name" },
+      "principalAmount": { "type": "number", "title": "Principal Amount", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR", "GBP"], "default": "USD" },
+      "interestRate": { "type": "number", "title": "Interest Rate (%)", "minimum": 0, "maximum": 20, "default": 5 },
+      "maturityDate": { "type": "string", "format": "date", "title": "Maturity Date" },
+      "valuationCap": { "type": "number", "title": "Valuation Cap", "minimum": 0 },
+      "discount": { "type": "number", "title": "Conversion Discount (%)", "minimum": 0, "maximum": 30, "default": 20 },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "US-DE", "US-CA"], "default": "US-DE" },
+      "issueDate": { "type": "string", "format": "date", "title": "Issue Date" }
+    },
+    "required": ["companyName", "investorName", "principalAmount", "interestRate", "maturityDate", "valuationCap", "jurisdiction", "issueDate"]
+  },
+  "defaults": { "currency": "USD", "interestRate": 5, "discount": 20, "jurisdiction": "US-DE" }
+}

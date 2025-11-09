@@ -1,0 +1,1061 @@
+openapi: 3.1.0
+info:
+  title: LegalMind Templates API
+  description: |
+    LegalMind Templates API provides access to legal document templates,
+    questionnaire generation, and document assembly services across multiple
+    jurisdictions and languages.
+
+    ## Authentication
+    All API endpoints require authentication via OAuth 2.0 Bearer tokens.
+
+    ## Rate Limiting
+    - Public endpoints: 100 requests/hour per IP
+    - Authenticated endpoints: 1000 requests/hour per user
+    - Generation endpoints: 50 generations/hour per user
+
+    ## Error Handling
+    All errors follow RFC 7807 Problem Details format.
+  version: 1.0.0
+  contact:
+    name: LegalMind API Support
+    email: api-support@legalmind.com
+    url: https://docs.legalmind.com
+  license:
+    name: Proprietary
+    url: https://legalmind.com/terms
+servers:
+  - url: https://api.legalmind.com/v1
+    description: Production server
+  - url: https://api-staging.legalmind.com/v1
+    description: Staging server
+
+security:
+  - oauth2: []
+
+paths:
+  /templates:
+    get:
+      summary: List available templates
+      description: Retrieve a paginated list of published legal templates with filtering options
+      tags:
+        - Templates
+      parameters:
+        - name: category
+          in: query
+          description: Filter by template category
+          schema:
+            type: string
+            enum: [B2B, B2C, P2P]
+        - name: jurisdiction
+          in: query
+          description: Filter by jurisdiction (can be specified multiple times)
+          schema:
+            type: array
+            items:
+              type: string
+              pattern: '^[A-Z]{2}(-[A-Z]{2})?$'
+          style: form
+          explode: true
+        - name: language
+          in: query
+          description: Filter by supported language
+          schema:
+            type: string
+            pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+        - name: risk_level
+          in: query
+          description: Filter by maximum risk level
+          schema:
+            type: string
+            enum: [LOW, MEDIUM, HIGH]
+        - name: complexity
+          in: query
+          description: Filter by complexity range
+          schema:
+            type: object
+            properties:
+              min:
+                type: integer
+                minimum: 1
+                maximum: 10
+              max:
+                type: integer
+                minimum: 1
+                maximum: 10
+        - name: tags
+          in: query
+          description: Filter by tags (can be specified multiple times)
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: search
+          in: query
+          description: Full-text search across titles and descriptions
+          schema:
+            type: string
+            maxLength: 100
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [title, popularity, updated_at, complexity, risk_level]
+            default: popularity
+        - name: sort_direction
+          in: query
+          description: Sort direction
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  filters:
+                    type: object
+                    description: Applied filters for reference
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+
+  /templates/{templateId}:
+    get:
+      summary: Get template details
+      description: Retrieve detailed information about a specific template
+      tags:
+        - Templates
+      parameters:
+        - name: templateId
+          in: path
+          required: true
+          description: Template unique identifier
+          schema:
+            type: string
+            format: uuid
+        - name: version
+          in: query
+          description: Specific template version (defaults to latest published)
+          schema:
+            type: string
+            pattern: '^\d+\.\d+\.\d+$'
+        - name: language
+          in: query
+          description: Preferred language for content
+          schema:
+            type: string
+            pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+      responses:
+        '200':
+          description: Template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          description: Template version deprecated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /templates/{templateId}/questionnaire:
+    get:
+      summary: Get template questionnaire
+      description: Retrieve the questionnaire structure for a template
+      tags:
+        - Questionnaire
+      parameters:
+        - name: templateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: jurisdiction
+          in: query
+          required: true
+          description: Target jurisdiction for localization
+          schema:
+            type: string
+            pattern: '^[A-Z]{2}(-[A-Z]{2})?$'
+        - name: language
+          in: query
+          required: true
+          description: Language for questionnaire
+          schema:
+            type: string
+            pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+        - name: mode
+          in: query
+          description: Questionnaire mode
+          schema:
+            type: string
+            enum: [guided, professional]
+            default: guided
+      responses:
+        '200':
+          description: Questionnaire structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+        '400':
+          description: Unsupported jurisdiction/language combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /sessions:
+    post:
+      summary: Create generation session
+      description: Start a new document generation session
+      tags:
+        - Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - template_id
+                - jurisdiction
+                - language
+              properties:
+                template_id:
+                  type: string
+                  format: uuid
+                jurisdiction:
+                  type: string
+                  pattern: '^[A-Z]{2}(-[A-Z]{2})?$'
+                language:
+                  type: string
+                  pattern: '^[a-z]{2}(-[A-Z]{2})?$'
+                mode:
+                  type: string
+                  enum: [guided, professional]
+                  default: guided
+                consent_version:
+                  type: string
+                  description: Version of disclaimer/consent accepted
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /sessions/{sessionId}:
+    get:
+      summary: Get session status
+      description: Retrieve current session state and progress
+      tags:
+        - Generation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update session answers
+      description: Submit or update answers for the questionnaire
+      tags:
+        - Generation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: object
+                  description: Variable answers as key-value pairs
+                  additionalProperties: true
+                partial_update:
+                  type: boolean
+                  default: false
+                  description: Whether this is a partial update
+      responses:
+        '200':
+          description: Session updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /sessions/{sessionId}/validate:
+    post:
+      summary: Validate session answers
+      description: Validate current answers without generating document
+      tags:
+        - Generation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+
+  /sessions/{sessionId}/preview:
+    get:
+      summary: Generate document preview
+      description: Generate a preview of the document with current answers
+      tags:
+        - Generation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: format
+          in: query
+          description: Preview format
+          schema:
+            type: string
+            enum: [html, json]
+            default: html
+      responses:
+        '200':
+          description: Document preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentPreview'
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: Incomplete or invalid answers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /sessions/{sessionId}/generate:
+    post:
+      summary: Generate final document
+      description: Generate the final document for download
+      tags:
+        - Generation
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - format
+              properties:
+                format:
+                  type: string
+                  enum: [docx, pdf, html]
+                options:
+                  type: object
+                  properties:
+                    include_metadata:
+                      type: boolean
+                      default: true
+                    watermark:
+                      type: boolean
+                      default: true
+                    filename:
+                      type: string
+                      maxLength: 255
+      responses:
+        '201':
+          description: Document generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedDocument'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /downloads/{documentId}:
+    get:
+      summary: Download generated document
+      description: Download a previously generated document
+      tags:
+        - Downloads
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: disposition
+          in: query
+          description: Content disposition
+          schema:
+            type: string
+            enum: [attachment, inline]
+            default: attachment
+      responses:
+        '200':
+          description: Document file
+          content:
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            text/html:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          description: Document expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /jurisdictions:
+    get:
+      summary: List available jurisdictions
+      description: Get list of supported legal jurisdictions
+      tags:
+        - Reference Data
+      parameters:
+        - name: region
+          in: query
+          description: Filter by region
+          schema:
+            type: string
+            enum: [EUROPE, NORTH_AMERICA, ASIA_PACIFIC, LATIN_AMERICA, AFRICA, MIDDLE_EAST]
+        - name: legal_system
+          in: query
+          description: Filter by legal system
+          schema:
+            type: string
+            enum: [COMMON_LAW, CIVIL_LAW, MIXED, RELIGIOUS, CUSTOMARY]
+      responses:
+        '200':
+          description: List of jurisdictions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jurisdiction'
+
+  /languages:
+    get:
+      summary: List supported languages
+      description: Get list of supported languages with capabilities
+      tags:
+        - Reference Data
+      responses:
+        '200':
+          description: List of languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+
+  # Admin endpoints (requiring elevated permissions)
+  /admin/templates:
+    post:
+      summary: Create new template
+      description: Create a new template (Admin only)
+      tags:
+        - Admin
+      security:
+        - oauth2: [admin:templates:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateCreateRequest'
+      responses:
+        '201':
+          description: Template created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetail'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/templates/{templateId}/publish:
+    post:
+      summary: Publish template
+      description: Publish a template version (Admin only)
+      tags:
+        - Admin
+      security:
+        - oauth2: [admin:templates:publish]
+      parameters:
+        - name: templateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - version
+              properties:
+                version:
+                  type: string
+                  pattern: '^\d+\.\d+\.\d+$'
+                effective_from:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Template published
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.legalmind.com/oauth/authorize
+          tokenUrl: https://auth.legalmind.com/oauth/token
+          scopes:
+            read: Read access to templates and public data
+            generate: Generate documents
+            admin:templates:write: Create and edit templates
+            admin:templates:publish: Publish template versions
+
+  schemas:
+    TemplateSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [B2B, B2C, P2P]
+        jurisdiction_set:
+          type: array
+          items:
+            type: string
+        supported_languages:
+          type: array
+          items:
+            type: string
+        min_risk_level:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+        complexity_score:
+          type: integer
+          minimum: 1
+          maximum: 10
+        estimated_time_minutes:
+          type: integer
+        version:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        usage_count:
+          type: integer
+          description: Number of times generated
+        rating:
+          type: number
+          minimum: 0
+          maximum: 5
+        updated_at:
+          type: string
+          format: date-time
+
+    TemplateDetail:
+      allOf:
+        - $ref: '#/components/schemas/TemplateSummary'
+        - type: object
+          properties:
+            use_cases:
+              type: array
+              items:
+                type: string
+            related_templates:
+              type: array
+              items:
+                type: string
+                format: uuid
+            license:
+              type: string
+            effective_from:
+              type: string
+              format: date-time
+            metadata:
+              type: object
+              additionalProperties: true
+            variable_count:
+              type: integer
+            clause_count:
+              type: integer
+            rule_count:
+              type: integer
+
+    Questionnaire:
+      type: object
+      properties:
+        template_id:
+          type: string
+          format: uuid
+        jurisdiction:
+          type: string
+        language:
+          type: string
+        mode:
+          type: string
+          enum: [guided, professional]
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionGroup'
+        total_questions:
+          type: integer
+        estimated_time_minutes:
+          type: integer
+
+    QuestionGroup:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        order:
+          type: integer
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionVariable'
+
+    QuestionVariable:
+      type: object
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+        display_name:
+          type: string
+        help_text:
+          type: string
+        placeholder:
+          type: string
+        ui_hint:
+          type: string
+        validation:
+          type: object
+        default_value: {}
+        is_required:
+          type: boolean
+        dependencies:
+          type: object
+        order:
+          type: integer
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        template_id:
+          type: string
+          format: uuid
+        jurisdiction:
+          type: string
+        language:
+          type: string
+        status:
+          type: string
+          enum: [active, completed, expired]
+        answers:
+          type: object
+          additionalProperties: true
+        validation_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        progress:
+          type: object
+          properties:
+            completed_variables:
+              type: integer
+            total_variables:
+              type: integer
+            percentage:
+              type: number
+              minimum: 0
+              maximum: 100
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+
+    ValidationResult:
+      type: object
+      properties:
+        is_valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationWarning'
+        completeness:
+          type: object
+          properties:
+            required_complete:
+              type: boolean
+            optional_complete:
+              type: boolean
+            percentage:
+              type: number
+
+    ValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+    ValidationWarning:
+      type: object
+      properties:
+        field:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+        suggestion:
+          type: string
+
+    DocumentPreview:
+      type: object
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        content:
+          type: string
+          description: HTML or JSON representation
+        summary:
+          type: object
+          properties:
+            clauses_included:
+              type: integer
+            clauses_optional:
+              type: integer
+            variables_resolved:
+              type: integer
+            risk_assessment:
+              type: string
+              enum: [LOW, MEDIUM, HIGH]
+        metadata:
+          type: object
+          properties:
+            generated_at:
+              type: string
+              format: date-time
+            word_count:
+              type: integer
+            page_count:
+              type: integer
+
+    GeneratedDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        session_id:
+          type: string
+          format: uuid
+        format:
+          type: string
+          enum: [docx, pdf, html]
+        filename:
+          type: string
+        size_bytes:
+          type: integer
+        download_url:
+          type: string
+          format: uri
+        expires_at:
+          type: string
+          format: date-time
+        generated_at:
+          type: string
+          format: date-time
+
+    Jurisdiction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        region:
+          type: string
+        legal_system:
+          type: string
+        default_language:
+          type: string
+        supported_languages:
+          type: array
+          items:
+            type: string
+        currency:
+          type: string
+        date_format:
+          type: string
+        is_active:
+          type: boolean
+
+    Language:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        native_name:
+          type: string
+        rtl:
+          type: boolean
+        date_format:
+          type: string
+        number_format:
+          type: object
+
+    TemplateCreateRequest:
+      type: object
+      required:
+        - code
+        - title
+        - category
+        - jurisdiction_set
+        - default_language
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [B2B, B2C, P2P]
+        jurisdiction_set:
+          type: array
+          items:
+            type: string
+        default_language:
+          type: string
+        min_risk_level:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+        license:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+
+    ProblemDetails:
+      type: object
+      description: RFC 7807 Problem Details
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    RateLimit:
+      description: Rate Limit Exceeded
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+            description: Unix timestamp when limit resets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'

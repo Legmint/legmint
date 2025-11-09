@@ -1,0 +1,168 @@
+{
+  "schema": {
+    "title": "SaaS Master Service Agreement",
+    "type": "object",
+    "properties": {
+      "providerName": {
+        "type": "string",
+        "title": "Provider Company Name"
+      },
+      "providerAddress": {
+        "type": "string",
+        "title": "Provider Address"
+      },
+      "customerName": {
+        "type": "string",
+        "title": "Customer Company Name"
+      },
+      "customerAddress": {
+        "type": "string",
+        "title": "Customer Address"
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Governing Law",
+        "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"],
+        "enumNames": ["United Kingdom", "Germany", "Czech Republic", "Delaware", "California"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "termMonths": {
+        "type": "integer",
+        "title": "Initial Term (months)",
+        "minimum": 1,
+        "maximum": 60,
+        "default": 12
+      },
+      "autoRenew": {
+        "type": "boolean",
+        "title": "Auto-Renew Annually?",
+        "default": true
+      },
+      "serviceName": {
+        "type": "string",
+        "title": "Service Name",
+        "description": "Name of the SaaS product"
+      },
+      "serviceDescription": {
+        "type": "string",
+        "title": "Service Description"
+      },
+      "subscriptionFee": {
+        "type": "number",
+        "title": "Subscription Fee (per month)",
+        "minimum": 0
+      },
+      "currency": {
+        "type": "string",
+        "title": "Currency",
+        "enum": ["USD", "EUR", "GBP", "CZK"],
+        "default": "EUR"
+      },
+      "paymentTerms": {
+        "type": "string",
+        "title": "Payment Terms",
+        "enum": ["net-0", "net-15", "net-30"],
+        "enumNames": ["Due immediately", "Net 15 days", "Net 30 days"],
+        "default": "net-0"
+      },
+      "sla": {
+        "type": "object",
+        "title": "Service Level Agreement",
+        "properties": {
+          "uptimePercent": {
+            "type": "number",
+            "title": "Uptime Commitment (%)",
+            "minimum": 90,
+            "maximum": 100,
+            "default": 99.9
+          },
+          "supportHours": {
+            "type": "string",
+            "title": "Support Hours",
+            "enum": ["business", "24x7"],
+            "enumNames": ["Business hours (9-5 Mon-Fri)", "24/7"],
+            "default": "business"
+          },
+          "responseTime": {
+            "type": "string",
+            "title": "Support Response Time",
+            "enum": ["1-hour", "4-hours", "24-hours"],
+            "enumNames": ["1 hour", "4 hours", "24 hours"],
+            "default": "24-hours"
+          }
+        }
+      },
+      "dataProcessing": {
+        "type": "object",
+        "title": "Data Processing",
+        "properties": {
+          "dpaRequired": {
+            "type": "boolean",
+            "title": "Attach DPA (Data Processing Agreement)?",
+            "default": false
+          },
+          "dataLocation": {
+            "type": "string",
+            "title": "Data Storage Location",
+            "enum": ["EU", "US", "UK", "multi-region"],
+            "enumNames": ["European Union", "United States", "United Kingdom", "Multi-region"],
+            "default": "EU"
+          }
+        }
+      },
+      "liabilityCap": {
+        "type": "string",
+        "title": "Liability Cap",
+        "enum": ["1x-fees", "6x-fees", "12x-fees", "unlimited"],
+        "enumNames": ["1x monthly fees", "6x monthly fees", "12x monthly fees", "Unlimited"],
+        "default": "12x-fees"
+      },
+      "noticeEmail": {
+        "type": "object",
+        "title": "Notice Contacts",
+        "properties": {
+          "providerEmail": {
+            "type": "string",
+            "format": "email",
+            "title": "Provider Notice Email"
+          },
+          "customerEmail": {
+            "type": "string",
+            "format": "email",
+            "title": "Customer Notice Email"
+          }
+        },
+        "required": ["providerEmail", "customerEmail"]
+      }
+    },
+    "required": ["providerName", "customerName", "jurisdiction", "effectiveDate", "termMonths", "serviceName", "subscriptionFee", "currency", "noticeEmail"]
+  },
+  "uiSchema": {
+    "serviceDescription": {
+      "ui:widget": "textarea"
+    },
+    "subscriptionFee": {
+      "ui:placeholder": "99.00"
+    }
+  },
+  "defaults": {
+    "termMonths": 12,
+    "autoRenew": true,
+    "currency": "EUR",
+    "paymentTerms": "net-0",
+    "sla": {
+      "uptimePercent": 99.9,
+      "supportHours": "business",
+      "responseTime": "24-hours"
+    },
+    "dataProcessing": {
+      "dpaRequired": false,
+      "dataLocation": "EU"
+    },
+    "liabilityCap": "12x-fees"
+  }
+}

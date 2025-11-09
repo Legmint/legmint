@@ -1,0 +1,162 @@
+{
+  "$schema": "https://legalmind.tech/schemas/jsonlogic/v1",
+  "template_code": "NDA_MUTUAL_V1",
+  "version": "1.0.0",
+  "description": "Conditional logic rules for NDA Mutual template",
+  "computed_variables": [
+    {
+      "variable": "order_non_solicit",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "5",
+          "4"
+        ]
+      },
+      "description": "Section number for ownership clause (shifts if non-solicit is included)"
+    },
+    {
+      "variable": "order_return",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "6",
+          "5"
+        ]
+      },
+      "description": "Section number for return/destruction clause"
+    },
+    {
+      "variable": "order_warranty",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "7",
+          "6"
+        ]
+      },
+      "description": "Section number for warranty disclaimer"
+    },
+    {
+      "variable": "order_remedies",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "8",
+          "7"
+        ]
+      },
+      "description": "Section number for remedies clause"
+    },
+    {
+      "variable": "order_term",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "9",
+          "8"
+        ]
+      },
+      "description": "Section number for term and termination"
+    },
+    {
+      "variable": "order_general",
+      "logic": {
+        "if": [
+          {"var": "include_non_solicit"},
+          "10",
+          "9"
+        ]
+      },
+      "description": "Section number for general provisions"
+    }
+  ],
+  "clause_conditions": [
+    {
+      "clause_id": "residuals",
+      "condition": {"var": "include_residuals_clause"},
+      "description": "Include residuals clause only if user opts in"
+    },
+    {
+      "clause_id": "non_solicit",
+      "condition": {"var": "include_non_solicit"},
+      "description": "Include non-solicitation clause only if user opts in"
+    }
+  ],
+  "validations": [
+    {
+      "rule": {
+        "if": [
+          {"var": "include_non_solicit"},
+          {
+            "and": [
+              {">=": [{"var": "non_solicit_period_months"}, 6]},
+              {"<=": [{"var": "non_solicit_period_months"}, 24]}
+            ]
+          },
+          true
+        ]
+      },
+      "error_message": "Non-solicitation period must be between 6 and 24 months if included",
+      "severity": "error"
+    },
+    {
+      "rule": {
+        "and": [
+          {">=": [{"var": "term_years"}, 1]},
+          {"<=": [{"var": "term_years"}, 10]}
+        ]
+      },
+      "error_message": "Confidentiality term must be between 1 and 10 years",
+      "severity": "error"
+    },
+    {
+      "rule": {
+        "<=": [{"var": "term_years"}, 5]
+      },
+      "error_message": "Terms longer than 5 years may be viewed as unreasonable in some jurisdictions",
+      "severity": "warning"
+    },
+    {
+      "rule": {
+        "and": [
+          {">=": [{"var": "return_destruction_days"}, 5]},
+          {"<=": [{"var": "return_destruction_days"}, 90]}
+        ]
+      },
+      "error_message": "Return/destruction period must be between 5 and 90 days",
+      "severity": "error"
+    }
+  ],
+  "jurisdiction_specific_logic": {
+    "UK": {
+      "warnings": [
+        {
+          "condition": {
+            "and": [
+              {"var": "include_non_solicit"},
+              {">": [{"var": "non_solicit_period_months"}, 12]}
+            ]
+          },
+          "message": "Under English law, non-solicitation periods exceeding 12 months may be challenged as unreasonable restraints of trade"
+        }
+      ]
+    },
+    "DE": {
+      "warnings": [
+        {
+          "condition": {"var": "include_non_solicit"},
+          "message": "German law (Art. 12 GG) requires non-solicitation clauses to be strictly proportionate. Consider limiting to senior employees only."
+        }
+      ]
+    },
+    "FR": {
+      "warnings": [
+        {
+          "condition": {"var": "include_non_solicit"},
+          "message": "French courts strictly scrutinize non-solicitation clauses for proportionality and protection of legitimate business interests (jurisprudence Cass. soc.)"
+        }
+      ]
+    }
+  }
+}

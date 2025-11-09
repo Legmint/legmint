@@ -1,0 +1,40 @@
+{
+  "jurisdiction": "US-DE",
+  "template_code": "NDA_MUTUAL_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law",
+        "text": "the laws of the State of Delaware, without regard to its conflicts of law principles"
+      },
+      {
+        "id": "venue",
+        "text": "the state and federal courts located in Delaware"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "non_solicit",
+        "body_md": "During the term of this Agreement and for a period of {{non_solicit_period_months}} months thereafter, neither Party shall, directly or indirectly, solicit, induce, recruit, or hire any employee, consultant, or independent contractor of the other Party who was identified or became known to the soliciting Party as a result of discussions or information disclosed under this Agreement, without the prior written consent of the other Party.\n\nThis restriction shall not apply to: (a) general solicitations through advertisements or recruiters not specifically directed at the other Party's personnel, or (b) individuals who initiate contact with the soliciting Party without any direct or indirect encouragement.\n\n**Delaware Law Note**: Non-solicitation provisions are generally enforceable in Delaware if reasonable in scope and duration. This clause is designed to be ancillary to and reasonably necessary to protect the confidential information disclosed hereunder.",
+        "condition": {"var": "include_non_solicit"}
+      },
+      {
+        "id": "general",
+        "order": 12,
+        "body_md": "**{{order_general}}.1 Governing Law.** This Agreement shall be governed by and construed in accordance with the laws of {{governing_law}}.\n\n**{{order_general}}.2 Jurisdiction and Venue.** The Parties irrevocably consent to the exclusive jurisdiction and venue of {{venue}} for any action or proceeding arising out of or relating to this Agreement. Each Party waives any objection to venue in such courts and any claim that such courts are an inconvenient forum.\n\n**{{order_general}}.3 Entire Agreement.** This Agreement constitutes the entire agreement between the Parties concerning the subject matter hereof and supersedes all prior or contemporaneous agreements, representations, and understandings, whether written or oral.\n\n**{{order_general}}.4 Amendment.** This Agreement may be amended or modified only by a written instrument executed by both Parties.\n\n**{{order_general}}.5 Waiver.** No waiver of any provision of this Agreement shall be deemed or shall constitute a waiver of any other provision, nor shall any waiver constitute a continuing waiver unless otherwise expressly provided.\n\n**{{order_general}}.6 Severability.** If any provision of this Agreement is held to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect to the maximum extent permitted by law.\n\n**{{order_general}}.7 Counterparts; Electronic Signatures.** This Agreement may be executed in one or more counterparts, each of which shall be deemed an original and all of which together shall constitute one and the same instrument. Electronic signatures shall have the same legal effect as original signatures.\n\n**{{order_general}}.8 Notices.** All notices, requests, consents, and other communications under this Agreement shall be in writing and shall be deemed given: (a) when delivered personally; (b) when sent by confirmed email (with a copy sent by another method); (c) one business day after deposit with a nationally recognized overnight courier; or (d) three business days after being sent by registered or certified mail, return receipt requested, postage prepaid, to the addresses set forth above or to such other address as either Party may designate by written notice."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "Delaware counsel",
+    "effective_date": "2025-10-25",
+    "compliance_notes": "Adapted for Delaware law. Delaware courts are well-established for commercial disputes. Non-solicitation clauses are enforceable if ancillary to a legitimate business purpose and reasonable. Electronic signatures are valid under ESIGN Act and Delaware Uniform Electronic Transactions Act.",
+    "statutory_references": [
+      "Delaware Uniform Trade Secrets Act (6 Del. C. § 2001 et seq.)",
+      "Delaware Uniform Electronic Transactions Act (6 Del. C. § 12A-101 et seq.)",
+      "Federal Electronic Signatures in Global and National Commerce Act (ESIGN Act)"
+    ],
+    "practice_notes": "Delaware courts generally enforce confidentiality and non-solicitation provisions that are reasonable and protect legitimate business interests. Ensure the non-solicitation period and scope are tailored to the specific circumstances."
+  }
+}

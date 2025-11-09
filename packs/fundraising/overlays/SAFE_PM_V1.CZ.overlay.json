@@ -1,0 +1,44 @@
+{
+  "jurisdiction": "CZ",
+  "template_code": "SAFE_PM_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law_text",
+        "text": "Czech law (právo České republiky)"
+      },
+      {
+        "id": "venue_text",
+        "text": "the courts of [Company registered seat], Czech Republic, with exclusive jurisdiction"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "header",
+        "body_md": "# JEDNODUCHÁ SMLOUVA O BUDOUCÍM PODÍLU\n(SIMPLE AGREEMENT FOR FUTURE EQUITY)\n\n**TATO LISTINA POTVRZUJE**, že výměnou za platbu od {{investor_name}} (\"**Investor**\") ve výši {{purchase_amount}} Kč (\"**Kupní cena**\") k datu {{date}} nebo v jeho blízkosti, {{company_name}}, společnost založená podle práva {{company_jurisdiction}} (\"**Společnost**\"), uděluje Investorovi právo na určité podíly na základním kapitálu Společnosti, s výhradou níže uvedených podmínek.\n\n**DŮLEŽITÉ UPOZORNĚNÍ**: Tato smlouva musí být v souladu se zákonem o obchodních korporacích (zákon č. 90/2012 Sb., ZOK) a zákonem o podnikání na kapitálovém trhu (ZPKT), pokud se uplatní."
+      },
+      {
+        "id": "definitions",
+        "body_md": "\"**Základní kapitál**\" znamená základní kapitál Společnosti, včetně kmenových a prioritních obchodních podílů či akcií.\n\n\"**Změna kontroly**\" znamená (i) transakci nebo sérii souvisejících transakcí, v jejichž důsledku získá osoba nebo skupina osob jednajících ve shodě přímo nebo nepřímo více než 50 % hlasovacích práv ve Společnosti, (ii) fúzi, rozdělení nebo jinou reorganizaci Společnosti (s výjimkou transakcí, kdy podílníci/akcionáři Společnosti bezprostředně před transakcí si ponechají alespoň většinu hlasovacích práv v nástupnické osobě bezprostředně po transakci), nebo (iii) prodej nebo jiné zcizení veškerých nebo v podstatě veškerých aktiv Společnosti.\n\n\"**Událost rozpuštění**\" znamená (i) dobrovolné zrušení s likvidací, (ii) insolvenční řízení podle zákona č. 182/2006 Sb. (insolvenční zákon), nebo (iii) jakékoliv jiné rozpuštění nebo likvidaci Společnosti (s výjimkou Události likvidity).\n\n\"**Financování kapitálem**\" znamená добросоvěstnou transakci nebo sérii transakcí s primárním účelem získání kapitálu, na jejichž základě Společnost emituje a prodává prioritní obchodní podíly nebo akcie za stanovenou pre-money valuaci.\n\n\"**Kapitalizace likvidity**\" znamená počet podílů/akcií (na přepočtené bázi) bezprostředně před Událostí likvidity, předpokládaje uplatnění nebo konverzi všech vydaných a nesplatných opcí, warrantů a jiných konvertibilních cenných papírů, ale s vyloučením (i) podílů/akcií rezervovaných pro budoucí přidělení v rámci zaměstnaneckých motivačních programů, (ii) tohoto nástroje, (iii) jiných konvertibilních dluhopisů, a (iv) konvertibilních cenných papírů, které nejsou v souvislosti s Událostí likvidity skutečně konvertibilní.\n\n\"**Událost likvidity**\" znamená Změnu kontroly nebo počáteční veřejnou nabídku (IPO) kmenových akcií Společnosti.\n\n\"**Strop valuace (post-money)**\" znamená {{valuation_cap}} Kč.\n\n\"**Safe**\" znamená tento nástroj.\n\n\"**Cena Safe**\" znamená cenu za podíl/akcii rovnající se Stropu valuace (post-money) dělené Kapitalizací společnosti."
+      },
+      {
+        "id": "governing_law",
+        "body_md": "**7. Rozhodné právo; Příslušnost soudu**\n\nTato smlouva se řídí a vykládá v souladu s právem České republiky, s vyloučením kolizních norem mezinárodního práva soukromého.\n\nVeškeré spory vyplývající z této smlouvy nebo v souvislosti s ní budou s konečnou platností řešeny soudy České republiky v místě sídla Společnosti."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "Czech legal editor",
+    "effective_date": "2025-10-22",
+    "compliance_notes": "Adapted for Czech s.r.o. (společnost s ručením omezeným) or a.s. (akciová společnost). Key statutes: zákon č. 90/2012 Sb., o obchodních společnostech a družstvech (ZOK - Act on Business Corporations). Note: (i) capital contributions governed by §§142-143 ZOK (s.r.o.) or §§246-250 ZOK (a.s.); (ii) preference shares/podíly permitted for a.s. (§278 ZOK), limited for s.r.o.; (iii) share/podíl transfers subject to approval/pre-emption per společenská smlouva/stanovy; (iv) public offerings: zákon č. 256/2004 Sb., o podnikání na kapitálovém trhu (ZPKT) + EU Prospectus Regulation. Notarization may be required. Ensure společenská smlouva (articles) permits.",
+    "statutory_references": [
+      "Zákon č. 90/2012 Sb. - zákon o obchodních korporacích (ZOK)",
+      "Zákon č. 182/2006 Sb. - insolvenční zákon",
+      "Zákon č. 256/2004 Sb. - zákon o podnikání na kapitálovém trhu (ZPKT)",
+      "Zákon č. 89/2012 Sb. - občanský zákoník (NOZ) - general contract law",
+      "EU Prospectus Regulation (directly applicable)"
+    ],
+    "language_note": "Bilingual header provided; full Czech translation recommended for enforceability in Czech courts"
+  }
+}

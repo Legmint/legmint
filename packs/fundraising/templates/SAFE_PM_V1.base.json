@@ -1,0 +1,117 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "SAFE_PM_V1",
+  "name": "SAFE Agreement (Post-Money)",
+  "pack": "fundraising",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "starter",
+  "description": "Simple Agreement for Future Equity (Post-Money valuation cap)",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["company_name", "investor_name", "purchase_amount", "valuation_cap"],
+    "properties": {
+      "company_name": {"type": "string", "title": "Company Legal Name"},
+      "company_jurisdiction": {"type": "string", "title": "Company Jurisdiction of Incorporation"},
+      "investor_name": {"type": "string", "title": "Investor Name"},
+      "investor_address": {"type": "string", "title": "Investor Address"},
+      "purchase_amount": {"type": "number", "title": "Investment Amount", "minimum": 1},
+      "valuation_cap": {"type": "number", "title": "Valuation Cap"},
+      "discount_rate": {"type": "number", "title": "Discount Rate (%)", "default": 20, "minimum": 0, "maximum": 100},
+      "pro_rata_right": {"type": "boolean", "title": "Include Pro Rata Rights?", "default": false},
+      "mfn_provision": {"type": "boolean", "title": "Include Most Favored Nation?", "default": true},
+      "date": {"type": "string", "format": "date", "title": "Agreement Date"}
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "",
+      "body_md": "# SIMPLE AGREEMENT FOR FUTURE EQUITY\n\n**THIS CERTIFIES THAT** in exchange for the payment by {{investor_name}} (the \"**Investor**\") of ${{purchase_amount}} (the \"**Purchase Amount**\") on or about {{date}}, {{company_name}}, a {{company_jurisdiction}} company (the \"**Company**\"), issues to the Investor the right to certain shares of the Company's Capital Stock, subject to the terms described below."
+    },
+    {
+      "id": "definitions",
+      "order": 2,
+      "title": "1. Definitions",
+      "body_md": "\"**Capital Stock**\" means the capital stock of the Company, including, without limitation, the \"Common Stock\" and the \"Preferred Stock.\"\n\n\"**Change of Control**\" means (i) a transaction or series of related transactions in which any \"person\" or \"group\" (within the meaning of Sections 13(d) and 14(d) of the Securities Exchange Act of 1934, as amended), becomes the \"beneficial owner\" (as defined in Rule 13d-3 under the Securities Exchange Act of 1934, as amended), directly or indirectly, of more than 50% of the outstanding voting securities of the Company having the right to vote for the election of members of the Company's board of directors, (ii) any reorganization, merger or consolidation of the Company, other than a transaction or series of related transactions in which the holders of the voting securities of the Company outstanding immediately prior to such transaction or series of related transactions retain, immediately after such transaction or series of related transactions, at least a majority of the total voting power represented by the outstanding voting securities of the Company or such other surviving or resulting entity or (iii) a sale, lease or other disposition of all or substantially all of the assets of the Company.\n\n\"**Dissolution Event**\" means (i) a voluntary termination of operations, (ii) a general assignment for the benefit of the Company's creditors or (iii) any other liquidation, dissolution or winding up of the Company (excluding a Liquidity Event), whether voluntary or involuntary.\n\n\"**Equity Financing**\" means a bona fide transaction or series of transactions with the principal purpose of raising capital, pursuant to which the Company issues and sells Preferred Stock at a fixed pre-money valuation.\n\n\"**Liquidity Capitalization**\" means the number, as of immediately prior to the Liquidity Event, of shares of Capital Stock (on an as-converted basis) outstanding, assuming exercise or conversion of all outstanding vested and unvested options, warrants and other convertible securities, but excluding (i) shares of Common Stock reserved and available for future grant under any equity incentive or similar plan, (ii) this instrument, (iii) other convertible promissory notes, and (iv) convertible securities that are not actually convertible or exercisable in connection with the Liquidity Event.\n\n\"**Liquidity Event**\" means a Change of Control or an initial public offering of the Company's Common Stock.\n\n\"**Liquidity Price**\" means the price per share equal to the Valuation Cap divided by the Liquidity Capitalization.\n\n\"**Post-Money Valuation Cap**\" means ${{valuation_cap}}.\n\n\"**Safe**\" means this instrument.\n\n\"**Safe Preferred Stock**\" means the shares of a series of Preferred Stock issued to the Investor in an Equity Financing, having the identical rights, privileges, preferences and restrictions as the shares of Standard Preferred Stock, other than with respect to: (i) the per share liquidation preference and the conversion price for purposes of price-based anti-dilution protection, which will equal the Safe Price; and (ii) the basis for any dividend rights, which will be based on the Safe Price.\n\n\"**Safe Price**\" means the price per share equal to the Post-Money Valuation Cap divided by the Company Capitalization.\n\n\"**Standard Preferred Stock**\" means the shares of a series of Preferred Stock issued to the investors investing new money in the Company in connection with the initial closing of the Equity Financing."
+    },
+    {
+      "id": "equity_financing",
+      "order": 3,
+      "title": "2. Events",
+      "subtitle": "(a) Equity Financing",
+      "body_md": "If there is an Equity Financing before the expiration or termination of this instrument, the Company will automatically issue to the Investor either: (1) a number of shares of Standard Preferred Stock equal to the Purchase Amount divided by the price per share of the Standard Preferred Stock, if the pre-money valuation is less than or equal to the Post-Money Valuation Cap; or (2) a number of shares of Safe Preferred Stock equal to the Purchase Amount divided by the Safe Price, if the pre-money valuation is greater than the Post-Money Valuation Cap.\n\nIn connection with the issuance of Standard Preferred Stock or Safe Preferred Stock, as applicable, by the Company to the Investor pursuant to this Section 2(a):\n\n(i) The Investor will execute and deliver to the Company all transaction documents related to the Equity Financing; provided, that such documents (A) are the same documents to be entered into with the purchasers of Standard Preferred Stock, with appropriate variations for the Safe Preferred Stock if applicable, and (B) have customary exceptions to any drag-along applicable to the Investor, including, without limitation, limited representations, warranties, liability and indemnification obligations for the Investor; and\n\n(ii) The Investor and the Company will execute a Pro Rata Rights Agreement, unless the Investor specifically waives this right."
+    },
+    {
+      "id": "liquidity_event",
+      "order": 4,
+      "title": "",
+      "subtitle": "(b) Liquidity Event",
+      "body_md": "If there is a Liquidity Event before the expiration or termination of this instrument, the Investor will, at its option, either (i) receive a cash payment equal to the Purchase Amount (subject to the following paragraph) or (ii) automatically receive from the Company a number of shares of Common Stock equal to the Purchase Amount divided by the Liquidity Price, if the Investor fails to select the cash option.\n\nIn a Liquidity Event whose consideration consists of (or includes) non-cash consideration, the cash-equivalent value of the non-cash consideration shall be determined in good faith by the Company's board of directors."
+    },
+    {
+      "id": "dissolution_event",
+      "order": 5,
+      "title": "",
+      "subtitle": "(c) Dissolution Event",
+      "body_md": "If there is a Dissolution Event before this instrument expires or terminates, the Company will pay an amount equal to the Purchase Amount, due and payable to the Investor immediately prior to, or concurrent with, the consummation of the Dissolution Event. The Purchase Amount will be paid prior and in preference to any Distribution of any of the assets of the Company to holders of outstanding Capital Stock by reason of their ownership thereof."
+    },
+    {
+      "id": "termination",
+      "order": 6,
+      "title": "3. Termination",
+      "body_md": "This instrument will expire and terminate (without relieving the Company of any obligations arising from a prior breach of or non-compliance with this instrument) upon either (i) the issuance of stock to the Investor pursuant to Section 2(a) or Section 2(b)(ii); or (ii) the payment, or setting aside for payment, of amounts due the Investor pursuant to Section 2(b)(i) or Section 2(c)."
+    },
+    {
+      "id": "mfn",
+      "order": 7,
+      "title": "4. Most Favored Nation",
+      "body_md": "If the Company issues any SAFE after the date of this instrument with terms more favorable to the investor than the terms of this instrument, the Company will promptly notify the Investor in writing and provide the Investor with a copy of such SAFE. The Investor will have the option to amend this instrument to be identical to the new SAFE within thirty (30) days of receipt of such notice.",
+      "condition": {"var": "mfn_provision"}
+    },
+    {
+      "id": "pro_rata",
+      "order": 8,
+      "title": "5. Pro Rata Rights",
+      "body_md": "The Investor shall have a right to participate on a pro rata basis (based on their percentage fully-diluted ownership immediately following an Equity Financing) in future equity financings of the Company, subject to customary exceptions for employee option issuances, conversions of convertible instruments, and other standard carve-outs.",
+      "condition": {"var": "pro_rata_right"}
+    },
+    {
+      "id": "miscellaneous",
+      "order": 9,
+      "title": "6. Miscellaneous",
+      "body_md": "**6.1 No Transfer**. This instrument is not transferable except with the Company's prior written consent.\n\n**6.2 Entire Agreement**. This instrument constitutes the full and entire understanding and agreement between the parties with respect to the subject matter hereof.\n\n**6.3 Amendment and Waiver**. Any term of this instrument may be amended and the observance of any term of this instrument may be waived only with the written consent of the Company and the Investor.\n\n**6.4 Severability**. If any provision of this instrument is held to be invalid or unenforceable under any applicable statute or rule of law, then such provision shall be deemed omitted to the extent it is invalid or unenforceable, and the remainder of this instrument shall remain in full force and effect.\n\n**6.5 Notices**. All notices required or permitted hereunder shall be in writing and shall be deemed effectively given: (a) upon personal delivery to the party to be notified, (b) when sent by confirmed electronic mail or facsimile if sent during normal business hours of the recipient; if not, then on the next business day, (c) five days after having been sent by registered or certified mail, return receipt requested, postage prepaid, or (d) one business day after deposit with a nationally recognized overnight courier, specifying next day delivery, with written verification of receipt."
+    },
+    {
+      "id": "governing_law",
+      "order": 10,
+      "title": "7. Governing Law; Venue",
+      "body_md": "This instrument shall be governed by and construed under the laws of {{governing_law_text}} for contracts to be wholly performed in such jurisdiction.\n\nAny legal action or proceeding arising under this instrument shall be brought exclusively in the courts located in {{venue_text}}, and the parties irrevocably consent to the personal jurisdiction and venue therein."
+    },
+    {
+      "id": "signatures",
+      "order": 11,
+      "title": "SIGNATURE PAGE",
+      "body_md": "**IN WITNESS WHEREOF**, the undersigned have caused this Safe to be duly executed and delivered.\n\n---\n\n**COMPANY:**\n\n{{company_name}}\n\nBy: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle:\n\nDate:\n\n---\n\n**INVESTOR:**\n\n{{investor_name}}\n\nBy: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle (if entity):\n\nAddress: {{investor_address}}\n\nDate:"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law_text",
+      "text": "the State of Delaware, United States"
+    },
+    {
+      "id": "venue_text",
+      "text": "Delaware"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-22",
+    "compliance_notes": "Based on Y Combinator SAFE template; adapted for jurisdictional flexibility",
+    "review_required": true,
+    "tags": ["fundraising", "equity", "convertible", "safe"]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "jurisdiction": "CZ",
+  "template_code": "NDA_MUTUAL_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law",
+        "text": "právní řád České republiky"
+      },
+      {
+        "id": "venue",
+        "text": "soudy v {{czech_venue_city}}, Česká republika"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "header",
+        "body_md": "# VZÁJEMNÁ DOHODA O MLČENLIVOSTI\n# (MUTUAL NON-DISCLOSURE AGREEMENT)\n\nTato vzájemná dohoda o mlčenlivosti (tato \"**Smlouva**\") je uzavřena dne {{effective_date}} (\"**Datum účinnosti**\") mezi:\n\n**{{party1_name}}**, společnost založená podle práva {{party1_jurisdiction}}, se sídlem {{party1_address}} (\"**Strana 1**\"); a\n\n**{{party2_name}}**, společnost založená podle práva {{party2_jurisdiction}}, se sídlem {{party2_address}} (\"**Strana 2**\").\n\nStrana 1 a Strana 2 jsou jednotlivě označovány jako \"**Strana**\" a společně jako \"**Strany**\"."
+      },
+      {
+        "id": "recitals",
+        "title": "PREAMBULE (RECITALS)",
+        "body_md": "**VZHLEDEM K TOMU, ŽE** Strany si přejí prozkoumat {{purpose}} (\"**Účel**\"); a\n\n**VZHLEDEM K TOMU, ŽE** v souvislosti s Účelem může každá Strana druhé Straně poskytnout určité důvěrné a chráněné informace; a\n\n**VZHLEDEM K TOMU, ŽE** Strany si přejí chránit důvěrnost těchto informací a stanovit podmínky, za kterých mohou být tyto informace poskytnuty a používány.\n\n**PROTO** Strany s ohledem na vzájemné závazky a dohody obsažené v této Smlouvě a za jiné hodnotné protiplnění, jehož přijetí a dostatečnost jsou tímto potvrzeny, sjednávají následující:"
+      },
+      {
+        "id": "non_solicit",
+        "title": "4. ZÁKAZ ПЕРЕМАНИВАНИЯ ZAMĚSTNANCŮ (NON-SOLICITATION)",
+        "body_md": "Po dobu trvání této Smlouvy a po dobu {{non_solicit_period_months}} měsíců po jejím ukončení nebude žádná Strana přímo ani nepřímo nabízet, získávat ani zaměstnávat zaměstnance, konzultanty nebo dodavatele druhé Strany, kteří byli identifikováni nebo se o nich dozvěděla vlivem jednání nebo informací poskytnutých v rámci této Smlouvy, bez předchozího písemného souhlasu druhé Strany.\n\nToto omezení se nevztahuje na: (a) obecné nabídky práce, které nejsou cíleny specificky na pracovníky druhé Strany, nebo (b) osoby, které samy kontaktují nabízející Stranu bez jakékoliv přímé nebo nepřímé nabídky.\n\n**Poznámka k českému právu**: Doložky o zákazu přetahování zaměstnanců musí být přiměřené a nesmí nepřiměřeně omezovat právo na zaměstnání podle čl. 26 Listiny základních práv a svobod. Smlouva musí chránit legitimní obchodní zájem a být omezena časově a věcně.",
+        "condition": {"var": "include_non_solicit"}
+      },
+      {
+        "id": "remedies",
+        "title": "{{order_remedies}}. NÁPRAVNÁ OPATŘENÍ (REMEDIES)",
+        "body_md": "**{{order_remedies}}.1 Předběžná Opatření.** Přijímající Strana uznává a souhlasí, že jakékoliv porušení nebo hrozba porušení této Smlouvy může způsobit Poskytující Straně nenahraditelnou újmu, pro kterou by peněžitá náhrada škody byla nedostatečným právním prostředkem. Poskytující Strana je proto oprávněna požádat o soudní zákaz (předběžné opatření) a specifické plnění podle § 74 a násl. o.s.ř. (občanského soudního řádu), kromě všech ostatních dostupných právních prostředků.\n\n**{{order_remedies}}.2 Kumulativní Nápravné Prostředky.** Práva a nápravné prostředky stanovené v této Smlouvě jsou kumulativní a doplňují všechna další práva a nápravné prostředky dostupné podle zákona nebo ekvity.\n\n**{{order_remedies}}.3 Smluvní Pokuta.** [Volitelné: Strany mohou sjednat přiměřenou smluvní pokutu podle § 2048 a násl. občanského zákoníku za porušení povinnosti mlčenlivosti.]"
+      },
+      {
+        "id": "general",
+        "title": "{{order_general}}. OBECNÁ USTANOVENÍ (GENERAL PROVISIONS)",
+        "body_md": "**{{order_general}}.1 Rozhodné Právo.** Tato Smlouva se řídí a vykládá v souladu s {{governing_law}}, s vyloučením Úmluvy OSN o smlouvách o mezinárodní koupi zboží (CISG).\n\n**{{order_general}}.2 Příslušnost Soudu.** Veškeré spory vyplývající z této Smlouvy nebo s ní související budou podléhat výlučné příslušnosti {{venue}}.\n\n**{{order_general}}.3 Úplnost Smlouvy.** Tato Smlouva představuje úplnou dohodu mezi Stranami ohledně jejího předmětu a nahrazuje všechny předchozí nebo současné dohody, ať už písemné nebo ústní, vztahující se k tomuto předmětu.\n\n**{{order_general}}.4 Změny.** Tato Smlouva může být změněna pouze písemným dodatkem podepsaným oběma Stranami.\n\n**{{order_general}}.5 Vzdání se Práva.** Vzdání se uplatňování jakéhokoliv ustanovení této Smlouvy se nepovažuje za vzdání se jiných ustanovení ani za trvalé vzdání se práva.\n\n**{{order_general}}.6 Oddělitelnost.** Pokud bude kterékoliv ustanovení této Smlouvy shledáno neplatným nebo nevymahatelným, ostatní ustanovení zůstanou v plné platnosti v maximálním rozsahu povoleném zákonem.\n\n**{{order_general}}.7 Vyhotovení a Elektronické Podpisy.** Tato Smlouva může být podepsána ve více vyhotoveních, z nichž každé bude považováno za originál a která dohromady tvoří jeden dokument. Elektronické podpisy mají stejný právní účinek jako originální podpisy v souladu s nařízením eIDAS (EU) č. 910/2014 a zákonem č. 297/2016 Sb. o službách vytvářejících důvěru.\n\n**{{order_general}}.8 Oznámení.** Veškerá oznámení podle této Smlouvy musí být písemná a budou považována za doručená: (a) při osobním předání; (b) při odeslání potvrzeným e-mailem; (c) jeden pracovní den po předání uznávanému kurýrovi; nebo (d) tři pracovní dny po odeslání doporučenou poštou s dodejkou na adresy uvedené výše."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "Czech advokát",
+    "effective_date": "2025-10-25",
+    "compliance_notes": "Přizpůsobeno českému právu (občanský zákoník č. 89/2012 Sb., občanský soudní řád č. 99/1963 Sb.). Klíčové aspekty: (1) Dvojjazyčné nadpisy doporučeny; (2) Doložka o zákazu přetahování musí respektovat čl. 26 Listiny (právo na zaměstnání); (3) Smluvní pokuta možná dle § 2048 a násl. OZ; (4) CISG výslovně vyloučena; (5) Elektronické podpisy platné dle eIDAS a zákona č. 297/2016 Sb.; (6) Předběžná opatření podle § 74 a násl. o.s.ř.",
+    "statutory_references": [
+      "Zákon č. 89/2012 Sb., občanský zákoník (§ 2048 a násl. smluvní pokuta, § 1730 a násl. smlouvy)",
+      "Zákon č. 99/1963 Sb., občanský soudní řád (§ 74 a násl. předběžná opatření)",
+      "Listina základních práv a svobod (čl. 26 právo na zaměstnání)",
+      "Zákon č. 297/2016 Sb. o službách vytvářejících důvěru pro elektronické transakce",
+      "Nařízení eIDAS (EU) č. 910/2014"
+    ],
+    "practice_notes": "V českém právu jsou doložky o mlčenlivosti obecně vymahatelné. Doložky o zákazu přetahování zaměstnanců musí být úzce vymezeny časově a věcně. Smluvní pokuta (liquidated damages) je účinný nástroj pro vymáhání. Písemná forma je vyžadována pro platnost změn smlouvy."
+  }
+}

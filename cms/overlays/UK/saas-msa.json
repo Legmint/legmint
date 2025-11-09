@@ -1,0 +1,28 @@
+{
+  "templateCode": "saas-msa",
+  "jurisdiction": "UK",
+  "language": "en",
+  "overlay": {
+    "governingLaw": "England and Wales",
+    "disputeResolution": "English courts or LCIA arbitration",
+    "clauses": {
+      "dataProtection": "Provider shall comply with UK GDPR and Data Protection Act 2018. A separate Data Processing Agreement is required if processing personal data on behalf of Customer.",
+      "consumerRights": "If Customer is a consumer, nothing in this Agreement affects statutory rights under Consumer Rights Act 2015.",
+      "unfairTerms": "Limitation of liability clauses comply with Unfair Contract Terms Act 1977 and Consumer Rights Act 2015.",
+      "paymentTerms": "Late payment interest charged under Late Payment of Commercial Debts (Interest) Act 1998.",
+      "vatClause": "All fees are exclusive of VAT, which shall be added at the prevailing rate."
+    },
+    "terminology": {
+      "service": "service",
+      "warranty": "warranty (limited by statute)",
+      "damages": "damages"
+    },
+    "compliance": [
+      "UK GDPR",
+      "Data Protection Act 2018",
+      "Consumer Rights Act 2015",
+      "Unfair Contract Terms Act 1977",
+      "Electronic Commerce (EC Directive) Regulations 2002"
+    ]
+  }
+}

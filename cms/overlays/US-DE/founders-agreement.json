@@ -1,0 +1,32 @@
+{
+  "templateCode": "founders-agreement",
+  "jurisdiction": "US-DE",
+  "language": "en",
+  "overlay": {
+    "governingLaw": "State of Delaware",
+    "disputeResolution": "Delaware Court of Chancery or arbitration under AAA rules",
+    "clauses": {
+      "vestingLanguage": "Founder shares shall vest pursuant to Section 83 of the Internal Revenue Code and may be subject to 83(b) election.",
+      "ipAssignment": "All work product and inventions created during employment are works made for hire and vest in the Corporation.",
+      "taxNotice": "Founders are strongly advised to file an 83(b) election within 30 days of receiving restricted stock to minimize tax liability.",
+      "companyFormation": "Company incorporated as a Delaware C-Corporation under Title 8 of the Delaware Code.",
+      "section409A": "Stock options must comply with IRC Section 409A to avoid adverse tax consequences."
+    },
+    "terminology": {
+      "stock": "common stock",
+      "bylaws": "bylaws",
+      "corporation": "corporation",
+      "articles": "certificate of incorporation"
+    },
+    "compliance": [
+      "Delaware General Corporation Law (DGCL)",
+      "Internal Revenue Code Section 83",
+      "Internal Revenue Code Section 409A",
+      "Securities Act of 1933 (federal)"
+    ],
+    "specialProvisions": {
+      "section83b": "An 83(b) election must be filed with the IRS within 30 days of vesting commencement to recognize income at current (low) valuation.",
+      "qualifiedSmallBusiness": "Stock may qualify for QSBS (Qualified Small Business Stock) under IRC §1202 providing capital gains tax exclusion."
+    }
+  }
+}

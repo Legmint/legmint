@@ -1,0 +1,32 @@
+{
+  "schema": {
+    "title": "Shareholders Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name" },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "shareholders": {
+        "type": "array",
+        "title": "Shareholders",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "title": "Name" },
+            "shares": { "type": "integer", "title": "Number of Shares", "minimum": 0 },
+            "shareClass": { "type": "string", "title": "Share Class", "default": "Ordinary" }
+          },
+          "required": ["name", "shares"]
+        }
+      },
+      "dragAlongThreshold": { "type": "number", "title": "Drag-Along Threshold (%)", "default": 75, "minimum": 50, "maximum": 100 },
+      "tagAlongRights": { "type": "boolean", "title": "Tag-along rights?", "default": true },
+      "rightOfFirstRefusal": { "type": "boolean", "title": "Right of first refusal?", "default": true },
+      "boardSeats": { "type": "integer", "title": "Number of Board Seats", "minimum": 1, "maximum": 15, "default": 3 },
+      "majorityDecisions": { "type": "string", "enum": ["simple", "supermajority"], "enumNames": ["Simple majority (>50%)", "Supermajority (66.7%+)"], "default": "simple" }
+    },
+    "required": ["companyName", "jurisdiction", "effectiveDate", "shareholders"]
+  },
+  "defaults": { "dragAlongThreshold": 75, "tagAlongRights": true, "rightOfFirstRefusal": true, "boardSeats": 3, "majorityDecisions": "simple" }
+}

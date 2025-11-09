@@ -1,0 +1,201 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "SHAREHOLDERS_AGREEMENT_V1",
+  "name": "Shareholders' Agreement",
+  "pack": "fundraising",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "pro",
+  "description": "Comprehensive shareholders' agreement for post-investment governance, covering board composition, reserved matters, pre-emption, drag/tag rights, and leaver provisions",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["company_name", "shareholders", "board_size"],
+    "properties": {
+      "company_name": {"type": "string"},
+      "company_jurisdiction": {"type": "string"},
+      "shareholders": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": ["name", "share_class", "shareholding_percentage", "investor_category"],
+          "properties": {
+            "name": {"type": "string"},
+            "address": {"type": "string"},
+            "share_class": {"type": "string", "enum": ["ordinary", "preference_series_a", "preference_series_b"]},
+            "shareholding_percentage": {"type": "number", "minimum": 0, "maximum": 100},
+            "investor_category": {"type": "string", "enum": ["founder", "investor", "employee"]},
+            "board_seats": {"type": "number", "default": 0},
+            "observer_rights": {"type": "boolean", "default": false}
+          }
+        }
+      },
+      "board_size": {"type": "number", "minimum": 1, "maximum": 15},
+      "anti_dilution": {"type": "string", "enum": ["none", "weighted_average", "full_ratchet"], "default": "weighted_average"},
+      "drag_along_threshold": {"type": "number", "default": 75, "minimum": 50, "maximum": 100},
+      "liquidation_preference_multiple": {"type": "number", "default": 1, "minimum": 1, "maximum": 3},
+      "participating_preferred": {"type": "boolean", "default": false},
+      "date": {"type": "string", "format": "date"}
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "",
+      "body_md": "# SHAREHOLDERS' AGREEMENT\n\n**DATE:** {{date}}\n\n**PARTIES:**\n\n{{#shareholders}}\n({{@index_plus_1}}) **{{name}}** of {{address}} (\"**{{name_short}}**\")\n{{/shareholders}}\n\n(together the \"**Shareholders**\" and each a \"**Shareholder**\")\n\n**RELATING TO:**\n\n**{{company_name}}**, a company incorporated in {{company_jurisdiction}} (the \"**Company**\")"
+    },
+    {
+      "id": "recitals",
+      "order": 2,
+      "title": "BACKGROUND",
+      "body_md": "**A.** The Shareholders are the registered holders of shares in the Company as set out in Schedule 1.\n\n**B.** The Shareholders wish to regulate their relationship and the conduct of the Company's affairs on the terms of this Agreement.\n\n**C.** This Agreement shall take effect from the date hereof and shall govern the rights and obligations of the Shareholders.\n\n**IT IS AGREED:**"
+    },
+    {
+      "id": "definitions",
+      "order": 3,
+      "title": "1. DEFINITIONS AND INTERPRETATION",
+      "body_md": "1.1 In this Agreement:\n\n**\"Articles\"** means the articles of association of the Company as amended from time to time.\n\n**\"Board\"** means the board of directors of the Company from time to time.\n\n**\"Business Day\"** means a day (other than a Saturday, Sunday or public holiday) when banks are open for business in {{business_day_location}}.\n\n**\"Competing Business\"** means any business that competes with the Company's business as conducted from time to time or as proposed to be conducted.\n\n**\"Director\"** means a director of the Company from time to time.\n\n**\"Drag Notice\"** has the meaning given in Clause 9.1.\n\n**\"Exit Event\"** means:\n\n(a) a sale of all or substantially all of the assets or business of the Company;\n\n(b) a sale of shares resulting in a person (or group of persons acting in concert) acquiring more than 50% of the voting rights in the Company;\n\n(c) a merger, consolidation, or scheme of arrangement involving the Company (other than a transaction in which the existing Shareholders retain majority control); or\n\n(d) an initial public offering of the Company's shares on a recognised stock exchange.\n\n**\"Financial Year\"** means the Company's financial year.\n\n**\"Founder\"** means any Shareholder designated as \"founder\" in Schedule 1.\n\n**\"Fully Diluted Share Capital\"** means the total number of shares in issue assuming the exercise or conversion of all outstanding options, warrants, and convertible securities.\n\n**\"Good Leaver\"** has the meaning given in Clause 11.2.\n\n**\"Investor\"** means any Shareholder designated as \"investor\" in Schedule 1.\n\n**\"Majority Shareholders\"** means Shareholders holding more than 50% of the shares (or, where specified, a different percentage).\n\n**\"Ordinary Shares\"** means the ordinary shares in the capital of the Company.\n\n**\"Preference Shares\"** means the preference shares of any class in the capital of the Company.\n\n**\"Reserved Matters\"** means the matters set out in Clause 5.\n\n**\"Securities\"** means any shares, debentures, warrants, options, or other securities of the Company.\n\n**\"Transfer\"** means to sell, assign, transfer, encumber, create any security interest over, or otherwise dispose of any legal or beneficial interest in shares, and **\"Transferring\"** and **\"Transferred\"** shall be construed accordingly.\n\n1.2 References to Clauses and Schedules are to clauses of and schedules to this Agreement.\n\n1.3 Headings are for convenience only and do not affect interpretation."
+    },
+    {
+      "id": "share_capital",
+      "order": 4,
+      "title": "2. SHARE CAPITAL AND SHAREHOLDERS",
+      "body_md": "2.1 The current shareholdings of the Shareholders are set out in Schedule 1.\n\n2.2 The Shareholders confirm that:\n\n   (a) the shares held by them are fully paid (or shall be paid in accordance with the subscription agreement executed contemporaneously with this Agreement);\n   \n   (b) they are the sole legal and beneficial owners of their respective shares; and\n   \n   (c) their shares are free from any encumbrances, charges, or third-party rights.\n\n2.3 The Articles are deemed to be incorporated into this Agreement and the Shareholders shall procure that the Articles are amended as necessary to give effect to this Agreement. In the event of any conflict between this Agreement and the Articles, this Agreement shall prevail and the Shareholders shall procure that the Articles are amended accordingly."
+    },
+    {
+      "id": "board_composition",
+      "order": 5,
+      "title": "3. BOARD COMPOSITION AND PROCEDURES",
+      "body_md": "3.1 **Board Size**: The Board shall consist of {{board_size}} Directors (or such other number as the Shareholders may agree in writing).\n\n3.2 **Board Appointments**: The composition of the Board shall be as follows:\n\n{{#shareholders}}\n{{#if board_seats}}\n   - **{{name}}** shall be entitled to appoint {{board_seats}} Director(s)\n{{/if}}\n{{/shareholders}}\n\n3.3 **Appointment and Removal**:\n\n   (a) Each Shareholder entitled to appoint a Director may do so by written notice to the Company and may remove and replace any Director so appointed at any time.\n   \n   (b) Appointor Shareholders shall procure that their appointed Directors attend all Board meetings and act in the best interests of the Company.\n   \n   (c) If an appointed Director resigns, is removed, or is otherwise unable to act, the appointing Shareholder shall appoint a replacement within [30 days].\n\n3.4 **Board Observers**:\n\n{{#shareholders}}\n{{#if observer_rights}}\n   (a) **{{name}}** shall be entitled to appoint one observer to attend Board meetings (without voting rights).\n{{/if}}\n{{/shareholders}}\n\n   (b) Observers shall be entitled to receive all Board papers and information provided to Directors and to attend and speak at Board meetings, but shall not vote.\n   \n   (c) Observers shall owe the same duties of confidentiality as Directors.\n\n3.5 **Board Meetings**:\n\n   (a) The Board shall meet at least [quarterly / monthly].\n   \n   (b) Notice of meetings shall be given to all Directors and observers at least [7 days] in advance (or [48 hours] for urgent matters).\n   \n   (c) The quorum for Board meetings shall be [●] Directors (including at least one Founder Director and one Investor Director, if applicable).\n   \n   (d) Board decisions shall be made by [simple majority / unanimous consent], except for Reserved Matters which require the consent specified in Clause 5.\n\n3.6 **Chairman**: The Board shall appoint a chairman who shall have a casting vote in the event of deadlock (unless otherwise agreed)."
+    },
+    {
+      "id": "reserved_matters",
+      "order": 6,
+      "title": "4. RESERVED MATTERS - SHAREHOLDER APPROVAL",
+      "body_md": "4.1 The Company shall not, without the prior written consent of [Shareholders holding at least {{reserved_matters_threshold}}% of the shares / the Majority Shareholders / specific Investor Shareholders]:\n\n   (a) **Capital Structure**:\n   \n      (i) issue, allot, or grant rights to subscribe for any Securities (except pursuant to employee share option plans approved by Shareholders);\n      \n      (ii) redeem, purchase, or otherwise acquire any of its shares;\n      \n      (iii) reduce, sub-divide, consolidate, or reclassify the share capital;\n      \n      (iv) create any new class of shares or alter the rights attaching to any class;\n\n   (b) **Corporate Transactions**:\n   \n      (i) enter into any merger, consolidation, or scheme of arrangement;\n      \n      (ii) dispose of the whole or any substantial part of its business or assets;\n      \n      (iii) acquire any business, company, or substantial assets;\n      \n      (iv) enter into any partnership or joint venture;\n\n   (c) **Financial Matters**:\n   \n      (i) borrow or raise money, or incur debt (except trade credit in the ordinary course) in excess of [amount];\n      \n      (ii) give any guarantee, indemnity, or security over its assets (except in the ordinary course of business);\n      \n      (iii) make any loan (except to wholly-owned subsidiaries or employee loans in the ordinary course) in excess of [amount];\n      \n      (iv) approve the annual budget or any material departure from the approved budget;\n      \n      (v) declare or pay any dividend or other distribution;\n\n   (d) **Operational Matters**:\n   \n      (i) materially change the nature or scope of the Company's business;\n      \n      (ii) cease or threaten to cease to carry on business;\n      \n      (iii) enter into any transaction with a Director, Shareholder, or their associates (except on arm's length terms);\n      \n      (iv) enter into any contract or commitment in excess of [amount] or outside the ordinary course of business;\n      \n      (v) create, acquire, or dispose of any material intellectual property;\n\n   (e) **Personnel**:\n   \n      (i) appoint, remove, or materially vary the terms of employment of the Chief Executive Officer or other C-level executives;\n      \n      (ii) adopt or materially amend any employee share option or incentive plan;\n      \n      (iii) increase the aggregate remuneration of the senior management team by more than [●]% per annum;\n\n   (f) **Governance and Legal**:\n   \n      (i) amend the Articles or any constitutional document of the Company or any subsidiary;\n      \n      (ii) pass any resolution for the winding up of the Company (except a solvent members' voluntary liquidation approved by Shareholders);\n      \n      (iii) present any petition for the bankruptcy or insolvency of the Company;\n      \n      (iv) bring, settle, or compromise any material litigation or arbitration (value exceeding [amount]);\n      \n      (v) change the Company's auditors or accounting reference date;\n\n   (g) **IPO and Exit**:\n   \n      (i) make any application for admission of any Securities to any stock exchange or trading platform;\n      \n      (ii) approve the terms of any Exit Event.\n\n4.2 The Shareholders undertake to exercise their voting rights to procure (so far as they are able by the exercise of such rights) that the Company complies with this Clause 4."
+    },
+    {
+      "id": "information_rights",
+      "order": 7,
+      "title": "5. INFORMATION AND REPORTING",
+      "body_md": "5.1 **Annual Financial Statements**: The Company shall deliver to each Shareholder:\n\n   (a) audited annual financial statements within [120 days] of each Financial Year end; and\n   \n   (b) a report from the Directors on the Company's performance and prospects.\n\n5.2 **Management Accounts**: The Company shall deliver to each Investor Shareholder:\n\n   (a) unaudited management accounts within [30 days] of the end of each [quarter / month];\n   \n   (b) comparison against budget and prior period; and\n   \n   (c) a narrative report on key business developments.\n\n5.3 **Budget and Business Plan**: The Company shall deliver to each Investor Shareholder:\n\n   (a) an annual budget at least [30 days] before the start of each Financial Year; and\n   \n   (b) a business plan covering at least [3 years] forward, updated annually.\n\n5.4 **Other Information**: The Company shall promptly notify Shareholders of:\n\n   (a) any material litigation, regulatory investigation, or dispute;\n   \n   (b) any material breach of law or regulation;\n   \n   (c) any actual or threatened insolvency;\n   \n   (d) any event which would constitute a breach of any warranty given by the Company or the Founders; and\n   \n   (e) any matter which could reasonably be expected to have a material adverse effect on the Company's business, assets, or financial condition.\n\n5.5 **Inspection Rights**: Each Investor Shareholder shall have the right (at reasonable times and on reasonable notice) to:\n\n   (a) inspect the Company's books and records; and\n   \n   (b) discuss the Company's affairs with the Directors and management.\n\n5.6 **Confidentiality**: All information provided under this Clause 5 shall be treated as confidential and used solely for the purpose of monitoring the Shareholder's investment."
+    },
+    {
+      "id": "pre_emption",
+      "order": 8,
+      "title": "6. PRE-EMPTION RIGHTS ON NEW ISSUES",
+      "body_md": "6.1 **Pre-emption on New Issues**: If the Company proposes to issue new Securities (other than pursuant to Clause 6.6), it shall first offer them to existing Shareholders on the following basis.\n\n6.2 **Pre-emption Notice**: The Company shall give written notice (a \"**Pre-emption Notice**\") to each Shareholder:\n\n   (a) specifying the number and class of Securities to be issued;\n   \n   (b) the price per Security (or the method of determining the price);\n   \n   (c) the other material terms of the proposed issue; and\n   \n   (d) inviting the Shareholder to subscribe for their pro rata share within [20 Business Days].\n\n6.3 **Pro Rata Entitlement**: Each Shareholder's pro rata entitlement shall be calculated as:\n\n```\nShareholder's existing shareholding (fully diluted) / Total Fully Diluted Share Capital × New Securities being issued\n```\n\n6.4 **Exercise of Rights**:\n\n   (a) A Shareholder wishing to exercise pre-emption rights must notify the Company in writing within [20 Business Days], specifying the number of Securities it wishes to subscribe for (up to its pro rata entitlement).\n   \n   (b) If any Shareholder does not take up its full entitlement, the Company shall offer the unsubscribed Securities to those Shareholders who have applied for more than their pro rata entitlement, in proportion to their existing shareholdings.\n\n6.5 **Issue to Third Parties**: If, after the procedure in Clauses 6.2-6.4:\n\n   (a) any Securities remain unsubscribed, the Company may issue them to third parties within [90 days] on terms no more favourable than those offered to Shareholders; or\n   \n   (b) if the Company does not issue the Securities within [90 days], the pre-emption procedure must be restarted.\n\n6.6 **Exceptions**: Pre-emption rights do not apply to:\n\n   (a) shares issued pursuant to the exercise of options or warrants granted under employee share option plans approved by Shareholders;\n   \n   (b) shares issued as consideration for an acquisition approved as a Reserved Matter;\n   \n   (c) shares issued in connection with an IPO; or\n   \n   (d) [other agreed exceptions]."
+    },
+    {
+      "id": "transfer_restrictions",
+      "order": 9,
+      "title": "7. RESTRICTIONS ON TRANSFER",
+      "body_md": "7.1 **General Restriction**: No Shareholder shall Transfer any shares except in accordance with this Agreement.\n\n7.2 **Permitted Transfers**: A Shareholder may Transfer shares without complying with Clause 7.3:\n\n   (a) to an affiliate or related entity (provided the transferee enters into a deed of adherence to this Agreement and, on ceasing to be an affiliate, the shares are transferred back);\n   \n   (b) for Founder Shareholders: with the prior written consent of [Investors holding [●]% of Preference Shares]; or\n   \n   (c) pursuant to the drag-along provisions in Clause 9.\n\n7.3 **Right of First Refusal**: Subject to Clause 7.2, if a Shareholder (the \"**Seller**\") wishes to Transfer any shares:\n\n   **(a) Offer Notice**: The Seller shall give written notice to the Company and all other Shareholders, specifying:\n   \n      (i) the number and class of shares to be sold (the \"**Sale Shares**\");\n      \n      (ii) the proposed purchaser;\n      \n      (iii) the price and other material terms; and\n      \n      (iv) evidence that the proposed transfer is on arm's length terms with a bona fide third party.\n\n   **(b) Company Right**: The Company shall have the right to purchase the Sale Shares within [20 Business Days] on the same terms.\n\n   **(c) Shareholder Right**: If the Company does not exercise its right, each other Shareholder shall have the right to purchase the Sale Shares (pro rata to their existing shareholdings) within a further [20 Business Days] on the same terms.\n\n   **(d) Sale to Third Party**: If the Sale Shares are not purchased by the Company or Shareholders, the Seller may sell them to the proposed third-party purchaser within [60 days] on terms no more favourable than those offered to the Company and Shareholders, subject to the tag-along rights in Clause 8.\n\n7.4 **Transfers in Breach**: Any Transfer in breach of this Agreement shall be void and the Company shall not register the transfer or recognise the purported transferee as a Shareholder."
+    },
+    {
+      "id": "tag_along",
+      "order": 10,
+      "title": "8. TAG-ALONG RIGHTS",
+      "body_md": "8.1 **Tag-Along Right**: If any Founder Shareholder (the \"**Selling Founder**\") proposes to Transfer shares to a third party (other than pursuant to a Permitted Transfer or drag-along), each other Shareholder shall have the right to participate in the sale on a pro rata basis.\n\n8.2 **Tag-Along Notice**: The Selling Founder shall include in the Offer Notice under Clause 7.3:\n\n   (a) confirmation that this is a tag-along opportunity; and\n   \n   (b) an invitation to other Shareholders to participate.\n\n8.3 **Exercise of Tag-Along**: A Shareholder wishing to exercise tag-along rights must notify the Selling Founder within [20 Business Days], specifying the number of shares it wishes to sell.\n\n8.4 **Pro Rata Allocation**: If the third-party purchaser will not purchase all the shares offered:\n\n   (a) the total number of shares to be sold shall be allocated between the Selling Founder and tagging Shareholders pro rata to the number of shares each wished to sell; and\n   \n   (b) the Selling Founder shall reduce the number of shares it sells accordingly.\n\n8.5 **Completion**: All Shareholders participating in the tag-along sale shall:\n\n   (a) sell their shares on the same terms and conditions;\n   \n   (b) give the same warranties and indemnities (subject to appropriate caps for non-Founder Shareholders); and\n   \n   (c) complete the sale simultaneously.\n\n8.6 **Failure to Complete**: If any tagging Shareholder fails to complete the sale, the Selling Founder may either:\n\n   (a) proceed with the sale of their own shares only; or\n   \n   (b) terminate the entire transaction."
+    },
+    {
+      "id": "drag_along",
+      "order": 11,
+      "title": "9. DRAG-ALONG RIGHTS",
+      "body_md": "9.1 **Drag-Along Right**: If Shareholders holding at least {{drag_along_threshold}}% of the shares (the \"**Dragging Shareholders**\") approve a bona fide offer from a third party to:\n\n   (a) purchase all of the shares in the Company; or\n   \n   (b) effect an Exit Event that would result in a change of control,\n\nthe Dragging Shareholders may require all other Shareholders (the \"**Dragged Shareholders**\") to participate in the transaction by giving written notice (a \"**Drag Notice**\").\n\n9.2 **Drag Notice**: The Drag Notice shall specify:\n\n   (a) the identity of the proposed purchaser;\n   \n   (b) the proposed purchase price and form of consideration;\n   \n   (c) the other material terms of the transaction;\n   \n   (d) the proposed completion date; and\n   \n   (e) the warranties, indemnities, and other obligations required of Shareholders.\n\n9.3 **Obligations of Dragged Shareholders**: Each Dragged Shareholder shall:\n\n   (a) sell all of their shares on the same terms as the Dragging Shareholders;\n   \n   (b) execute all transaction documents reasonably required;\n   \n   (c) give warranties and indemnities to the extent required, provided that:\n   \n      (i) Dragged Shareholders (other than Founders) shall only give warranties as to title, capacity, and authority;\n      \n      (ii) liability for business warranties shall be several (not joint) and allocated pro rata to consideration received;\n      \n      (iii) liability caps for Dragged Shareholders (other than Founders) shall not exceed the consideration they receive;\n\n   (d) vote in favour of the transaction at any Shareholder meeting; and\n   \n   (e) take all other actions reasonably necessary to complete the transaction.\n\n9.4 **Consideration**: Each Shareholder shall receive their pro rata share of the total consideration, calculated according to the liquidation waterfall in Clause 10.\n\n9.5 **Founder Warranties**: Founder Shareholders acknowledge that they may be required to give comprehensive business warranties and indemnities, subject to customary limitations.\n\n9.6 **Completion**: All Shareholders shall complete the sale simultaneously, and no Shareholder may withdraw once the drag-along process has been initiated."
+    },
+    {
+      "id": "liquidation_waterfall",
+      "order": 12,
+      "title": "10. LIQUIDATION PREFERENCES AND EXIT PROCEEDS",
+      "body_md": "10.1 **Application**: This Clause 10 applies to the distribution of proceeds on:\n\n   (a) a liquidation, dissolution, or winding up of the Company;\n   \n   (b) a sale of all or substantially all of the Company's assets; or\n   \n   (c) a deemed liquidation event pursuant to an Exit Event (as defined in the Articles).\n\n10.2 **Liquidation Preference**: Holders of Preference Shares shall be entitled to receive, in priority to holders of Ordinary Shares, an amount equal to:\n\n```\n{{liquidation_preference_multiple}} × Original Subscription Price + any accrued but unpaid dividends\n```\n\n(the \"**Liquidation Preference**\")\n\n10.3 **Participating Preferred**:\n\n{{#if participating_preferred}}\nAfter payment of the Liquidation Preference, holders of Preference Shares shall participate with holders of Ordinary Shares in the distribution of remaining proceeds on an as-converted basis.\n{{else}}\nAfter payment of the Liquidation Preference, holders of Preference Shares shall not participate further in the distribution of proceeds. All remaining proceeds shall be distributed to holders of Ordinary Shares.\n{{/if}}\n\n10.4 **Distribution Order**: Proceeds shall be distributed in the following order:\n\n   (a) **First**, to holders of [Series B] Preference Shares until they have received their Liquidation Preference;\n   \n   (b) **Second**, to holders of [Series A] Preference Shares until they have received their Liquidation Preference;\n   \n   (c) **Third**, [if participating preferred: all remaining proceeds to all Shareholders on an as-converted pro rata basis] [if non-participating: all remaining proceeds to holders of Ordinary Shares pro rata].\n\n10.5 **Conversion Option**: Before any distribution, each holder of Preference Shares may elect to convert their Preference Shares into Ordinary Shares at the then-applicable conversion rate and participate as a holder of Ordinary Shares if that would result in greater proceeds.\n\n10.6 **Deemed Liquidation**: The Shareholders shall procure that the Articles provide that the following shall be deemed to be liquidation events for the purposes of this Clause 10:\n\n   (a) a sale, lease, transfer, or exclusive licence of all or substantially all of the Company's assets;\n   \n   (b) a merger or consolidation in which the Company is not the surviving entity or in which existing Shareholders do not retain majority control; or\n   \n   (c) any other transaction approved by the Board as a deemed liquidation event."
+    },
+    {
+      "id": "leaver_provisions",
+      "order": 13,
+      "title": "11. LEAVER PROVISIONS",
+      "body_md": "11.1 **Application**: This Clause 11 applies to any Founder or employee Shareholder who ceases to be actively involved in the Company's business (a \"**Leaver**\").\n\n11.2 **Good Leaver**: A Leaver shall be a \"**Good Leaver**\" if their involvement ceases due to:\n\n   (a) death or permanent disability preventing them from performing their duties;\n   \n   (b) dismissal or removal without cause;\n   \n   (c) resignation with the consent of the Board after [3 years] of service; or\n   \n   (d) any other reason agreed by the Board (acting reasonably).\n\n11.3 **Bad Leaver**: A Leaver shall be a \"**Bad Leaver**\" if their involvement ceases:\n\n   (a) by resignation without the consent of the Board within [3 years] of [the date of this Agreement / the date of their investment];\n   \n   (b) by summary dismissal for cause (including gross misconduct, material breach of duties, or breach of this Agreement); or\n   \n   (c) due to any act of fraud, dishonesty, or wilful misconduct.\n\n11.4 **Other Leavers**: Any Leaver who is not a Good Leaver or Bad Leaver shall be treated as [a Good Leaver / an intermediate leaver with pricing between Good and Bad].\n\n11.5 **Valuation and Purchase**:\n\n   **(a) Good Leaver**: A Good Leaver's shares shall be valued at Fair Market Value (as defined below) and the Company (or its nominee) shall have the right to purchase:\n   \n      (i) all unvested shares (if subject to vesting) at the lower of Fair Market Value or the price originally paid; and\n      \n      (ii) all vested shares at Fair Market Value.\n\n   **(b) Bad Leaver**: A Bad Leaver's shares shall be valued at the lower of:\n   \n      (i) Fair Market Value; or\n      \n      (ii) the price originally paid for the shares,\n   \n   and the Company (or its nominee) shall have the right to purchase all such shares at that price.\n\n11.6 **Fair Market Value**: \"**Fair Market Value**\" means:\n\n   (a) if the shares are listed on a stock exchange, the average trading price over the [30 days] prior to the Leaver date;\n   \n   (b) if a financing round has completed within the preceding [6 months], the price per share in that round (adjusted for different share classes);\n   \n   (c) otherwise, the fair market value determined by an independent chartered accountant or valuation expert jointly appointed by the Company and the Leaver (or, in the absence of agreement, appointed by [the president of the relevant accounting institute]).\n\n11.7 **Exercise of Rights**:\n\n   (a) The Company shall give notice to the Leaver within [60 days] of the Leaver date if it wishes to purchase the Leaver's shares.\n   \n   (b) Completion of the purchase shall occur within [30 days] of agreement (or determination) of the price.\n   \n   (c) Payment may be made in instalments over [12 months] with interest at [●]% per annum.\n\n11.8 **Continuing Restrictions**: Until the Leaver's shares are purchased (or the right to purchase lapses), the Leaver:\n\n   (a) shall remain bound by this Agreement;\n   \n   (b) shall not Transfer the shares except as permitted by this Agreement; and\n   \n   (c) shall have no voting rights except as required by law."
+    },
+    {
+      "id": "anti_dilution",
+      "order": 14,
+      "title": "12. ANTI-DILUTION PROTECTION",
+      "body_md": "12.1 **Price-Based Anti-Dilution**: If the Company issues Equity Securities at a price per share that is less than the [Series A] Conversion Price (a \"**Down Round**\"), the Conversion Price of the [Series A] Preference Shares shall be adjusted in accordance with this Clause 12.\n\n{{#if_equals anti_dilution \"weighted_average\"}}\n12.2 **Weighted Average Adjustment**: The adjusted Conversion Price shall be calculated using the following broad-based weighted average formula:\n\n```\nAdjusted Conversion Price = Original Conversion Price × \n  (A + B) / (A + C)\n\nWhere:\nA = Number of shares outstanding immediately before the Down Round (fully diluted)\nB = Consideration received / Original Conversion Price\nC = Number of new shares issued in the Down Round\n```\n{{/if_equals}}\n\n{{#if_equals anti_dilution \"full_ratchet\"}}\n12.2 **Full Ratchet Adjustment**: The Conversion Price shall be reduced to the price per share at which new securities are issued in the Down Round.\n{{/if_equals}}\n\n{{#if_equals anti_dilution \"none\"}}\n12.2 **No Anti-Dilution**: No anti-dilution adjustments shall apply.\n{{/if_equals}}\n\n12.3 **Exceptions**: Anti-dilution adjustments shall not apply to shares issued:\n\n   (a) pursuant to employee share option plans;\n   \n   (b) as a dividend or distribution on Preference Shares;\n   \n   (c) in a transaction approved by [●]% of Preference Shareholders; or\n   \n   (d) [other agreed exceptions].\n\n12.4 **Notice**: The Company shall notify all Preference Shareholders of any anti-dilution adjustment within [10 Business Days], providing full details of the calculation."
+    },
+    {
+      "id": "warranties",
+      "order": 15,
+      "title": "13. WARRANTIES AND UNDERTAKINGS",
+      "body_md": "13.1 **Founder Warranties**: Each Founder warrants to each Investor (on a several basis) that:\n\n   (a) they have full power and authority to enter into this Agreement;\n   \n   (b) they are the sole legal and beneficial owner of their shares;\n   \n   (c) their shares are fully paid and free from encumbrances;\n   \n   (d) the execution and performance of this Agreement does not breach any agreement to which they are party; and\n   \n   (e) [other customary founder warranties as appropriate].\n\n13.2 **Company Warranties**: The Company warrants to each Investor that the share capital details in Schedule 1 are accurate and complete.\n\n13.3 **Non-Compete** (Founders): Each Founder undertakes that, during their employment or engagement with the Company and for [12 months] thereafter, they shall not:\n\n   (a) engage in or have any interest in any Competing Business;\n   \n   (b) solicit or entice away any employee, consultant, customer, or supplier of the Company; or\n   \n   (c) use or disclose any Confidential Information (as defined in their service agreement) of the Company.\n\n13.4 **Full-Time Commitment** (Founders): Each Founder undertakes to devote substantially all of their business time and attention to the Company, except as otherwise agreed by the Board.\n\n13.5 **Limitation**: The warranties in this Clause 13 are given on the date of this Agreement only and (except for warranties as to title and capacity) shall not be repeated."
+    },
+    {
+      "id": "termination",
+      "order": 16,
+      "title": "14. TERMINATION",
+      "body_md": "14.1 **Termination Events**: This Agreement shall terminate:\n\n   (a) by written agreement of all Shareholders;\n   \n   (b) on completion of an IPO; or\n   \n   (c) on completion of an Exit Event in which all Shareholders sell all of their shares.\n\n14.2 **Partial Termination**: On a Shareholder ceasing to hold any shares, this Agreement shall cease to apply to that Shareholder (except for Clauses that expressly survive).\n\n14.3 **Survival**: Clauses [1 (Definitions), 7.4 (Transfers in Breach), 13 (Warranties), 15 (Confidentiality), and 17 (General)] shall survive termination."
+    },
+    {
+      "id": "confidentiality",
+      "order": 17,
+      "title": "15. CONFIDENTIALITY",
+      "body_md": "15.1 Each Shareholder shall keep confidential and not disclose to any third party:\n\n   (a) the terms of this Agreement;\n   \n   (b) any information provided pursuant to Clause 5 (Information Rights); and\n   \n   (c) any other confidential information concerning the Company or its business,\n\nexcept as required by law, to professional advisers (under obligations of confidentiality), or with the prior written consent of the Company.\n\n15.2 This obligation shall survive termination of this Agreement for [5 years]."
+    },
+    {
+      "id": "general",
+      "order": 18,
+      "title": "16. GENERAL PROVISIONS",
+      "body_md": "16.1 **Entire Agreement**: This Agreement (together with the Articles and any documents referred to herein) constitutes the entire agreement between the parties and supersedes all previous agreements relating to its subject matter.\n\n16.2 **Amendments**: This Agreement may be amended only by written agreement signed by [all Shareholders / Shareholders holding at least [●]%].\n\n16.3 **Severability**: If any provision is held invalid or unenforceable, it shall be severed and the remaining provisions shall continue in full effect.\n\n16.4 **Waiver**: No failure to exercise any right shall constitute a waiver. Waivers must be in writing.\n\n16.5 **Further Assurance**: Each party shall execute all documents and take all actions reasonably necessary to give effect to this Agreement.\n\n16.6 **Counterparts**: This Agreement may be executed in counterparts.\n\n16.7 **Notices**: All notices shall be in writing and delivered to the addresses in Schedule 1.\n\n16.8 **Costs**: Each party shall bear its own costs of this Agreement.\n\n16.9 **Third Parties**: No third party has any right to enforce this Agreement.\n\n16.10 **Assignment**: No party may assign this Agreement without the consent of all other parties, except that rights may be assigned to a transferee of shares who enters into a deed of adherence."
+    },
+    {
+      "id": "governing_law",
+      "order": 19,
+      "title": "17. GOVERNING LAW AND JURISDICTION",
+      "body_md": "17.1 This Agreement shall be governed by and construed in accordance with {{governing_law_text}}.\n\n17.2 The parties irrevocably submit to the exclusive jurisdiction of {{venue_text}}.\n\n17.3 **Dispute Resolution**: Any dispute arising out of this Agreement shall:\n\n   (a) first be referred to the Chief Executive Officer and lead Investor representative for good faith negotiation for [30 days]; and\n   \n   (b) if not resolved, be [referred to mediation / arbitration / litigation] in accordance with [specify rules/procedures]."
+    },
+    {
+      "id": "schedules_header",
+      "order": 20,
+      "title": "SCHEDULES",
+      "body_md": "The following Schedules form part of this Agreement:\n\n- **Schedule 1**: Shareholders and Shareholdings\n- **Schedule 2**: Articles of Association\n- **Schedule 3**: Board Composition"
+    },
+    {
+      "id": "schedule_1",
+      "order": 21,
+      "title": "SCHEDULE 1 - SHAREHOLDERS AND SHAREHOLDINGS",
+      "body_md": "| Shareholder | Address | Share Class | Number of Shares | % of Fully Diluted | Investor Category | Board Seats | Observer |\n|-------------|---------|--------------|------------------|--------------------|-------------------|-------------|-----------|\n{{#shareholders}}\n| {{name}} | {{address}} | {{share_class}} | [●] | {{shareholding_percentage}}% | {{investor_category}} | {{board_seats}} | {{#if observer_rights}}Yes{{else}}No{{/if}} |\n{{/shareholders}}\n\n**Total Shares in Issue**: [●]\n\n**Fully Diluted Share Capital**: [●] (including [●] shares under option)"
+    },
+    {
+      "id": "signatures",
+      "order": 22,
+      "title": "EXECUTION",
+      "body_md": "**EXECUTED** as an Agreement:\n\n---\n\n{{#shareholders}}\n**SIGNED** by **{{name}}**:\n\nSignature: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nDate:\n\n---\n\n{{/shareholders}}\n\n**EXECUTED** by **{{company_name}}**:\n\nSignature: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle: Director\n\nDate:"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law_text",
+      "text": "the laws of [Jurisdiction]"
+    },
+    {
+      "id": "venue_text",
+      "text": "the courts of [Jurisdiction]"
+    },
+    {
+      "id": "business_day_location",
+      "text": "[City/Country]"
+    },
+    {
+      "id": "reserved_matters_threshold",
+      "text": "75"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-22",
+    "compliance_notes": "Post-investment shareholders' agreement. Must comply with corporate law of jurisdiction (e.g., CA 2006 for UK; DGCL for Delaware). Pre-emption rights may be statutory (UK CA 2006 ss.561-577) or contractual. Leaver provisions must be reasonable under employment/restraint of trade law. Drag-along must not breach minority protection rules. Anti-dilution and liquidation preferences enforceable if properly documented in Articles.",
+    "review_required": true,
+    "tags": ["shareholders", "investment", "governance", "drag-along", "tag-along", "pre-emption", "liquidation-preference"]
+  }
+}

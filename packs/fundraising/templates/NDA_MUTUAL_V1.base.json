@@ -1,0 +1,212 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "NDA_MUTUAL_V1",
+  "name": "Mutual Non-Disclosure Agreement",
+  "pack": "fundraising",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "starter",
+  "description": "Mutual NDA for protecting confidential information shared between two parties in business discussions",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["party1_name", "party2_name", "effective_date", "term_years"],
+    "properties": {
+      "party1_name": {
+        "type": "string",
+        "title": "First Party Legal Name",
+        "minLength": 2
+      },
+      "party1_address": {
+        "type": "string",
+        "title": "First Party Address"
+      },
+      "party1_jurisdiction": {
+        "type": "string",
+        "title": "First Party Jurisdiction of Incorporation"
+      },
+      "party2_name": {
+        "type": "string",
+        "title": "Second Party Legal Name",
+        "minLength": 2
+      },
+      "party2_address": {
+        "type": "string",
+        "title": "Second Party Address"
+      },
+      "party2_jurisdiction": {
+        "type": "string",
+        "title": "Second Party Jurisdiction of Incorporation"
+      },
+      "effective_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "term_years": {
+        "type": "number",
+        "title": "Confidentiality Period (Years)",
+        "minimum": 1,
+        "maximum": 10,
+        "default": 3
+      },
+      "purpose": {
+        "type": "string",
+        "title": "Purpose of Disclosure",
+        "description": "Brief description of the business purpose (e.g., 'potential partnership', 'merger discussions')"
+      },
+      "return_destruction_days": {
+        "type": "number",
+        "title": "Days to Return/Destroy Materials",
+        "minimum": 5,
+        "maximum": 90,
+        "default": 30
+      },
+      "include_residuals_clause": {
+        "type": "boolean",
+        "title": "Include Residuals Clause?",
+        "description": "Allows receiving party to use general ideas/concepts retained in memory",
+        "default": false
+      },
+      "include_non_solicit": {
+        "type": "boolean",
+        "title": "Include Non-Solicitation Clause?",
+        "description": "Prevents hiring of disclosed employees for a period",
+        "default": false
+      },
+      "non_solicit_period_months": {
+        "type": "number",
+        "title": "Non-Solicitation Period (Months)",
+        "minimum": 6,
+        "maximum": 24,
+        "default": 12
+      }
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "",
+      "body_md": "# MUTUAL NON-DISCLOSURE AGREEMENT\n\nThis Mutual Non-Disclosure Agreement (this \"**Agreement**\") is entered into as of {{effective_date}} (the \"**Effective Date**\") by and between:\n\n**{{party1_name}}**, a company incorporated in {{party1_jurisdiction}}, with its principal place of business at {{party1_address}} (\"**Party 1**\"); and\n\n**{{party2_name}}**, a company incorporated in {{party2_jurisdiction}}, with its principal place of business at {{party2_address}} (\"**Party 2**\").\n\nParty 1 and Party 2 are each referred to individually as a \"**Party**\" and collectively as the \"**Parties**\"."
+    },
+    {
+      "id": "recitals",
+      "order": 2,
+      "title": "RECITALS",
+      "body_md": "**WHEREAS**, the Parties wish to explore {{purpose}} (the \"**Purpose**\"); and\n\n**WHEREAS**, in connection with the Purpose, each Party may disclose to the other Party certain confidential and proprietary information; and\n\n**WHEREAS**, the Parties desire to protect the confidentiality of such information and to define the terms and conditions under which such information may be disclosed and used.\n\n**NOW, THEREFORE**, in consideration of the mutual covenants and agreements contained herein, and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the Parties agree as follows:"
+    },
+    {
+      "id": "definitions",
+      "order": 3,
+      "title": "1. DEFINITIONS",
+      "body_md": "**1.1 \"Confidential Information\"** means any and all information disclosed by one Party (the \"**Disclosing Party**\") to the other Party (the \"**Receiving Party**\"), whether orally, in writing, electronically, or by any other means, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure. Confidential Information includes, without limitation:\n\n(a) Technical information, including patent applications, know-how, inventions, techniques, processes, algorithms, software programs, software source documents, and formulae;\n\n(b) Business information, including customer lists, supplier lists, pricing, costs, profits, sales information, strategic plans, and marketing plans;\n\n(c) Financial information, including financial statements, projections, and budgets;\n\n(d) Product information, including product specifications, designs, prototypes, and samples; and\n\n(e) Any other information that is marked, designated, or identified as \"Confidential\" or with a similar designation.\n\n**1.2 Exclusions.** Confidential Information shall not include information that:\n\n(a) Is or becomes publicly available through no breach of this Agreement by the Receiving Party;\n\n(b) Was rightfully in the Receiving Party's possession prior to disclosure by the Disclosing Party, as evidenced by the Receiving Party's written records;\n\n(c) Is rightfully received by the Receiving Party from a third party without breach of any confidentiality obligation;\n\n(d) Is independently developed by the Receiving Party without use of or reference to the Disclosing Party's Confidential Information, as evidenced by written records; or\n\n(e) Is required to be disclosed by law, regulation, or court order, provided that the Receiving Party provides the Disclosing Party with prompt written notice of such requirement and cooperates with the Disclosing Party's efforts to seek a protective order or other appropriate remedy."
+    },
+    {
+      "id": "obligations",
+      "order": 4,
+      "title": "2. CONFIDENTIALITY OBLIGATIONS",
+      "body_md": "**2.1 Non-Disclosure.** The Receiving Party shall:\n\n(a) Hold and maintain the Disclosing Party's Confidential Information in strict confidence;\n\n(b) Not disclose the Confidential Information to any third parties except as expressly permitted under this Agreement;\n\n(c) Not use the Confidential Information for any purpose other than the Purpose; and\n\n(d) Protect the Confidential Information using the same degree of care it uses to protect its own confidential information of a similar nature, but in no event less than reasonable care.\n\n**2.2 Permitted Disclosures.** The Receiving Party may disclose Confidential Information only to its employees, officers, directors, agents, consultants, and professional advisors (collectively, \"**Representatives**\") who:\n\n(a) Have a legitimate need to know such information for the Purpose;\n\n(b) Have been informed of the confidential nature of such information; and\n\n(c) Are bound by confidentiality obligations at least as restrictive as those contained in this Agreement.\n\nThe Receiving Party shall be responsible for any breach of this Agreement by its Representatives.\n\n**2.3 Copies and Derivatives.** All copies, reproductions, summaries, analyses, or other derivative works of the Confidential Information created by the Receiving Party shall be subject to the same restrictions as the original Confidential Information."
+    },
+    {
+      "id": "residuals",
+      "order": 5,
+      "title": "3. RESIDUALS",
+      "body_md": "Notwithstanding anything to the contrary in this Agreement, the Receiving Party shall be free to use and employ its general skills, know-how, and expertise, and to use, disclose, and employ any generalized ideas, concepts, know-how, methods, techniques, or skills gained or learned during the course of any review of, or work with, the Confidential Information (\"**Residuals**\"), provided that the Receiving Party does not directly copy or disclose the Confidential Information itself. This Residuals clause does not grant any license under any patents, copyrights, or other intellectual property rights.",
+      "condition": {"var": "include_residuals_clause"}
+    },
+    {
+      "id": "non_solicit",
+      "order": 6,
+      "title": "4. NON-SOLICITATION",
+      "body_md": "During the term of this Agreement and for a period of {{non_solicit_period_months}} months thereafter, neither Party shall, directly or indirectly, solicit, recruit, or hire any employee, consultant, or contractor of the other Party who was identified or became known to the soliciting Party as a result of discussions or information disclosed under this Agreement, without the prior written consent of the other Party.\n\nThis restriction shall not apply to: (a) general solicitations not specifically targeted at the other Party's personnel, or (b) individuals who independently contact the soliciting Party without any direct or indirect solicitation.",
+      "condition": {"var": "include_non_solicit"}
+    },
+    {
+      "id": "ownership",
+      "order": 7,
+      "title": "{{order_non_solicit}}. OWNERSHIP AND NO LICENSE",
+      "body_md": "**{{order_non_solicit}}.1 Ownership.** All Confidential Information remains the sole and exclusive property of the Disclosing Party. Nothing in this Agreement shall be construed as granting any rights to the Receiving Party, by license or otherwise, to any Confidential Information or to any patent, copyright, trademark, trade secret, or other intellectual property right of the Disclosing Party.\n\n**{{order_non_solicit}}.2 No Obligation.** Nothing in this Agreement shall obligate either Party to disclose any particular Confidential Information or to enter into any further agreement or business relationship."
+    },
+    {
+      "id": "return_destruction",
+      "order": 8,
+      "title": "{{order_return}}. RETURN OR DESTRUCTION OF CONFIDENTIAL INFORMATION",
+      "body_md": "Upon the written request of the Disclosing Party or upon termination of this Agreement, the Receiving Party shall, within {{return_destruction_days}} days:\n\n(a) Return to the Disclosing Party all Confidential Information, including all copies, reproductions, summaries, analyses, or derivative works thereof, in whatever form or medium; or\n\n(b) At the Disclosing Party's election, destroy all such materials and certify such destruction in writing to the Disclosing Party.\n\nNotwithstanding the foregoing, the Receiving Party may retain one (1) archival copy of the Confidential Information solely for the purpose of monitoring its ongoing obligations under this Agreement, provided that such copy remains subject to the confidentiality obligations herein. The Receiving Party may also retain Confidential Information to the extent required by applicable law or regulation, provided that such retained information shall remain subject to the confidentiality obligations of this Agreement."
+    },
+    {
+      "id": "no_warranty",
+      "order": 9,
+      "title": "{{order_warranty}}. NO WARRANTY",
+      "body_md": "ALL CONFIDENTIAL INFORMATION IS PROVIDED \"AS IS\" AND WITHOUT ANY WARRANTY, EXPRESS, IMPLIED, OR OTHERWISE, REGARDING ITS ACCURACY, COMPLETENESS, OR PERFORMANCE. THE DISCLOSING PARTY SHALL NOT BE LIABLE FOR ANY ERRORS OR OMISSIONS IN THE CONFIDENTIAL INFORMATION OR FOR ANY ACTIONS TAKEN IN RELIANCE THEREON."
+    },
+    {
+      "id": "remedies",
+      "order": 10,
+      "title": "{{order_remedies}}. REMEDIES",
+      "body_md": "**{{order_remedies}}.1 Injunctive Relief.** The Receiving Party acknowledges and agrees that any breach or threatened breach of this Agreement may cause irreparable harm to the Disclosing Party for which monetary damages would be an inadequate remedy. Accordingly, the Disclosing Party shall be entitled to seek equitable relief, including injunction and specific performance, in addition to all other remedies available at law or in equity.\n\n**{{order_remedies}}.2 Cumulative Remedies.** The rights and remedies provided in this Agreement are cumulative and are in addition to any other rights and remedies available at law or in equity."
+    },
+    {
+      "id": "term_termination",
+      "order": 11,
+      "title": "{{order_term}}. TERM AND TERMINATION",
+      "body_md": "**{{order_term}}.1 Term.** This Agreement shall commence on the Effective Date and shall continue for a period of {{term_years}} years, unless earlier terminated by either Party upon thirty (30) days' prior written notice to the other Party.\n\n**{{order_term}}.2 Survival.** The obligations of the Receiving Party with respect to Confidential Information disclosed prior to termination shall survive termination of this Agreement and shall continue for a period of {{term_years}} years from the date of disclosure of such Confidential Information."
+    },
+    {
+      "id": "general",
+      "order": 12,
+      "title": "{{order_general}}. GENERAL PROVISIONS",
+      "body_md": "**{{order_general}}.1 Governing Law.** This Agreement shall be governed by and construed in accordance with the laws of {{governing_law}}, without regard to its conflicts of law principles.\n\n**{{order_general}}.2 Jurisdiction and Venue.** Any disputes arising out of or relating to this Agreement shall be subject to the exclusive jurisdiction of the courts of {{venue}}.\n\n**{{order_general}}.3 Entire Agreement.** This Agreement constitutes the entire agreement between the Parties concerning the subject matter hereof and supersedes all prior or contemporaneous agreements, whether written or oral, relating to such subject matter.\n\n**{{order_general}}.4 Amendment.** This Agreement may be amended only by a written instrument signed by both Parties.\n\n**{{order_general}}.5 Waiver.** No waiver of any provision of this Agreement shall be deemed or shall constitute a waiver of any other provision, nor shall any waiver constitute a continuing waiver.\n\n**{{order_general}}.6 Severability.** If any provision of this Agreement is held to be invalid or unenforceable, the remaining provisions shall continue in full force and effect.\n\n**{{order_general}}.7 Counterparts.** This Agreement may be executed in counterparts, each of which shall be deemed an original and all of which together shall constitute one and the same instrument.\n\n**{{order_general}}.8 Notices.** All notices under this Agreement shall be in writing and shall be deemed given when delivered personally, sent by confirmed email, or sent by registered or certified mail, return receipt requested, to the addresses set forth above or to such other address as either Party may designate in writing."
+    },
+    {
+      "id": "signatures",
+      "order": 13,
+      "title": "SIGNATURE PAGE",
+      "body_md": "**IN WITNESS WHEREOF**, the Parties have executed this Mutual Non-Disclosure Agreement as of the Effective Date.\n\n---\n\n**PARTY 1:**\n\n{{party1_name}}\n\nBy: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle:\n\nDate:\n\n---\n\n**PARTY 2:**\n\n{{party2_name}}\n\nBy: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle:\n\nDate:"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law",
+      "text": "the State of Delaware, United States"
+    },
+    {
+      "id": "venue",
+      "text": "Delaware"
+    },
+    {
+      "id": "order_non_solicit",
+      "text": "5"
+    },
+    {
+      "id": "order_return",
+      "text": "6"
+    },
+    {
+      "id": "order_warranty",
+      "text": "7"
+    },
+    {
+      "id": "order_remedies",
+      "text": "8"
+    },
+    {
+      "id": "order_term",
+      "text": "9"
+    },
+    {
+      "id": "order_general",
+      "text": "10"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-25",
+    "complexity": "low",
+    "automation_potential": "full",
+    "estimated_time_minutes": 15,
+    "compliance_notes": "Standard mutual NDA; adaptable for most commercial contexts. Residuals clause optional (favors receiving party). Non-solicitation optional and jurisdiction-dependent.",
+    "review_required": false,
+    "tags": ["nda", "confidentiality", "b2b", "mutual"]
+  }
+}

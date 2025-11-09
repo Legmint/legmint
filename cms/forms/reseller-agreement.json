@@ -1,0 +1,20 @@
+{
+  "schema": {
+    "title": "Reseller Agreement",
+    "type": "object",
+    "properties": {
+      "supplierName": { "type": "string", "title": "Supplier/Manufacturer Name" },
+      "resellerName": { "type": "string", "title": "Reseller Name" },
+      "productDescription": { "type": "string", "title": "Products/Services to Resell" },
+      "territory": { "type": "string", "title": "Geographic Territory" },
+      "exclusive": { "type": "boolean", "title": "Exclusive territory?", "default": false },
+      "resellerDiscount": { "type": "number", "title": "Reseller Discount (%)", "minimum": 0, "maximum": 80, "default": 20 },
+      "minimumOrder": { "type": "number", "title": "Minimum Order Quantity (optional)", "minimum": 0 },
+      "termMonths": { "type": "integer", "title": "Initial Term (months)", "default": 12, "minimum": 6 },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" }
+    },
+    "required": ["supplierName", "resellerName", "productDescription", "territory", "resellerDiscount", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "exclusive": false, "resellerDiscount": 20, "termMonths": 12 }
+}

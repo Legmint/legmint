@@ -1,0 +1,22 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle with gradient effect -->
+  <circle cx="60" cy="60" r="56" fill="#4BE1A0"/>
+  <circle cx="60" cy="60" r="56" fill="url(#mint-gradient)"/>
+
+  <!-- Highlight arc for "minted" shine effect -->
+  <path d="M 30 20 A 56 56 0 0 1 100 45" stroke="white" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+  <!-- Stylized "L" - clean and modern -->
+  <path d="M 42 35 L 42 85 L 78 85 L 78 75 L 52 75 L 52 35 Z" fill="#1C1E26"/>
+
+  <!-- Inner border for depth -->
+  <circle cx="60" cy="60" r="56" stroke="#1C1E26" stroke-width="3" fill="none"/>
+
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="mint-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4BE1A0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3bc890;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

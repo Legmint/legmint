@@ -1,0 +1,99 @@
+{
+  "schema": {
+    "title": "Mutual Non-Disclosure Agreement",
+    "type": "object",
+    "properties": {
+      "partyA": {
+        "type": "object",
+        "title": "Party A (Disclosing & Receiving)",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name/Company Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "required": ["name", "address"]
+      },
+      "partyB": {
+        "type": "object",
+        "title": "Party B (Disclosing & Receiving)",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name/Company Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "required": ["name", "address"]
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Governing Law",
+        "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "purpose": {
+        "type": "string",
+        "title": "Purpose of Disclosure",
+        "description": "e.g., Potential business partnership, investment discussions, etc."
+      },
+      "termYears": {
+        "type": "integer",
+        "title": "Confidentiality Term (years)",
+        "minimum": 1,
+        "maximum": 10,
+        "default": 3
+      },
+      "survivesTermination": {
+        "type": "boolean",
+        "title": "Obligations survive termination?",
+        "default": true
+      },
+      "returnMaterials": {
+        "type": "boolean",
+        "title": "Require return/destruction of materials on termination?",
+        "default": true
+      },
+      "disputeResolution": {
+        "type": "string",
+        "title": "Dispute Resolution",
+        "enum": ["arbitration", "mediation", "litigation"],
+        "default": "mediation"
+      }
+    },
+    "required": ["partyA", "partyB", "jurisdiction", "effectiveDate", "purpose", "termYears"]
+  },
+  "uiSchema": {
+    "purpose": {
+      "ui:widget": "textarea",
+      "ui:placeholder": "Discussions regarding potential partnership for developing AI solutions..."
+    }
+  },
+  "defaults": {
+    "termYears": 3,
+    "survivesTermination": true,
+    "returnMaterials": true,
+    "disputeResolution": "mediation"
+  }
+}

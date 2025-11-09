@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalmind.tech/questionnaires/SAFE_PM_V1",
+  "title": "SAFE Agreement (Post-Money) - Questionnaire",
+  "description": "Generate a customized SAFE agreement for your equity financing",
+  "type": "object",
+  "required": [
+    "company_name",
+    "company_jurisdiction",
+    "investor_name",
+    "investor_address",
+    "purchase_amount",
+    "valuation_cap",
+    "governing_jurisdiction",
+    "date"
+  ],
+  "properties": {
+    "governing_jurisdiction": {
+      "type": "string",
+      "title": "Select Governing Law Jurisdiction",
+      "description": "Choose the legal jurisdiction that will govern this agreement",
+      "enum": ["GLOBAL-EN", "UK", "US-DE", "DE", "FR", "CZ"],
+      "enumNames": ["Global (English baseline)", "United Kingdom", "United States - Delaware", "Germany", "France", "Czech Republic"],
+      "default": "GLOBAL-EN"
+    },
+    "company_name": {
+      "type": "string",
+      "title": "Company Legal Name",
+      "description": "Full legal name of the company issuing the SAFE",
+      "minLength": 2,
+      "maxLength": 200
+    },
+    "company_jurisdiction": {
+      "type": "string",
+      "title": "Company Jurisdiction of Incorporation",
+      "description": "Where is the company incorporated? (e.g., 'Delaware', 'England and Wales', 'Germany')",
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "investor_name": {
+      "type": "string",
+      "title": "Investor Name",
+      "description": "Full legal name of the individual or entity investing",
+      "minLength": 2,
+      "maxLength": 200
+    },
+    "investor_address": {
+      "type": "string",
+      "title": "Investor Address",
+      "description": "Complete mailing address of the investor",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "purchase_amount": {
+      "type": "number",
+      "title": "Investment Amount",
+      "description": "The amount being invested (in your local currency)",
+      "minimum": 1,
+      "maximum": 100000000
+    },
+    "valuation_cap": {
+      "type": "number",
+      "title": "Post-Money Valuation Cap",
+      "description": "Maximum company valuation for conversion purposes",
+      "minimum": 1000,
+      "maximum": 1000000000
+    },
+    "discount_rate": {
+      "type": "number",
+      "title": "Discount Rate (%)",
+      "description": "Discount percentage on future equity round (typically 15-25%)",
+      "default": 20,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "pro_rata_right": {
+      "type": "boolean",
+      "title": "Include Pro Rata Rights?",
+      "description": "Give the investor the right to participate in future rounds to maintain ownership percentage?",
+      "default": false
+    },
+    "mfn_provision": {
+      "type": "boolean",
+      "title": "Include Most Favored Nation Provision?",
+      "description": "Allows investor to adopt better terms from future SAFEs issued by the company",
+      "default": true
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Agreement Date",
+      "description": "The date this SAFE is being executed"
+    }
+  },
+  "dependencies": {
+    "governing_jurisdiction": {
+      "oneOf": [
+        {
+          "properties": {
+            "governing_jurisdiction": {"const": "UK"},
+            "company_registration_number": {
+              "type": "string",
+              "title": "Company Registration Number",
+              "description": "Companies House registration number"
+            }
+          }
+        },
+        {
+          "properties": {
+            "governing_jurisdiction": {"enum": ["GLOBAL-EN", "US-DE", "DE", "FR", "CZ"]}
+          }
+        }
+      ]
+    }
+  },
+  "ui_schema": {
+    "ui:order": [
+      "governing_jurisdiction",
+      "company_name",
+      "company_jurisdiction",
+      "investor_name",
+      "investor_address",
+      "purchase_amount",
+      "valuation_cap",
+      "discount_rate",
+      "pro_rata_right",
+      "mfn_provision",
+      "date"
+    ],
+    "company_name": {
+      "ui:placeholder": "e.g., Acme Innovations Ltd"
+    },
+    "investor_address": {
+      "ui:widget": "textarea",
+      "ui:options": {
+        "rows": 3
+      }
+    },
+    "purchase_amount": {
+      "ui:help": "Enter the amount without currency symbols"
+    },
+    "valuation_cap": {
+      "ui:help": "This caps the price at which your SAFE converts to equity"
+    }
+  },
+  "validation_rules": {
+    "valuation_cap_vs_purchase": {
+      "rule": "valuation_cap >= purchase_amount * 2",
+      "message": "Valuation cap should typically be at least 2x the investment amount"
+    }
+  }
+}

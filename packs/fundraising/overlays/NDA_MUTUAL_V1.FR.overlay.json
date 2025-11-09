@@ -1,0 +1,56 @@
+{
+  "jurisdiction": "FR",
+  "template_code": "NDA_MUTUAL_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law",
+        "text": "le droit français"
+      },
+      {
+        "id": "venue",
+        "text": "les tribunaux de {{french_venue_city}}, France"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "header",
+        "body_md": "# ACCORD DE CONFIDENTIALITÉ MUTUELLE\n# (MUTUAL NON-DISCLOSURE AGREEMENT)\n\nLe présent accord de confidentialité mutuelle (le \"**Contrat**\") est conclu le {{effective_date}} (la \"**Date d'Entrée en Vigueur**\") entre :\n\n**{{party1_name}}**, une société constituée selon les lois de {{party1_jurisdiction}}, dont le siège social est situé {{party1_address}} (la \"**Partie 1**\") ; et\n\n**{{party2_name}}**, une société constituée selon les lois de {{party2_jurisdiction}}, dont le siège social est situé {{party2_address}} (la \"**Partie 2**\").\n\nLa Partie 1 et la Partie 2 sont désignées individuellement comme une \"**Partie**\" et collectivement comme les \"**Parties**\"."
+      },
+      {
+        "id": "recitals",
+        "title": "PRÉAMBULE (RECITALS)",
+        "body_md": "**CONSIDÉRANT QUE** les Parties souhaitent explorer {{purpose}} (l'\"**Objet**\") ; et\n\n**CONSIDÉRANT QUE** dans le cadre de l'Objet, chaque Partie peut divulguer à l'autre Partie certaines informations confidentielles et exclusives ; et\n\n**CONSIDÉRANT QUE** les Parties souhaitent protéger la confidentialité de ces informations et définir les termes et conditions selon lesquels ces informations peuvent être divulguées et utilisées.\n\n**EN CONSÉQUENCE**, en considération des engagements et accords mutuels contenus dans le présent Contrat, et pour d'autres contreparties valables dont la réception et la suffisance sont reconnues par les présentes, les Parties conviennent de ce qui suit :"
+      },
+      {
+        "id": "non_solicit",
+        "title": "4. CLAUSE DE NON-DÉBAUCHAGE (NON-SOLICITATION)",
+        "body_md": "Pendant la durée de validité du présent Contrat et pendant une période de {{non_solicit_period_months}} mois par la suite, aucune Partie ne sollicitera, recrutera ou embauchera, directement ou indirectement, tout employé, consultant ou sous-traitant de l'autre Partie qui a été identifié ou dont la Partie sollicitante a eu connaissance en raison de discussions ou d'informations divulguées dans le cadre du présent Contrat, sans le consentement écrit préalable de l'autre Partie.\n\nCette restriction ne s'applique pas : (a) aux sollicitations générales non spécifiquement ciblées sur le personnel de l'autre Partie, ou (b) aux personnes qui contactent indépendamment la Partie sollicitante sans aucune sollicitation directe ou indirecte.\n\n**Note sur le droit français** : Les clauses de non-débauchage doivent être proportionnées et ne doivent pas porter atteinte de manière excessive à la liberté du travail. Elles doivent protéger un intérêt commercial légitime et être limitées dans le temps et la portée conformément à la jurisprudence française (Cass. soc.).",
+        "condition": {"var": "include_non_solicit"}
+      },
+      {
+        "id": "remedies",
+        "title": "{{order_remedies}}. VOIES DE RECOURS (REMEDIES)",
+        "body_md": "**{{order_remedies}}.1 Réparation en Equity.** La Partie Destinataire reconnaît et accepte que toute violation ou menace de violation du présent Contrat peut causer un préjudice irréparable à la Partie Divulgatrice pour lequel des dommages-intérêts pécuniaires seraient un recours inadéquat. En conséquence, la Partie Divulgatrice aura le droit de demander des mesures provisoires et conservatoires, y compris une injonction et l'exécution forcée, conformément aux articles 834 et suivants du Code de procédure civile, en plus de tous les autres recours disponibles en droit ou en équité.\n\n**{{order_remedies}}.2 Recours Cumulatifs.** Les droits et recours prévus dans le présent Contrat sont cumulatifs et s'ajoutent à tous les autres droits et recours disponibles en droit ou en équité.\n\n**{{order_remedies}}.3 Clause Pénale.** [Optionnel : Les Parties peuvent convenir d'une clause pénale conformément à l'article 1231-5 du Code civil français pour garantir le respect des obligations de confidentialité.]"
+      },
+      {
+        "id": "general",
+        "title": "{{order_general}}. DISPOSITIONS GÉNÉRALES (GENERAL PROVISIONS)",
+        "body_md": "**{{order_general}}.1 Loi Applicable.** Le présent Contrat est régi et interprété conformément au {{governing_law}}, à l'exclusion de la Convention de Vienne sur les contrats de vente internationale de marchandises.\n\n**{{order_general}}.2 Juridiction et Compétence.** Tout litige découlant du présent Contrat ou s'y rapportant sera soumis à la compétence exclusive de {{venue}}.\n\n**{{order_general}}.3 Intégralité du Contrat.** Le présent Contrat constitue l'intégralité de l'accord entre les Parties concernant son objet et remplace tous les accords antérieurs ou contemporains, écrits ou oraux, relatifs à cet objet.\n\n**{{order_general}}.4 Modification.** Le présent Contrat ne peut être modifié que par un écrit signé par les deux Parties.\n\n**{{order_general}}.5 Renonciation.** Aucune renonciation à l'une des dispositions du présent Contrat ne sera réputée constituer une renonciation à d'autres dispositions, ni une renonciation continue.\n\n**{{order_general}}.6 Divisibilité.** Si une disposition du présent Contrat est jugée invalide ou inapplicable, les autres dispositions resteront pleinement en vigueur dans toute la mesure permise par la loi.\n\n**{{order_general}}.7 Exemplaires ; Signatures Électroniques.** Le présent Contrat peut être exécuté en plusieurs exemplaires, dont chacun sera réputé être un original et qui, ensemble, constitueront un seul et même instrument. Les signatures électroniques auront le même effet juridique que les signatures originales conformément au règlement eIDAS (UE) n° 910/2014.\n\n**{{order_general}}.8 Notifications.** Toutes les notifications au titre du présent Contrat doivent être effectuées par écrit et seront réputées avoir été données : (a) lors de la remise en mains propres ; (b) lors de l'envoi par courriel confirmé ; (c) un jour ouvrable après le dépôt auprès d'un service de messagerie reconnu ; ou (d) trois jours ouvrables après l'envoi par lettre recommandée avec accusé de réception, aux adresses indiquées ci-dessus."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "Avocat français",
+    "effective_date": "2025-10-25",
+    "compliance_notes": "Adapté au droit français (Code civil, Code de procédure civile). Aspects clés : (1) Titres bilingues recommandés ; (2) Clause de non-débauchage doit respecter la liberté du travail et être proportionnée (jurisprudence Cass. soc.) ; (3) Clause pénale possible sous l'article 1231-5 C. civ. ; (4) Convention de Vienne (CISG) expressément exclue ; (5) Signatures électroniques valables sous eIDAS ; (6) Juridiction spécifiée (tribunal de commerce ou TGI selon l'objet).",
+    "statutory_references": [
+      "Code civil français - Articles 1231-5 (clause pénale), 1103 et seq. (formation des contrats), 1112-2 (confidentialité pré-contractuelle)",
+      "Code de procédure civile - Articles 834 et seq. (référés et mesures provisoires)",
+      "Règlement eIDAS (UE) n° 910/2014 - signatures électroniques",
+      "Jurisprudence Cour de cassation, chambre sociale (non-débauchage et liberté du travail)"
+    ],
+    "practice_notes": "En droit français, les clauses de confidentialité sont généralement exécutoires. Les clauses de non-débauchage doivent être strictement limitées dans le temps, l'espace et les personnes visées. Envisager d'ajouter une clause pénale (liquidated damages) pour faciliter l'exécution. Les tribunaux de commerce ont compétence pour les litiges commerciaux entre commerçants."
+  }
+}

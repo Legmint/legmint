@@ -1,0 +1,20 @@
+{
+  "schema": {
+    "title": "Mobile App Terms of Service",
+    "type": "object",
+    "properties": {
+      "appName": { "type": "string", "title": "App Name" },
+      "companyName": { "type": "string", "title": "Company Name" },
+      "contactEmail": { "type": "string", "format": "email", "title": "Contact Email" },
+      "platforms": { "type": "array", "title": "Platforms", "items": { "type": "string", "enum": ["ios", "android", "web"] }, "uniqueItems": true, "minItems": 1 },
+      "hasInAppPurchases": { "type": "boolean", "title": "In-app purchases?", "default": false },
+      "hasSubscription": { "type": "boolean", "title": "Subscription model?", "default": false },
+      "hasUserContent": { "type": "boolean", "title": "Users can post content?", "default": false },
+      "minimumAge": { "type": "integer", "title": "Minimum Age", "default": 13, "minimum": 13, "maximum": 18 },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" }
+    },
+    "required": ["appName", "companyName", "contactEmail", "platforms", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "hasInAppPurchases": false, "hasSubscription": false, "hasUserContent": false, "minimumAge": 13 }
+}

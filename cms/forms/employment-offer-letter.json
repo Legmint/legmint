@@ -1,0 +1,29 @@
+{
+  "schema": {
+    "title": "Employment Offer Letter",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name" },
+      "employeeName": { "type": "string", "title": "Employee Name" },
+      "employeeAddress": { "type": "string", "title": "Employee Address" },
+      "jurisdiction": { "type": "string", "title": "Jurisdiction", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "offerDate": { "type": "string", "format": "date", "title": "Offer Date" },
+      "startDate": { "type": "string", "format": "date", "title": "Start Date" },
+      "jobTitle": { "type": "string", "title": "Job Title" },
+      "department": { "type": "string", "title": "Department" },
+      "reportsTo": { "type": "string", "title": "Reports To (Manager)" },
+      "salary": { "type": "number", "title": "Annual Salary", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "CZK"], "default": "EUR" },
+      "paySchedule": { "type": "string", "enum": ["weekly", "biweekly", "monthly"], "enumNames": ["Weekly", "Bi-weekly", "Monthly"], "default": "monthly" },
+      "employmentType": { "type": "string", "enum": ["full-time", "part-time"], "default": "full-time" },
+      "atWill": { "type": "boolean", "title": "At-will employment?", "default": true },
+      "benefits": { "type": "string", "title": "Benefits Summary" },
+      "vacationDays": { "type": "integer", "title": "Vacation Days per Year", "minimum": 0, "maximum": 50, "default": 20 },
+      "equity": { "type": "boolean", "title": "Include equity/stock options?", "default": false },
+      "equityDetails": { "type": "string", "title": "Equity Details" }
+    },
+    "required": ["companyName", "employeeName", "jurisdiction", "offerDate", "startDate", "jobTitle", "salary", "currency"]
+  },
+  "uiSchema": { "benefits": { "ui:widget": "textarea" }, "equityDetails": { "ui:widget": "textarea" } },
+  "defaults": { "currency": "EUR", "paySchedule": "monthly", "employmentType": "full-time", "atWill": true, "vacationDays": 20, "equity": false }
+}

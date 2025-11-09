@@ -1,0 +1,149 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "SAAS_SUBSCRIPTION_V1",
+  "name": "SaaS Subscription Agreement",
+  "pack": "saas",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "pro",
+  "description": "Comprehensive B2B SaaS subscription terms covering service levels, data processing, liability, and termination",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["provider_name", "customer_name", "service_description", "subscription_fee", "billing_frequency", "liability_cap_multiple"],
+    "properties": {
+      "provider_name": {"type": "string", "title": "Provider Legal Name"},
+      "provider_address": {"type": "string"},
+      "customer_name": {"type": "string", "title": "Customer Legal Name"},
+      "customer_address": {"type": "string"},
+      "service_description": {"type": "string", "title": "Service Description"},
+      "subscription_tier": {"type": "string", "enum": ["starter", "professional", "enterprise"]},
+      "subscription_fee": {"type": "number", "title": "Subscription Fee (per period)"},
+      "billing_frequency": {"type": "string", "enum": ["monthly", "annually"], "default": "monthly"},
+      "commitment_term_months": {"type": "number", "default": 12},
+      "notice_period_days": {"type": "number", "default": 30},
+      "uptime_sla_percentage": {"type": "number", "default": 99.5, "minimum": 90, "maximum": 100},
+      "liability_cap_multiple": {"type": "number", "default": 12, "title": "Liability cap (multiple of fees paid)", "minimum": 1, "maximum": 24},
+      "data_processing_required": {"type": "boolean", "default": true, "title": "Include Data Processing Terms?"},
+      "support_tier": {"type": "string", "enum": ["email", "priority", "24x7"], "default": "email"},
+      "date": {"type": "string", "format": "date"}
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "",
+      "body_md": "# SOFTWARE AS A SERVICE SUBSCRIPTION AGREEMENT\n\n**AGREEMENT DATE:** {{date}}\n\n**BETWEEN:**\n\n**(1) {{provider_name}}**, a company incorporated in {{provider_jurisdiction}} with registered address at {{provider_address}} (the \"**Provider**\"); and\n\n**(2) {{customer_name}}**, a company incorporated in {{customer_jurisdiction}} with registered address at {{customer_address}} (the \"**Customer**\").\n\n**BACKGROUND:**\n\nThe Provider has developed and operates a software-as-a-service platform (the \"**Service**\"). The Customer wishes to subscribe to and use the Service on the terms set out in this Agreement."
+    },
+    {
+      "id": "definitions",
+      "order": 2,
+      "title": "1. DEFINITIONS AND INTERPRETATION",
+      "body_md": "1.1 In this Agreement, unless the context otherwise requires:\n\n**\"Authorised Users\"** means the Customer's employees, agents, and independent contractors who are authorised to use the Service under this Agreement.\n\n**\"Confidential Information\"** means all confidential information (however recorded or preserved) disclosed by a party or its representatives to the other party, including but not limited to technical data, trade secrets, know-how, business plans, customer lists, and financial information.\n\n**\"Customer Data\"** means all data, content, and materials that the Customer or Authorised Users submit, upload, or transmit to or through the Service.\n\n**\"Documentation\"** means the user guides, manuals, and help materials relating to the Service as made available by the Provider.\n\n**\"Initial Term\"** means the period of {{commitment_term_months}} months from the Service Commencement Date.\n\n**\"Intellectual Property Rights\"** means all patents, rights to inventions, utility models, copyright and related rights, trade marks, service marks, trade, business and domain names, rights in trade dress or get-up, rights in goodwill or to sue for passing off, unfair competition rights, rights in designs, rights in computer software, database rights, topography rights, moral rights, rights in confidential information (including know-how and trade secrets) and any other intellectual property rights, in each case whether registered or unregistered and including all applications for and renewals or extensions of such rights, and all similar or equivalent rights or forms of protection in any part of the world.\n\n**\"Personal Data\"**, **\"Data Controller\"**, **\"Data Processor\"**, and **\"processing\"** have the meanings given to them in the Data Protection Legislation.\n\n**\"Service Commencement Date\"** means {{date}} or such other date as the parties agree in writing.\n\n**\"Subscription Fees\"** means the fees payable by the Customer for the Service as set out in Clause 5.\n\n**\"Subscription Term\"** means the Initial Term and any Renewal Terms."
+    },
+    {
+      "id": "service_provision",
+      "order": 3,
+      "title": "2. SERVICE PROVISION",
+      "body_md": "2.1 **Grant of Access**: Subject to the Customer's compliance with this Agreement and payment of the Subscription Fees, the Provider grants to the Customer a non-exclusive, non-transferable right to access and use the Service during the Subscription Term, solely for the Customer's internal business purposes.\n\n2.2 **Service Description**: The Service comprises: {{service_description}}. The specific features and functionality included depend on the Subscription Tier ({{subscription_tier}}).\n\n2.3 **User Limits**: The Customer may permit up to [●] Authorised Users to access the Service under the {{subscription_tier}} tier. Additional users may be added subject to payment of additional fees.\n\n2.4 **Restrictions**: The Customer shall not, and shall procure that Authorised Users do not:\n\n   (a) copy, modify, adapt, or create derivative works from the Service;\n   \n   (b) reverse engineer, decompile, or disassemble any part of the Service;\n   \n   (c) rent, lease, sub-license, loan, or distribute the Service;\n   \n   (d) remove or obscure any proprietary notices on the Service;\n   \n   (e) use the Service for any unlawful purpose or in breach of any applicable law or regulation;\n   \n   (f) transmit any viruses, malware, or harmful code through the Service;\n   \n   (g) attempt to gain unauthorized access to the Service or its related systems or networks;\n   \n   (h) use the Service to store or transmit material that infringes third-party rights;\n   \n   (i) use the Service in any manner that could damage, disable, overburden, or impair the Service; or\n   \n   (j) use the Service to provide services to third parties (except as expressly permitted under an enterprise plan).\n\n2.5 **Availability**: The Provider shall use commercially reasonable efforts to make the Service available 24 hours a day, seven days a week, subject to Clause 3 (Service Levels) and Clause 9 (Maintenance and Updates)."
+    },
+    {
+      "id": "sla",
+      "order": 4,
+      "title": "3. SERVICE LEVELS",
+      "body_md": "3.1 **Uptime Commitment**: The Provider shall use commercially reasonable efforts to maintain the Service with an Uptime of at least {{uptime_sla_percentage}}% during each calendar month (the \"**SLA Target**\").\n\n3.2 **Uptime Definition**: \"**Uptime**\" means the percentage of time during a calendar month that the Service is available and operational, excluding:\n\n   (a) planned maintenance windows notified in accordance with Clause 9;\n   \n   (b) downtime caused by factors outside the Provider's reasonable control (including force majeure events, internet service provider failures, or Customer's equipment or network);\n   \n   (c) downtime resulting from Customer's or Authorised Users' breach of this Agreement; or\n   \n   (d) unavailability of any third-party services integrated with the Service.\n\n3.3 **Service Credits**: If the Provider fails to meet the SLA Target in any calendar month, the Customer shall be entitled to the following service credits:\n\n   | Monthly Uptime | Service Credit |\n   |----------------|----------------|\n   | < {{uptime_sla_percentage}}% but ≥ 99.0% | 5% of monthly fee |\n   | < 99.0% but ≥ 95.0% | 10% of monthly fee |\n   | < 95.0% | 25% of monthly fee |\n\n3.4 **Claiming Credits**: Service credits must be claimed in writing within 30 days of the end of the month in which the SLA failure occurred. Service credits are the Customer's sole and exclusive remedy for any SLA failure.\n\n3.5 **Support**: The Provider shall provide support services as follows:\n\n   {{#if support_tier}}\n   **Support Tier**: {{support_tier}}\n   \n   - **Email Support**: Response within [2 business days]\n   {{#if_equals support_tier \"priority\"}}- **Priority Support**: Response within [4 hours during business hours]\n   {{/if_equals}}\n   {{#if_equals support_tier \"24x7\"}}- **24/7 Support**: Response within [1 hour, 24/7/365]\n   {{/if_equals}}\n   {{/if}}"
+    },
+    {
+      "id": "customer_obligations",
+      "order": 5,
+      "title": "4. CUSTOMER OBLIGATIONS",
+      "body_md": "4.1 **Account Security**: The Customer is responsible for:\n\n   (a) maintaining the confidentiality of all user credentials and passwords;\n   \n   (b) all activities that occur under its account or Authorised Users' accounts;\n   \n   (c) immediately notifying the Provider of any unauthorized use of its account or any other breach of security; and\n   \n   (d) ensuring that Authorised Users comply with this Agreement.\n\n4.2 **Acceptable Use**: The Customer shall ensure that its use of the Service complies with the Provider's Acceptable Use Policy (as updated from time to time and available at [URL]).\n\n4.3 **Customer Data**: The Customer:\n\n   (a) is solely responsible for the accuracy, quality, and legality of Customer Data;\n   \n   (b) warrants that it has all necessary rights and consents to provide Customer Data to the Provider and to permit the Provider to process Customer Data as contemplated by this Agreement;\n   \n   (c) shall not submit any Customer Data that infringes third-party Intellectual Property Rights or violates any law; and\n   \n   (d) acknowledges that the Provider has no obligation to monitor or review Customer Data.\n\n4.4 **Technical Requirements**: The Customer shall ensure that Authorised Users have the necessary equipment, internet connection, and compatible browsers/devices to access the Service as specified in the Documentation."
+    },
+    {
+      "id": "fees_payment",
+      "order": 6,
+      "title": "5. FEES AND PAYMENT",
+      "body_md": "5.1 **Subscription Fees**: The Customer shall pay the Provider the following Subscription Fees:\n\n   - **Tier**: {{subscription_tier}}\n   - **Fee**: {{currency_symbol}}{{subscription_fee}} per {{billing_frequency_text}}\n   - **Billing Frequency**: {{billing_frequency}}\n\n5.2 **Payment Terms**: \n\n   (a) {{#if_equals billing_frequency \"monthly\"}}Subscription Fees are payable monthly in advance on or before the first day of each month.{{/if_equals}}\n   {{#if_equals billing_frequency \"annually\"}}Subscription Fees are payable annually in advance on or before each anniversary of the Service Commencement Date.{{/if_equals}}\n   \n   (b) All amounts are exclusive of VAT or other applicable sales taxes, which shall be added to invoices where applicable.\n   \n   (c) Payment shall be made within [14 days] of the invoice date by [bank transfer / direct debit / credit card] to the Provider's designated account.\n\n5.3 **Fee Increases**: The Provider may increase the Subscription Fees on [30 days'] written notice to the Customer, provided that:\n\n   (a) no increase shall take effect during the Initial Term; and\n   \n   (b) increases during Renewal Terms shall not exceed [5]% per annum or RPI/CPI (whichever is greater).\n\n5.4 **Late Payment**: If any amount is not paid by the due date:\n\n   (a) the Provider may charge interest on the overdue amount at [●]% per annum above the [base rate of the Bank of England / Federal Reserve rate / ECB rate] from the due date until payment;\n   \n   (b) the Provider may suspend access to the Service on [7 days'] notice if payment remains outstanding; and\n   \n   (c) the Provider may terminate this Agreement on [14 days'] notice if payment remains outstanding.\n\n5.5 **No Refunds**: Subscription Fees are non-refundable except as expressly provided in this Agreement."
+    },
+    {
+      "id": "intellectual_property",
+      "order": 7,
+      "title": "6. INTELLECTUAL PROPERTY RIGHTS",
+      "body_md": "6.1 **Provider's IP**: The Customer acknowledges that all Intellectual Property Rights in the Service, Documentation, and any materials created or provided by the Provider belong to the Provider (or its licensors). Nothing in this Agreement transfers any such rights to the Customer.\n\n6.2 **Customer Data IP**: As between the parties, the Customer retains all Intellectual Property Rights in Customer Data. The Customer grants the Provider a non-exclusive, worldwide licence to use, copy, store, transmit, and display Customer Data solely to the extent necessary to provide the Service and perform the Provider's obligations under this Agreement.\n\n6.3 **Feedback**: If the Customer provides any suggestions, ideas, or feedback regarding the Service (\"**Feedback**\"), the Provider may use such Feedback without any obligation to the Customer, and the Customer hereby assigns all rights in such Feedback to the Provider.\n\n6.4 **Aggregated Data**: The Provider may collect and analyse anonymised, aggregated data relating to the use of the Service for the purposes of improving the Service, generating industry insights, and other business purposes. Such anonymised data shall not identify the Customer or any individual."
+    },
+    {
+      "id": "confidentiality",
+      "order": 8,
+      "title": "7. CONFIDENTIALITY",
+      "body_md": "7.1 **Obligations**: Each party shall:\n\n   (a) keep the other party's Confidential Information confidential and not disclose it to any third party (except as permitted by Clause 7.1(b));\n   \n   (b) only disclose Confidential Information to its employees, officers, representatives, and professional advisers who need to know it and who are bound by confidentiality obligations no less onerous than those in this Agreement;\n   \n   (c) use the other party's Confidential Information only for the purpose of performing its obligations and exercising its rights under this Agreement; and\n   \n   (d) protect the other party's Confidential Information using the same degree of care it uses to protect its own confidential information, but in any event no less than reasonable care.\n\n7.2 **Exceptions**: The obligations in Clause 7.1 do not apply to information that:\n\n   (a) is or becomes publicly available through no fault of the receiving party;\n   \n   (b) was lawfully in the receiving party's possession before disclosure;\n   \n   (c) is lawfully obtained from a third party without breach of confidentiality obligations; or\n   \n   (d) is independently developed by the receiving party without use of or reference to the disclosing party's Confidential Information.\n\n7.3 **Required Disclosure**: A party may disclose Confidential Information to the extent required by law, court order, or governmental authority, provided that (where legally permitted) it gives the other party prompt notice of such requirement and cooperates in any attempt to obtain a protective order.\n\n7.4 **Survival**: The obligations in this Clause 7 shall survive termination of this Agreement for a period of [5 years]."
+    },
+    {
+      "id": "data_protection",
+      "order": 9,
+      "title": "8. DATA PROTECTION",
+      "body_md": "8.1 **Applicability**: This Clause 8 applies to the extent that the Provider processes Personal Data on behalf of the Customer in providing the Service.\n\n8.2 **Roles**: The parties acknowledge that:\n\n   (a) the Customer is a Data Controller in respect of Personal Data contained in Customer Data; and\n   \n   (b) the Provider is a Data Processor acting on behalf of the Customer.\n\n8.3 **Data Processing Terms**: The Provider shall process Personal Data in accordance with:\n\n   (a) the Customer's documented instructions as set out in this Agreement (and as otherwise notified by the Customer from time to time);\n   \n   (b) applicable Data Protection Legislation; and\n   \n   (c) {{#if data_processing_required}}the Data Processing Addendum attached as Schedule 1{{else}}the Provider's Data Processing Agreement available at [URL]{{/if}}.\n\n8.4 **Data Subject Rights**: The Provider shall, at the Customer's cost, provide reasonable assistance to enable the Customer to respond to requests from data subjects exercising their rights under Data Protection Legislation.\n\n8.5 **Security**: The Provider shall implement appropriate technical and organisational measures to protect Personal Data against unauthorised or unlawful processing and against accidental loss, destruction, or damage, as described in Schedule [●].\n\n8.6 **Sub-Processors**: The Customer consents to the Provider engaging third-party sub-processors to process Personal Data, provided that:\n\n   (a) the Provider maintains a list of sub-processors at [URL];\n   \n   (b) the Provider notifies the Customer of any new sub-processor at least [30 days] in advance; and\n   \n   (c) the Customer may object to a new sub-processor on reasonable data protection grounds, in which case the Provider shall use reasonable efforts to accommodate the objection or the Customer may terminate the affected service.\n\n8.7 **Data Breaches**: The Provider shall notify the Customer without undue delay (and in any event within [48 hours]) upon becoming aware of any Personal Data breach affecting Customer Data.\n\n8.8 **Data Return/Deletion**: On termination of this Agreement, the Provider shall (at the Customer's election) return or securely delete all Personal Data, except to the extent required to be retained by law."
+    },
+    {
+      "id": "warranties",
+      "order": 10,
+      "title": "9. WARRANTIES AND DISCLAIMERS",
+      "body_md": "9.1 **Provider Warranties**: The Provider warrants that:\n\n   (a) it has the right to enter into this Agreement and to grant the rights granted herein;\n   \n   (b) the Service will be provided with reasonable skill and care in accordance with industry standards;\n   \n   (c) the Service will materially conform to the Description and Documentation; and\n   \n   (d) it shall comply with all applicable laws in providing the Service.\n\n9.2 **Customer Warranties**: The Customer warrants that:\n\n   (a) it has the right to use and disclose Customer Data to the Provider as contemplated by this Agreement;\n   \n   (b) Customer Data does not and will not infringe any third-party rights or violate any applicable law; and\n   \n   (c) it shall comply with all applicable laws in its use of the Service.\n\n9.3 **DISCLAIMER**: EXCEPT AS EXPRESSLY PROVIDED IN THIS AGREEMENT:\n\n   (a) THE SERVICE IS PROVIDED \"AS IS\" AND \"AS AVAILABLE\" WITHOUT ANY REPRESENTATIONS, WARRANTIES, OR CONDITIONS OF ANY KIND;\n   \n   (b) THE PROVIDER DISCLAIMS ALL IMPLIED WARRANTIES, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, TITLE, QUIET ENJOYMENT, AND ANY WARRANTIES ARISING FROM COURSE OF DEALING OR USAGE OF TRADE;\n   \n   (c) THE PROVIDER DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR COMPLETELY SECURE, OR THAT ALL ERRORS WILL BE CORRECTED; AND\n   \n   (d) THE CUSTOMER USES THE SERVICE AT ITS OWN RISK.\n\n9.4 **Third-Party Services**: The Service may integrate with or contain links to third-party services and content. The Provider is not responsible for any third-party services or content and makes no warranties regarding them."
+    },
+    {
+      "id": "liability",
+      "order": 11,
+      "title": "10. LIMITATION OF LIABILITY",
+      "body_md": "10.1 **Excluded Losses**: NEITHER PARTY SHALL BE LIABLE TO THE OTHER FOR:\n\n   (a) ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES;\n   \n   (b) ANY LOSS OF PROFITS, REVENUE, CONTRACTS, ANTICIPATED SAVINGS, GOODWILL, OR BUSINESS OPPORTUNITY;\n   \n   (c) ANY LOSS OR CORRUPTION OF DATA; OR\n   \n   (d) ANY COSTS OF SUBSTITUTE SERVICES,\n\nEVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES AND REGARDLESS OF THE LEGAL THEORY ON WHICH ANY CLAIM IS BASED.\n\n10.2 **Cap on Liability**: SUBJECT TO CLAUSE 10.3, EACH PARTY'S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THIS AGREEMENT SHALL NOT EXCEED {{liability_cap_multiple}} TIMES THE SUBSCRIPTION FEES PAID BY THE CUSTOMER IN THE 12 MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO LIABILITY.\n\n10.3 **Unlimited Liability**: NOTHING IN THIS AGREEMENT EXCLUDES OR LIMITS EITHER PARTY'S LIABILITY FOR:\n\n   (a) death or personal injury caused by its negligence;\n   \n   (b) fraud or fraudulent misrepresentation;\n   \n   (c) breach of confidentiality obligations under Clause 7;\n   \n   (d) wilful misconduct or gross negligence;\n   \n   (e) infringement of the other party's Intellectual Property Rights;\n   \n   (f) breaches of data protection obligations under Clause 8 (up to the greater of [€20,000,000 / 4% of annual turnover] or the maximum fine permissible under the GDPR); or\n   \n   (g) any other liability that cannot be excluded or limited under applicable law.\n\n10.4 **Basis of Bargain**: THE PARTIES ACKNOWLEDGE THAT THE LIMITATIONS AND EXCLUSIONS IN THIS CLAUSE 10 ARE REASONABLE AND REFLECT THE ALLOCATION OF RISK BETWEEN THE PARTIES AND THE SUBSCRIPTION FEES PAYABLE."
+    },
+    {
+      "id": "term_termination",
+      "order": 12,
+      "title": "11. TERM AND TERMINATION",
+      "body_md": "11.1 **Initial Term**: This Agreement shall commence on the Service Commencement Date and continue for the Initial Term of {{commitment_term_months}} months.\n\n11.2 **Renewal**: After the Initial Term, this Agreement shall automatically renew for successive {{#if_equals billing_frequency \"monthly\"}}monthly{{else}}annual{{/if_equals}} periods (each a \"**Renewal Term**\") unless either party gives the other at least {{notice_period_days}} days' written notice of non-renewal before the end of the then-current term.\n\n11.3 **Termination for Breach**: Either party may terminate this Agreement with immediate effect by written notice if:\n\n   (a) the other party commits a material breach of this Agreement and (if capable of remedy) fails to remedy such breach within [30 days] of receiving written notice specifying the breach; or\n   \n   (b) the other party commits a material breach that is not capable of remedy.\n\n11.4 **Termination for Insolvency**: Either party may terminate this Agreement with immediate effect by written notice if the other party:\n\n   (a) becomes insolvent or unable to pay its debts as they fall due;\n   \n   (b) enters into liquidation, administration, receivership, or any similar insolvency proceeding; or\n   \n   (c) ceases or threatens to cease carrying on business.\n\n11.5 **Termination for Convenience**: [The Customer may terminate this Agreement for convenience on [90 days'] written notice to the Provider, subject to payment of all Subscription Fees due for the remainder of the then-current term.]\n\n11.6 **Effect of Termination**: On termination or expiry of this Agreement:\n\n   (a) all rights granted to the Customer under this Agreement shall immediately cease;\n   \n   (b) the Customer shall immediately cease all use of the Service and shall not attempt to access it;\n   \n   (c) each party shall (at the other party's request) return or securely destroy all Confidential Information of the other party in its possession;\n   \n   (d) the Provider shall (at the Customer's election) return Customer Data in a commonly used format or securely delete it within [30 days], except to the extent required to be retained by law;\n   \n   (e) all outstanding Subscription Fees and other amounts due shall become immediately payable; and\n   \n   (f) termination shall not affect any rights or obligations that have accrued prior to termination.\n\n11.7 **Survival**: Clauses [1 (Definitions), 5.4 (Late Payment for amounts accrued), 6 (Intellectual Property), 7 (Confidentiality), 8.8 (Data Return), 10 (Liability), 11.6 (Effect of Termination), 11.7 (Survival), and 13 (General)] shall survive termination of this Agreement."
+    },
+    {
+      "id": "general",
+      "order": 13,
+      "title": "12. GENERAL PROVISIONS",
+      "body_md": "12.1 **Entire Agreement**: This Agreement (including any schedules and the documents referred to in it) constitutes the entire agreement between the parties and supersedes all previous agreements, understandings, and representations relating to its subject matter.\n\n12.2 **Variation**: No variation of this Agreement shall be effective unless in writing and signed by both parties.\n\n12.3 **Waiver**: No failure or delay by a party in exercising any right or remedy shall constitute a waiver of that right or remedy. A waiver of any breach shall not constitute a waiver of any subsequent breach.\n\n12.4 **Severability**: If any provision of this Agreement is held to be invalid, illegal, or unenforceable, that provision shall be deemed severed and the validity, legality, and enforceability of the remaining provisions shall not be affected.\n\n12.5 **Assignment**: The Customer may not assign, transfer, or sub-contract any of its rights or obligations under this Agreement without the Provider's prior written consent. The Provider may assign this Agreement to any affiliate or in connection with a merger, acquisition, or sale of all or substantially all of its assets on written notice to the Customer.\n\n12.6 **No Partnership**: Nothing in this Agreement shall create or be deemed to create a partnership, joint venture, agency, or employment relationship between the parties.\n\n12.7 **Third-Party Rights**: No person other than the parties to this Agreement shall have any right to enforce any term of this Agreement.\n\n12.8 **Notices**: All notices under this Agreement shall be in writing and delivered by email or registered post to the addresses set out in this Agreement or as otherwise notified. Notices shall be deemed received: (a) if by email, on transmission (provided no delivery failure notification is received); or (b) if by post, [3 business days] after posting.\n\n12.9 **Force Majeure**: Neither party shall be liable for any failure or delay in performing its obligations (other than payment obligations) to the extent such failure or delay is caused by circumstances beyond its reasonable control, including acts of God, natural disasters, war, terrorism, riots, pandemics, government actions, internet failures, or failures of third-party hosting or telecommunications providers.\n\n12.10 **Counterparts**: This Agreement may be executed in any number of counterparts, each of which when executed shall constitute an original, but all of which together shall constitute one and the same instrument."
+    },
+    {
+      "id": "governing_law",
+      "order": 14,
+      "title": "13. GOVERNING LAW AND JURISDICTION",
+      "body_md": "13.1 This Agreement and any dispute or claim arising out of or in connection with it or its subject matter shall be governed by and construed in accordance with {{governing_law_text}}.\n\n13.2 The parties irrevocably agree that {{venue_text}} shall have exclusive jurisdiction to settle any dispute or claim arising out of or in connection with this Agreement or its subject matter."
+    },
+    {
+      "id": "signatures",
+      "order": 15,
+      "title": "EXECUTED AS AN AGREEMENT",
+      "body_md": "**SIGNED** for and on behalf of **{{provider_name}}**:\n\nSignature: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle:\n\nDate:\n\n---\n\n**SIGNED** for and on behalf of **{{customer_name}}**:\n\nSignature: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nName:\n\nTitle:\n\nDate:"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law_text",
+      "text": "the laws of [Jurisdiction]"
+    },
+    {
+      "id": "venue_text",
+      "text": "the courts of [Jurisdiction]"
+    },
+    {
+      "id": "currency_symbol",
+      "text": "$"
+    },
+    {
+      "id": "billing_frequency_text",
+      "text": "month"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-22",
+    "compliance_notes": "B2B SaaS agreement. Ensure data protection terms comply with GDPR/UK GDPR/local DPLs. Liability caps subject to reasonableness under local law. Consumer contracts would require significant modifications.",
+    "review_required": true,
+    "tags": ["saas", "subscription", "b2b", "software", "service-agreement"]
+  }
+}

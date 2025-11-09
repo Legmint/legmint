@@ -1,0 +1,27 @@
+{
+  "templateCode": "founders-agreement",
+  "jurisdiction": "UK",
+  "language": "en",
+  "overlay": {
+    "governingLaw": "England and Wales",
+    "disputeResolution": "Courts of England and Wales",
+    "clauses": {
+      "vestingLanguage": "Subject to the Companies Act 2006, founder shares shall vest over time as specified.",
+      "ipAssignment": "All intellectual property created in the course of employment automatically vests in the Company under UK law.",
+      "taxNotice": "Founders should seek independent tax advice regarding potential Capital Gains Tax and Entrepreneurs' Relief implications.",
+      "companyFormation": "Company must be incorporated as a private limited company under the Companies Act 2006.",
+      "shareClasses": "Share classes must comply with the Companies (Model Articles) Regulations 2008."
+    },
+    "terminology": {
+      "stock": "shares",
+      "bylaws": "articles of association",
+      "corporation": "limited company",
+      "commonStock": "ordinary shares"
+    },
+    "compliance": [
+      "Companies Act 2006",
+      "Employment Rights Act 1996",
+      "Equality Act 2010"
+    ]
+  }
+}

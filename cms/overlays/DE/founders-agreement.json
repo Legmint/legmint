@@ -1,0 +1,28 @@
+{
+  "templateCode": "founders-agreement",
+  "jurisdiction": "DE",
+  "language": "en",
+  "overlay": {
+    "governingLaw": "Federal Republic of Germany",
+    "disputeResolution": "German courts with jurisdiction in company's registered seat",
+    "clauses": {
+      "vestingLanguage": "Founder shares shall vest according to the vesting schedule. German commercial law (HGB) applies.",
+      "ipAssignment": "IP assignment must be explicitly documented. Employee inventions governed by Arbeitnehmererfindungsgesetz (Employee Inventions Act).",
+      "taxNotice": "Founders should consult German tax advisor regarding income tax, trade tax (Gewerbesteuer), and social security implications.",
+      "companyFormation": "Company typically formed as GmbH (Gesellschaft mit beschränkter Haftung) requiring notarization.",
+      "coDetTermination": "German co-determination law (Mitbestimmungsgesetz) may apply as company grows."
+    },
+    "terminology": {
+      "stock": "Geschäftsanteile (company shares)",
+      "bylaws": "Gesellschaftsvertrag (articles of association)",
+      "corporation": "GmbH",
+      "boardOfDirectors": "Geschäftsführung"
+    },
+    "compliance": [
+      "Handelsgesetzbuch (HGB - Commercial Code)",
+      "GmbH-Gesetz (GmbH Act)",
+      "Arbeitnehmererfindungsgesetz (Employee Inventions Act)",
+      "Bürgerliches Gesetzbuch (BGB - Civil Code)"
+    ]
+  }
+}

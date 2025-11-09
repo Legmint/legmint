@@ -1,0 +1,209 @@
+{
+  "schema": {
+    "title": "Founders Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": {
+        "type": "string",
+        "title": "Company Name",
+        "description": "Legal name of the company"
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Governing Law",
+        "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"],
+        "enumNames": ["United Kingdom", "Germany", "Czech Republic", "United States (Delaware)", "United States (California)"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "founders": {
+        "type": "array",
+        "title": "Founders",
+        "minItems": 2,
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Full Name"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "title": "Email"
+            },
+            "address": {
+              "type": "string",
+              "title": "Address"
+            },
+            "equityPercent": {
+              "type": "number",
+              "title": "Equity Percentage",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "role": {
+              "type": "string",
+              "title": "Role",
+              "description": "e.g., CEO, CTO, COO"
+            },
+            "vestingCliffMonths": {
+              "type": "integer",
+              "title": "Vesting Cliff (months)",
+              "default": 12,
+              "minimum": 0,
+              "maximum": 48
+            },
+            "vestingPeriodMonths": {
+              "type": "integer",
+              "title": "Total Vesting Period (months)",
+              "default": 48,
+              "minimum": 12,
+              "maximum": 60
+            }
+          },
+          "required": ["name", "email", "equityPercent", "role"]
+        }
+      },
+      "companyPurpose": {
+        "type": "string",
+        "title": "Company Purpose/Description",
+        "description": "Brief description of the company's business"
+      },
+      "intellectualProperty": {
+        "type": "object",
+        "title": "Intellectual Property",
+        "properties": {
+          "preExistingIP": {
+            "type": "boolean",
+            "title": "Do any founders bring pre-existing IP?",
+            "default": false
+          },
+          "preExistingIPDetails": {
+            "type": "string",
+            "title": "Pre-existing IP Details",
+            "description": "Describe any pre-existing IP and how it will be licensed"
+          }
+        }
+      },
+      "decisionMaking": {
+        "type": "object",
+        "title": "Decision Making",
+        "properties": {
+          "majorDecisionsRequire": {
+            "type": "string",
+            "title": "Major decisions require",
+            "enum": ["unanimous", "majority", "supermajority"],
+            "enumNames": ["Unanimous consent", "Majority vote (>50%)", "Supermajority (2/3+)"],
+            "default": "majority"
+          },
+          "ceo": {
+            "type": "string",
+            "title": "CEO/Managing Director",
+            "description": "Name of founder who will serve as CEO"
+          }
+        },
+        "required": ["majorDecisionsRequire", "ceo"]
+      },
+      "transferRestrictions": {
+        "type": "object",
+        "title": "Transfer Restrictions",
+        "properties": {
+          "rightOfFirstRefusal": {
+            "type": "boolean",
+            "title": "Right of First Refusal",
+            "default": true
+          },
+          "dragAlongRights": {
+            "type": "boolean",
+            "title": "Drag-Along Rights",
+            "default": true
+          },
+          "tagAlongRights": {
+            "type": "boolean",
+            "title": "Tag-Along Rights",
+            "default": true
+          }
+        }
+      },
+      "terminationEvents": {
+        "type": "object",
+        "title": "Termination & Exit",
+        "properties": {
+          "buybackOnTermination": {
+            "type": "boolean",
+            "title": "Company can buy back unvested shares on termination?",
+            "default": true
+          },
+          "buybackPrice": {
+            "type": "string",
+            "title": "Buyback Price",
+            "enum": ["original", "fair-market", "negotiated"],
+            "enumNames": ["Original purchase price", "Fair market value", "Negotiated value"],
+            "default": "original"
+          }
+        }
+      },
+      "disputeResolution": {
+        "type": "string",
+        "title": "Dispute Resolution",
+        "enum": ["arbitration", "mediation", "litigation"],
+        "enumNames": ["Arbitration", "Mediation then arbitration", "Litigation"],
+        "default": "mediation"
+      }
+    },
+    "required": ["companyName", "jurisdiction", "effectiveDate", "founders", "companyPurpose", "decisionMaking", "disputeResolution"]
+  },
+  "uiSchema": {
+    "companyName": {
+      "ui:placeholder": "Acme Inc."
+    },
+    "effectiveDate": {
+      "ui:widget": "date"
+    },
+    "founders": {
+      "ui:options": {
+        "orderable": false
+      },
+      "items": {
+        "equityPercent": {
+          "ui:help": "Ensure all founders' equity adds up to 100%"
+        }
+      }
+    },
+    "companyPurpose": {
+      "ui:widget": "textarea",
+      "ui:placeholder": "Building AI-powered legal document automation for startups..."
+    },
+    "intellectualProperty": {
+      "preExistingIPDetails": {
+        "ui:widget": "textarea"
+      }
+    }
+  },
+  "defaults": {
+    "founders": [
+      {
+        "vestingCliffMonths": 12,
+        "vestingPeriodMonths": 48
+      }
+    ],
+    "decisionMaking": {
+      "majorDecisionsRequire": "majority"
+    },
+    "transferRestrictions": {
+      "rightOfFirstRefusal": true,
+      "dragAlongRights": true,
+      "tagAlongRights": true
+    },
+    "terminationEvents": {
+      "buybackOnTermination": true,
+      "buybackPrice": "original"
+    },
+    "disputeResolution": "mediation"
+  }
+}

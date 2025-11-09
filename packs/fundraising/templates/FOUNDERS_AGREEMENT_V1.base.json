@@ -1,0 +1,145 @@
+{
+  "$schema": "https://legalmind.tech/schemas/template/v1",
+  "template_code": "FOUNDERS_AGREEMENT_V1",
+  "name": "Founders' Agreement",
+  "pack": "fundraising",
+  "version": "1.0.0",
+  "jurisdiction": "GLOBAL-EN",
+  "access_level": "starter",
+  "description": "Comprehensive founders' agreement covering equity split, vesting, roles, and departure scenarios",
+  "variables_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["company_name", "founders", "vesting_period_months", "cliff_months"],
+    "properties": {
+      "company_name": {"type": "string"},
+      "company_jurisdiction": {"type": "string"},
+      "founders": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": ["name", "equity_percentage", "role"],
+          "properties": {
+            "name": {"type": "string"},
+            "equity_percentage": {"type": "number", "minimum": 0, "maximum": 100},
+            "role": {"type": "string"},
+            "salary": {"type": "number"}
+          }
+        }
+      },
+      "vesting_period_months": {"type": "number", "default": 48},
+      "cliff_months": {"type": "number", "default": 12},
+      "acceleration_on_exit": {"type": "boolean", "default": false},
+      "good_leaver_acceleration_percentage": {"type": "number", "default": 0},
+      "date": {"type": "string", "format": "date"}
+    }
+  },
+  "clauses": [
+    {
+      "id": "header",
+      "order": 1,
+      "title": "FOUNDERS' AGREEMENT",
+      "body_md": "# FOUNDERS' AGREEMENT\n\n**THIS AGREEMENT** is made on {{date}}\n\n**BETWEEN:**\n\n{{#founders}}- **{{name}}** (\"**Founder {{@index}}**\")\n{{/founders}}\n\n(collectively, the \"**Founders**\" and each a \"**Founder**\")\n\n**RELATING TO:** {{company_name}}, a {{company_jurisdiction}} company (the \"**Company**\")"
+    },
+    {
+      "id": "recitals",
+      "order": 2,
+      "title": "BACKGROUND",
+      "body_md": "**WHEREAS:**\n\nA. The Founders have agreed to establish and build the Company together.\n\nB. The Founders wish to set out the terms on which they will hold their equity in the Company and conduct the business.\n\nC. This Agreement governs the relationship between the Founders and their respective rights and obligations in relation to the Company.\n\n**NOW IT IS AGREED:**"
+    },
+    {
+      "id": "equity_allocation",
+      "order": 3,
+      "title": "1. EQUITY ALLOCATION",
+      "body_md": "1.1 The Founders' initial equity holdings in the Company shall be as follows:\n\n{{#founders}}- **{{name}}**: {{equity_percentage}}% (Role: {{role}})\n{{/founders}}\n\n1.2 All equity shall be subject to vesting as set out in Clause 2.\n\n1.3 The Founders acknowledge that these allocations reflect the relative contributions expected from each Founder in terms of time, expertise, capital, and other resources."
+    },
+    {
+      "id": "vesting",
+      "order": 4,
+      "title": "2. VESTING SCHEDULE",
+      "body_md": "2.1 **Vesting Period**: Each Founder's equity shall vest over a period of {{vesting_period_months}} months from the Vesting Commencement Date (as defined below).\n\n2.2 **Cliff Period**: No equity shall vest during the first {{cliff_months}} months (the \"**Cliff Period**\"). On completion of the Cliff Period, {{cliff_percentage}}% of the Founder's equity shall vest.\n\n2.3 **Monthly Vesting**: Following the Cliff Period, the remaining equity shall vest in equal monthly instalments over the remainder of the Vesting Period.\n\n2.4 **Vesting Commencement Date**: The date on which vesting commences shall be [the date of this Agreement / the Company's incorporation date / [●]].\n\n2.5 **Vesting Termination**: If a Founder's relationship with the Company terminates for any reason before their equity is fully vested, all unvested equity shall be forfeited and repurchased by the Company for nominal consideration, subject to the good leaver/bad leaver provisions in Clause 4."
+    },
+    {
+      "id": "roles_responsibilities",
+      "order": 5,
+      "title": "3. ROLES AND RESPONSIBILITIES",
+      "body_md": "3.1 Each Founder shall devote such time and attention to the business of the Company as is necessary to perform their role effectively.\n\n3.2 **Specific Roles**:\n\n{{#founders}}- **{{name}}** shall serve as {{role}}\n{{/founders}}\n\n3.3 The Founders acknowledge that roles may evolve as the Company grows and that flexibility and collaboration are essential to the Company's success.\n\n3.4 **Full-Time Commitment**: [Each Founder agrees to work full-time for the Company / Founders acknowledge that [specify] will work part-time initially].\n\n3.5 **Compensation**: Founders' initial compensation shall be:\n\n{{#founders}}- **{{name}}**: {{#if salary}}{{salary}} per annum{{else}}Deferred until [funding milestone]{{/if}}\n{{/founders}}"
+    },
+    {
+      "id": "leaver_provisions",
+      "order": 6,
+      "title": "4. GOOD LEAVER / BAD LEAVER PROVISIONS",
+      "body_md": "4.1 **Good Leaver**: A Founder shall be deemed a \"**Good Leaver**\" if their relationship with the Company terminates due to:\n\n   (a) death or permanent disability;\n   \n   (b) redundancy or termination without cause by the Company;\n   \n   (c) resignation with the consent of the Board after [2 years] service; or\n   \n   (d) any other reason approved by the Board (acting reasonably).\n\n4.2 **Good Leaver Treatment**: A Good Leaver shall:\n\n   (a) retain all vested equity;\n   \n   (b) {{#if good_leaver_acceleration_percentage}}receive acceleration of {{good_leaver_acceleration_percentage}}% of unvested equity{{else}}forfeit all unvested equity{{/if}}; and\n   \n   (c) be subject to drag-along and tag-along rights for a period of [12 months] after cessation.\n\n4.3 **Bad Leaver**: A Founder shall be deemed a \"**Bad Leaver**\" if their relationship with the Company terminates due to:\n\n   (a) termination for cause (including gross misconduct, breach of duties, or material breach of this Agreement);\n   \n   (b) resignation without the consent of the Board within [2 years] of the Vesting Commencement Date; or\n   \n   (c) any act of fraud, dishonesty, or conduct materially damaging to the Company's interests.\n\n4.4 **Bad Leaver Treatment**: A Bad Leaver shall:\n\n   (a) forfeit all unvested equity immediately;\n   \n   (b) be required to offer their vested equity to the Company and/or remaining Founders at [fair market value / a discount of [●]% to fair market value]; and\n   \n   (c) remain subject to all restrictive covenants in Clause 6."
+    },
+    {
+      "id": "decision_making",
+      "order": 7,
+      "title": "5. DECISION MAKING AND GOVERNANCE",
+      "body_md": "5.1 **Ordinary Decisions**: Day-to-day operational decisions shall be made by [simple majority / designated CEO].\n\n5.2 **Reserved Matters**: The following decisions require [unanimous consent / [●]% majority] of the Founders:\n\n   (a) Admission of new founders or equity holders;\n   \n   (b) Issuing new equity or securities convertible into equity;\n   \n   (c) Entering into debt arrangements over [amount];\n   \n   (d) Selling, disposing of, or encumbering material assets;\n   \n   (e) Changing the Company's core business or strategy;\n   \n   (f) Entering into related-party transactions;\n   \n   (g) Appointing or removing directors;\n   \n   (h) Declaring dividends or distributions;\n   \n   (i) Approving the annual budget and business plan;\n   \n   (j) Any merger, acquisition, or sale of the Company.\n\n5.3 **Board Composition**: The Board shall initially consist of [all Founders / [●]]. Board decisions require [simple majority / unanimous consent].\n\n5.4 **Deadlock**: In the event of deadlock on a Reserved Matter, the Founders shall [seek mediation / refer to an independent expert / [other mechanism]]."
+    },
+    {
+      "id": "restrictive_covenants",
+      "order": 8,
+      "title": "6. RESTRICTIVE COVENANTS",
+      "body_md": "6.1 **Non-Compete**: During their relationship with the Company and for [12 months] thereafter, each Founder shall not, without the Company's prior written consent:\n\n   (a) engage in any business that competes with the Company's business;\n   \n   (b) solicit or endeavour to entice away from the Company any person who is or was employed by or engaged with the Company within the preceding [6 months];\n   \n   (c) solicit or canvass any customer or supplier of the Company with whom they had material dealings within the preceding [12 months].\n\n6.2 **Non-Solicitation**: Each Founder agrees not to directly or indirectly solicit employees, contractors, customers, or suppliers of the Company for [12 months] following cessation of their involvement.\n\n6.3 **Confidentiality**: Each Founder shall keep confidential all Confidential Information of the Company, both during and after their involvement with the Company, except as required by law.\n\n6.4 **IP Assignment**: Each Founder irrevocably assigns to the Company all intellectual property created in the course of or in connection with the Company's business, whether created before or after the date of this Agreement. Each Founder shall execute all documents necessary to perfect such assignment."
+    },
+    {
+      "id": "drag_tag",
+      "order": 9,
+      "title": "7. DRAG-ALONG AND TAG-ALONG RIGHTS",
+      "body_md": "7.1 **Drag-Along**: If Founders holding [75%] or more of the equity (\"**Majority Holders**\") approve a bona fide offer to purchase all of the equity in the Company, all other Founders must sell their equity on the same terms.\n\n7.2 **Tag-Along**: If any Founder proposes to sell their equity to a third party, each other Founder shall have the right to participate in such sale on a pro rata basis on the same terms.\n\n7.3 **Right of First Refusal**: Before any Founder may transfer equity to a third party (other than pursuant to drag-along), they must first offer such equity to the Company and then to the other Founders on a pro rata basis, on the same terms as offered to the third party."
+    },
+    {
+      "id": "ip_assignment",
+      "order": 10,
+      "title": "8. INTELLECTUAL PROPERTY",
+      "body_md": "8.1 Each Founder hereby assigns to the Company, with full title guarantee, all Intellectual Property Rights in any and all work product, inventions, designs, code, content, and other materials created by the Founder in connection with the Company's business.\n\n8.2 \"**Intellectual Property Rights**\" means patents, rights to inventions, copyright and related rights, trade marks, trade names, domain names, rights in get-up, rights in goodwill or to sue for passing off, unfair competition rights, rights in designs, rights in computer software, database rights, topography rights, moral rights, rights in confidential information (including know-how and trade secrets) and any other intellectual property rights, in each case whether registered or unregistered and including all applications for and renewals or extensions of such rights, and all similar or equivalent rights or forms of protection in any part of the world.\n\n8.3 Each Founder agrees to execute all documents and do all acts necessary to perfect the Company's rights under this Clause 8."
+    },
+    {
+      "id": "termination",
+      "order": 11,
+      "title": "9. TERMINATION",
+      "body_md": "9.1 This Agreement shall continue in force until:\n\n   (a) terminated by unanimous written agreement of all Founders;\n   \n   (b) the Company is wound up or dissolved;\n   \n   (c) only one Founder remains; or\n   \n   (d) the Company completes a [Series A / Series B] financing, at which point this Agreement shall be superseded by a Shareholders' Agreement.\n\n9.2 Clauses [6, 8, 11] shall survive termination of this Agreement."
+    },
+    {
+      "id": "general",
+      "order": 12,
+      "title": "10. GENERAL PROVISIONS",
+      "body_md": "10.1 **Entire Agreement**: This Agreement constitutes the entire agreement between the Founders relating to its subject matter.\n\n10.2 **Amendment**: This Agreement may only be amended by written agreement signed by all Founders.\n\n10.3 **Severability**: If any provision is held invalid or unenforceable, it shall be severed and the remaining provisions shall continue in full effect.\n\n10.4 **Waiver**: No waiver of any provision shall be effective unless in writing.\n\n10.5 **Notices**: All notices shall be in writing and delivered by email or registered post to the addresses set out in Schedule 1.\n\n10.6 **Counterparts**: This Agreement may be executed in counterparts, each of which shall be deemed an original."
+    },
+    {
+      "id": "governing_law",
+      "order": 13,
+      "title": "11. GOVERNING LAW AND JURISDICTION",
+      "body_md": "11.1 This Agreement shall be governed by and construed in accordance with {{governing_law_text}}.\n\n11.2 The parties irrevocably submit to the exclusive jurisdiction of {{venue_text}}."
+    },
+    {
+      "id": "signatures",
+      "order": 14,
+      "title": "SIGNATURES",
+      "body_md": "**SIGNED** by the Founders:\n\n---\n\n{{#founders}}\n**{{name}}**\n\nSignature: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\nDate: \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\n\n---\n\n{{/founders}}"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "governing_law_text",
+      "text": "the laws of [Jurisdiction]"
+    },
+    {
+      "id": "venue_text",
+      "text": "the courts of [Jurisdiction]"
+    },
+    {
+      "id": "cliff_percentage",
+      "text": "25"
+    }
+  ],
+  "metadata": {
+    "author": "LegalMind",
+    "created": "2025-10-22",
+    "compliance_notes": "Founders' agreements must align with company law and employment law in applicable jurisdiction. Restrictive covenants subject to reasonableness test in many jurisdictions.",
+    "review_required": true,
+    "tags": ["founders", "startup", "equity", "vesting", "governance"]
+  }
+}

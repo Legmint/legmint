@@ -1,0 +1,446 @@
+{
+  "collections": [
+    {
+      "name": "templates",
+      "label": "Legal Templates",
+      "label_singular": "Template",
+      "folder": "cms/content/templates",
+      "create": true,
+      "slug": "{{pack}}-{{slug}}",
+      "fields": [
+        {
+          "name": "id",
+          "label": "Template ID",
+          "widget": "string",
+          "pattern": ["^[a-z0-9-]+$", "Lowercase alphanumeric with hyphens only"],
+          "required": true,
+          "hint": "Unique identifier (e.g., founders-agreement)"
+        },
+        {
+          "name": "pack",
+          "label": "Pack",
+          "widget": "select",
+          "options": [
+            { "label": "Fundraising Pack", "value": "fundraising" },
+            { "label": "SaaS Operations Pack", "value": "saas" }
+          ],
+          "required": true
+        },
+        {
+          "name": "title",
+          "label": "Template Title",
+          "widget": "string",
+          "required": true,
+          "hint": "Display title (e.g., Founders' Agreement)"
+        },
+        {
+          "name": "description",
+          "label": "Description",
+          "widget": "text",
+          "required": true,
+          "hint": "Brief description for template listing (2-3 sentences)"
+        },
+        {
+          "name": "access_level",
+          "label": "Minimum Access Level",
+          "widget": "select",
+          "options": [
+            { "label": "Starter (€99)", "value": "starter" },
+            { "label": "Pro (€49/mo)", "value": "pro" },
+            { "label": "Scale (€149/mo)", "value": "scale" }
+          ],
+          "default": "starter",
+          "required": true,
+          "hint": "Minimum tier required to access this template"
+        },
+        {
+          "name": "pricing_tier",
+          "label": "Available in Tiers",
+          "widget": "select",
+          "multiple": true,
+          "min": 1,
+          "options": [
+            { "label": "Starter", "value": "starter" },
+            { "label": "Pro", "value": "pro" },
+            { "label": "Scale", "value": "scale" }
+          ],
+          "default": ["starter", "pro", "scale"],
+          "required": true
+        },
+        {
+          "name": "jurisdictions",
+          "label": "Supported Jurisdictions",
+          "widget": "select",
+          "multiple": true,
+          "min": 1,
+          "options": [
+            { "label": "United Kingdom", "value": "UK" },
+            { "label": "United States (Delaware)", "value": "US-DE" },
+            { "label": "Germany", "value": "DE" },
+            { "label": "France", "value": "FR" },
+            { "label": "Czech Republic", "value": "CZ" }
+          ],
+          "default": ["UK", "US-DE", "DE", "FR", "CZ"],
+          "required": true
+        },
+        {
+          "name": "complexity_score",
+          "label": "Complexity (1-10)",
+          "widget": "number",
+          "value_type": "int",
+          "min": 1,
+          "max": 10,
+          "default": 5,
+          "hint": "1 = Very simple, 10 = Very complex"
+        },
+        {
+          "name": "estimated_time_minutes",
+          "label": "Estimated Completion Time (minutes)",
+          "widget": "number",
+          "value_type": "int",
+          "min": 5,
+          "max": 120,
+          "default": 15,
+          "hint": "How long it takes to complete the questionnaire"
+        },
+        {
+          "name": "is_active",
+          "label": "Active",
+          "widget": "boolean",
+          "default": true,
+          "hint": "Uncheck to hide template from users"
+        },
+        {
+          "name": "content_markdown",
+          "label": "Template Content (Markdown)",
+          "widget": "markdown",
+          "required": true,
+          "hint": "Use {{variable_name}} for placeholders, ##if conditionals for optional clauses"
+        },
+        {
+          "name": "variable_schema",
+          "label": "Variable Schema (JSON)",
+          "widget": "code",
+          "default_language": "json",
+          "output_code_only": true,
+          "required": true,
+          "hint": "Define all template variables and validation rules"
+        },
+        {
+          "name": "clause_rules",
+          "label": "Conditional Logic (JSONLogic)",
+          "widget": "code",
+          "default_language": "json",
+          "output_code_only": true,
+          "required": false,
+          "hint": "JSONLogic expressions for conditional clauses (optional)"
+        },
+        {
+          "name": "sort_order",
+          "label": "Sort Order",
+          "widget": "number",
+          "value_type": "int",
+          "default": 0,
+          "hint": "Lower numbers appear first in listings"
+        },
+        {
+          "name": "last_reviewed_at",
+          "label": "Last Legal Review",
+          "widget": "datetime",
+          "required": false,
+          "hint": "When template was last reviewed by a lawyer"
+        },
+        {
+          "name": "reviewed_by",
+          "label": "Reviewed By",
+          "widget": "string",
+          "required": false,
+          "hint": "Lawyer who reviewed this template"
+        }
+      ]
+    },
+    {
+      "name": "overlays",
+      "label": "Jurisdiction Overlays",
+      "label_singular": "Overlay",
+      "folder": "cms/content/overlays",
+      "create": true,
+      "slug": "{{template_id}}-{{jurisdiction_code}}",
+      "fields": [
+        {
+          "name": "template_id",
+          "label": "Template ID",
+          "widget": "relation",
+          "collection": "templates",
+          "search_fields": ["id", "title"],
+          "value_field": "id",
+          "display_fields": ["title", "pack"],
+          "required": true
+        },
+        {
+          "name": "jurisdiction_code",
+          "label": "Jurisdiction",
+          "widget": "select",
+          "options": [
+            { "label": "United Kingdom", "value": "UK" },
+            { "label": "United States (Delaware)", "value": "US-DE" },
+            { "label": "Germany", "value": "DE" },
+            { "label": "France", "value": "FR" },
+            { "label": "Czech Republic", "value": "CZ" }
+          ],
+          "required": true
+        },
+        {
+          "name": "overlay_rules",
+          "label": "Overlay Rules (JSON)",
+          "widget": "code",
+          "default_language": "json",
+          "output_code_only": true,
+          "required": true,
+          "hint": "Define jurisdiction-specific clause replacements, terminology, and formatting"
+        },
+        {
+          "name": "legal_notes",
+          "label": "Legal Notes",
+          "widget": "text",
+          "required": false,
+          "hint": "Jurisdiction-specific legal guidance or warnings"
+        },
+        {
+          "name": "last_updated_by",
+          "label": "Last Updated By",
+          "widget": "string",
+          "required": false
+        },
+        {
+          "name": "last_updated_at",
+          "label": "Last Updated",
+          "widget": "datetime",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "questionnaires",
+      "label": "Questionnaires",
+      "label_singular": "Questionnaire",
+      "folder": "cms/content/questionnaires",
+      "create": true,
+      "slug": "{{template_id}}-questionnaire",
+      "fields": [
+        {
+          "name": "template_id",
+          "label": "Template ID",
+          "widget": "relation",
+          "collection": "templates",
+          "search_fields": ["id", "title"],
+          "value_field": "id",
+          "display_fields": ["title", "pack"],
+          "required": true
+        },
+        {
+          "name": "questions",
+          "label": "Questions",
+          "widget": "list",
+          "summary": "{{fields.label}}",
+          "min": 1,
+          "fields": [
+            {
+              "name": "id",
+              "label": "Question ID",
+              "widget": "string",
+              "required": true,
+              "pattern": ["^[a-z0-9_]+$", "Lowercase alphanumeric with underscores only"],
+              "hint": "Unique identifier (e.g., company_name)"
+            },
+            {
+              "name": "type",
+              "label": "Input Type",
+              "widget": "select",
+              "options": [
+                { "label": "Text", "value": "text" },
+                { "label": "Number", "value": "number" },
+                { "label": "Date", "value": "date" },
+                { "label": "Select (dropdown)", "value": "select" },
+                { "label": "Multi-Select", "value": "multi_select" },
+                { "label": "Boolean (yes/no)", "value": "boolean" },
+                { "label": "Array (repeatable)", "value": "array" }
+              ],
+              "required": true
+            },
+            {
+              "name": "label",
+              "label": "Question Label",
+              "widget": "string",
+              "required": true,
+              "hint": "The question text shown to users"
+            },
+            {
+              "name": "help_text",
+              "label": "Help Text",
+              "widget": "text",
+              "required": false,
+              "hint": "Additional guidance or tooltip"
+            },
+            {
+              "name": "required",
+              "label": "Required",
+              "widget": "boolean",
+              "default": true
+            },
+            {
+              "name": "validation",
+              "label": "Validation Rules (JSON)",
+              "widget": "code",
+              "default_language": "json",
+              "output_code_only": true,
+              "required": false,
+              "hint": "e.g., {\"min\": 0, \"max\": 100, \"pattern\": \"^[A-Z]\"}"
+            },
+            {
+              "name": "conditional_logic",
+              "label": "Show/Hide Logic (JSONLogic)",
+              "widget": "code",
+              "default_language": "json",
+              "output_code_only": true,
+              "required": false,
+              "hint": "e.g., {\"==\": [{\"var\": \"has_vesting\"}, true]}"
+            },
+            {
+              "name": "options",
+              "label": "Options (for select/multi_select)",
+              "widget": "list",
+              "required": false,
+              "hint": "Leave empty for text/number/date types",
+              "field": { "name": "option", "widget": "string" }
+            },
+            {
+              "name": "default_value",
+              "label": "Default Value",
+              "widget": "string",
+              "required": false
+            },
+            {
+              "name": "group_code",
+              "label": "Group Code",
+              "widget": "string",
+              "required": false,
+              "hint": "Group related questions together (e.g., 'founders', 'equity')"
+            },
+            {
+              "name": "display_order",
+              "label": "Display Order",
+              "widget": "number",
+              "value_type": "int",
+              "default": 0,
+              "hint": "Lower numbers appear first"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "jurisdictions",
+      "label": "Jurisdictions",
+      "label_singular": "Jurisdiction",
+      "folder": "cms/content/jurisdictions",
+      "create": true,
+      "slug": "{{code}}",
+      "fields": [
+        {
+          "name": "code",
+          "label": "Jurisdiction Code",
+          "widget": "string",
+          "pattern": ["^[A-Z]{2}(-[A-Z]{2})?$", "Format: UK, US-DE, DE, etc."],
+          "required": true
+        },
+        {
+          "name": "name",
+          "label": "Full Name",
+          "widget": "string",
+          "required": true
+        },
+        {
+          "name": "short_name",
+          "label": "Short Name",
+          "widget": "string",
+          "required": true
+        },
+        {
+          "name": "region",
+          "label": "Region",
+          "widget": "select",
+          "options": [
+            { "label": "Europe", "value": "europe" },
+            { "label": "Americas", "value": "americas" },
+            { "label": "Asia-Pacific", "value": "apac" },
+            { "label": "Middle East & Africa", "value": "mena" }
+          ],
+          "required": true
+        },
+        {
+          "name": "legal_system",
+          "label": "Legal System",
+          "widget": "select",
+          "options": [
+            { "label": "Common Law", "value": "common_law" },
+            { "label": "Civil Law", "value": "civil_law" },
+            { "label": "Mixed", "value": "mixed" }
+          ],
+          "required": true
+        },
+        {
+          "name": "default_language",
+          "label": "Default Language",
+          "widget": "string",
+          "default": "en",
+          "required": true
+        },
+        {
+          "name": "supported_languages",
+          "label": "Supported Languages",
+          "widget": "list",
+          "field": { "name": "lang", "widget": "string" },
+          "default": ["en"]
+        },
+        {
+          "name": "currency",
+          "label": "Currency Code (ISO 4217)",
+          "widget": "string",
+          "pattern": ["^[A-Z]{3}$", "3-letter currency code (e.g., GBP, EUR, USD)"],
+          "required": true
+        },
+        {
+          "name": "date_format",
+          "label": "Date Format",
+          "widget": "string",
+          "default": "DD/MM/YYYY",
+          "required": true
+        },
+        {
+          "name": "is_active",
+          "label": "Active",
+          "widget": "boolean",
+          "default": true
+        },
+        {
+          "name": "launch_phase",
+          "label": "Launch Phase",
+          "widget": "number",
+          "value_type": "int",
+          "min": 1,
+          "max": 4,
+          "default": 1,
+          "hint": "1 = MVP launch, 2-4 = Future phases"
+        },
+        {
+          "name": "flag_emoji",
+          "label": "Flag Emoji",
+          "widget": "string",
+          "required": false,
+          "hint": "Unicode flag emoji (e.g., 🇬🇧, 🇺🇸, 🇩🇪)"
+        }
+      ]
+    }
+  ]
+}

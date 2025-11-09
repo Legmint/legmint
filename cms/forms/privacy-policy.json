@@ -1,0 +1,195 @@
+{
+  "schema": {
+    "title": "Privacy Policy",
+    "type": "object",
+    "properties": {
+      "companyName": {
+        "type": "string",
+        "title": "Company/Website Name"
+      },
+      "websiteUrl": {
+        "type": "string",
+        "format": "uri",
+        "title": "Website URL"
+      },
+      "contactEmail": {
+        "type": "string",
+        "format": "email",
+        "title": "Privacy Contact Email"
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Primary Jurisdiction",
+        "enum": ["UK", "DE", "CZ", "US-CA"],
+        "enumNames": ["United Kingdom (GDPR)", "Germany (GDPR)", "Czech Republic (GDPR)", "California (CCPA)"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "dataCollection": {
+        "type": "object",
+        "title": "Data Collection",
+        "properties": {
+          "personalInfo": {
+            "type": "array",
+            "title": "Types of Personal Information Collected",
+            "items": {
+              "type": "string",
+              "enum": ["name", "email", "phone", "address", "payment-info", "ip-address", "cookies", "usage-data", "location"],
+              "enumNames": ["Name", "Email", "Phone number", "Physical address", "Payment information", "IP address", "Cookies", "Usage/analytics data", "Location data"]
+            },
+            "uniqueItems": true,
+            "minItems": 1
+          },
+          "collectsFromMinors": {
+            "type": "boolean",
+            "title": "Do you knowingly collect data from children under 13/16?",
+            "default": false
+          }
+        },
+        "required": ["personalInfo"]
+      },
+      "dataUsage": {
+        "type": "array",
+        "title": "How Data is Used",
+        "items": {
+          "type": "string",
+          "enum": ["service-provision", "marketing", "analytics", "personalization", "security", "legal-compliance"],
+          "enumNames": ["Provide services", "Marketing/communications", "Analytics/improvement", "Personalization", "Security/fraud prevention", "Legal compliance"]
+        },
+        "uniqueItems": true,
+        "minItems": 1
+      },
+      "thirdPartySharing": {
+        "type": "object",
+        "title": "Third-Party Sharing",
+        "properties": {
+          "sharesWithThirdParties": {
+            "type": "boolean",
+            "title": "Do you share data with third parties?",
+            "default": true
+          },
+          "thirdParties": {
+            "type": "array",
+            "title": "Types of Third Parties",
+            "items": {
+              "type": "string",
+              "enum": ["analytics", "payment-processors", "cloud-providers", "marketing-platforms", "legal-authorities"],
+              "enumNames": ["Analytics providers (e.g., Google Analytics)", "Payment processors", "Cloud service providers", "Marketing platforms", "Legal/regulatory authorities"]
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "userRights": {
+        "type": "object",
+        "title": "User Rights (GDPR/CCPA)",
+        "properties": {
+          "rightToAccess": {
+            "type": "boolean",
+            "title": "Right to access data",
+            "default": true
+          },
+          "rightToDelete": {
+            "type": "boolean",
+            "title": "Right to delete data",
+            "default": true
+          },
+          "rightToPortability": {
+            "type": "boolean",
+            "title": "Right to data portability",
+            "default": true
+          },
+          "rightToOptOut": {
+            "type": "boolean",
+            "title": "Right to opt-out of marketing",
+            "default": true
+          }
+        }
+      },
+      "security": {
+        "type": "object",
+        "title": "Data Security",
+        "properties": {
+          "encryption": {
+            "type": "boolean",
+            "title": "Data encrypted in transit and at rest?",
+            "default": true
+          },
+          "retentionPolicy": {
+            "type": "string",
+            "title": "Data Retention Policy",
+            "enum": ["delete-on-request", "retain-1-year", "retain-3-years", "retain-indefinitely"],
+            "enumNames": ["Deleted on request", "Retained for 1 year", "Retained for 3 years", "Retained indefinitely"],
+            "default": "retain-3-years"
+          }
+        }
+      },
+      "cookies": {
+        "type": "object",
+        "title": "Cookies",
+        "properties": {
+          "usesCookies": {
+            "type": "boolean",
+            "title": "Does your site use cookies?",
+            "default": true
+          },
+          "cookieTypes": {
+            "type": "array",
+            "title": "Types of Cookies",
+            "items": {
+              "type": "string",
+              "enum": ["essential", "analytics", "marketing", "preferences"],
+              "enumNames": ["Essential/functional", "Analytics/performance", "Marketing/advertising", "Preference cookies"]
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "required": ["companyName", "websiteUrl", "contactEmail", "jurisdiction", "effectiveDate", "dataCollection", "dataUsage"]
+  },
+  "uiSchema": {
+    "dataCollection": {
+      "personalInfo": {
+        "ui:widget": "checkboxes"
+      }
+    },
+    "dataUsage": {
+      "ui:widget": "checkboxes"
+    },
+    "thirdPartySharing": {
+      "thirdParties": {
+        "ui:widget": "checkboxes"
+      }
+    },
+    "cookies": {
+      "cookieTypes": {
+        "ui:widget": "checkboxes"
+      }
+    }
+  },
+  "defaults": {
+    "dataCollection": {
+      "collectsFromMinors": false
+    },
+    "thirdPartySharing": {
+      "sharesWithThirdParties": true
+    },
+    "userRights": {
+      "rightToAccess": true,
+      "rightToDelete": true,
+      "rightToPortability": true,
+      "rightToOptOut": true
+    },
+    "security": {
+      "encryption": true,
+      "retentionPolicy": "retain-3-years"
+    },
+    "cookies": {
+      "usesCookies": true
+    }
+  }
+}

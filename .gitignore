@@ -1,0 +1,89 @@
+# ==========================================
+# LegalMind - Git Ignore Configuration
+# ==========================================
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+*.env
+
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+.pnp
+.pnp.js
+
+# Build Output
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+.cache/
+
+# Production
+.vercel
+.render
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Secrets & Certificates
+*.pem
+*.key
+*.cert
+secrets/
+credentials.json
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Misc
+.turbo
+.eslintcache
+.stylelintcache

@@ -1,0 +1,19 @@
+{
+  "schema": {
+    "title": "E-Commerce Terms & Conditions",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company/Store Name" },
+      "websiteUrl": { "type": "string", "format": "uri", "title": "Website URL" },
+      "contactEmail": { "type": "string", "format": "email", "title": "Contact Email" },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "shippingCountries": { "type": "string", "title": "Shipping Regions", "description": "e.g., EU, US, Worldwide" },
+      "returnDays": { "type": "integer", "title": "Return Period (days)", "default": 14, "minimum": 7, "maximum": 90 },
+      "acceptsReturns": { "type": "boolean", "title": "Accepts returns?", "default": true },
+      "paymentMethods": { "type": "string", "title": "Payment Methods", "description": "e.g., Credit card, PayPal, Stripe" }
+    },
+    "required": ["companyName", "websiteUrl", "contactEmail", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "returnDays": 14, "acceptsReturns": true }
+}

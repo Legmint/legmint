@@ -1,0 +1,1048 @@
+openapi: 3.1.0
+info:
+  title: LegalMind API
+  description: |
+    API for LegalMind - Jurisdiction-specific legal template generation with paywall,
+    guided questionnaire flow, and attorney referral system.
+
+    ## Authentication
+    All authenticated endpoints require a Bearer token in the Authorization header.
+
+    ## Rate Limiting
+    - Authenticated: 100 requests/minute
+    - Unauthenticated: 10 requests/minute
+
+    ## Errors
+    Standard HTTP status codes. Error responses follow format:
+    ```json
+    {
+      "error": {
+        "code": "ERROR_CODE",
+        "message": "Human-readable message",
+        "details": {}
+      }
+    }
+    ```
+  version: 1.0.0
+  contact:
+    name: LegalMind Support
+    email: support@legalmind.tech
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.legalmind.tech/v1
+    description: Production
+  - url: https://api-staging.legalmind.tech/v1
+    description: Staging
+  - url: http://localhost:3000/v1
+    description: Local Development
+
+tags:
+  - name: Packs
+    description: Template pack catalog and listing
+  - name: Templates
+    description: Template metadata (no raw content)
+  - name: Questionnaires
+    description: Guided questionnaire flow
+  - name: Generation
+    description: Template rendering and document generation
+  - name: Purchase
+    description: Subscription and payment
+  - name: Referrals
+    description: Attorney referral system
+  - name: Users
+    description: User account management
+  - name: Admin
+    description: Admin operations (internal only)
+
+paths:
+  # ===== PACKS =====
+  /packs:
+    get:
+      tags: [Packs]
+      summary: List all template packs
+      description: Returns all packs with gating information. Publicly accessible.
+      parameters:
+        - name: include_templates
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Include template list in each pack
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  packs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pack'
+              examples:
+                success:
+                  value:
+                    packs:
+                      - pack_code: fundraising
+                        name: Fundraising Pack
+                        description: Essential documents for startup fundraising
+                        template_count: 8
+                        access_level: starter
+                        pricing:
+                          starter: 99
+                          pro: 49
+                          scale: 149
+                        templates:
+                          - template_code: SAFE_PM_V1
+                            name: SAFE Agreement (Post-Money)
+                            access_level: starter
+                      - pack_code: saas
+                        name: SaaS Operations Pack
+                        description: B2B SaaS subscription and compliance documents
+                        template_count: 9
+                        access_level: pro
+                        pricing:
+                          pro: 49
+                          scale: 149
+
+  /packs/{pack_code}:
+    get:
+      tags: [Packs]
+      summary: Get pack details
+      parameters:
+        - name: pack_code
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [fundraising, saas]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pack'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ===== TEMPLATES =====
+  /templates:
+    get:
+      tags: [Templates]
+      summary: List templates
+      description: Returns template metadata only. No clause content exposed.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: pack
+          in: query
+          schema:
+            type: string
+            enum: [fundraising, saas]
+        - name: jurisdiction
+          in: query
+          schema:
+            $ref: '#/components/schemas/JurisdictionCode'
+        - name: access_level
+          in: query
+          schema:
+            $ref: '#/components/schemas/AccessLevel'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  templates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateMeta'
+
+  /templates/{template_code}:
+    get:
+      tags: [Templates]
+      summary: Get template metadata
+      description: Returns metadata only. Clause content not exposed via API.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: template_code
+          in: path
+          required: true
+          schema:
+            type: string
+          example: SAFE_PM_V1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateMeta'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ===== QUESTIONNAIRES =====
+  /questionnaire/{pack}/{template_code}:
+    get:
+      tags: [Questionnaires]
+      summary: Get questionnaire for template
+      description: |
+        Returns JSON Schema questionnaire for collecting template variables.
+        **GATED**: Requires active subscription with appropriate access level and jurisdiction.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [fundraising, saas]
+        - name: template_code
+          in: path
+          required: true
+          schema:
+            type: string
+          example: SAFE_PM_V1
+        - name: jurisdiction
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/JurisdictionCode'
+          description: Jurisdiction for overlay-specific questions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /questionnaire/validate:
+    post:
+      tags: [Questionnaires]
+      summary: Validate questionnaire answers
+      description: Validates user inputs against JSON Schema before rendering
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [template_code, jurisdiction, answers]
+              properties:
+                template_code:
+                  type: string
+                jurisdiction:
+                  $ref: '#/components/schemas/JurisdictionCode'
+                answers:
+                  type: object
+                  description: User answers matching questionnaire schema
+            example:
+              template_code: SAFE_PM_V1
+              jurisdiction: UK
+              answers:
+                company_name: Acme Innovations Ltd
+                investor_name: Jane Investor
+                purchase_amount: 100000
+                valuation_cap: 5000000
+                date: "2025-10-22"
+      responses:
+        '200':
+          description: Validation success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: false
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                          example: valuation_cap
+                        message:
+                          type: string
+                          example: "Must be at least 2x purchase amount"
+
+  # ===== GENERATION =====
+  /preview:
+    post:
+      tags: [Generation]
+      summary: Preview rendered document (HTML)
+      description: |
+        Renders document with user inputs as HTML preview.
+        Returns signed URL to preview (expires in 1 hour).
+        **GATED**: Requires active subscription.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerationRequest'
+      responses:
+        '200':
+          description: Preview generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview_url:
+                    type: string
+                    format: uri
+                    description: Signed URL to HTML preview (expires in 1 hour)
+                    example: "https://cdn.legalmind.tech/previews/abc123.html?signature=xyz"
+                  expires_at:
+                    type: string
+                    format: date-time
+                  template_version:
+                    type: string
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /generate:
+    post:
+      tags: [Generation]
+      summary: Generate final documents (PDF/DOCX)
+      description: |
+        Generates final documents in requested formats.
+        Returns signed URLs (expire in 24 hours).
+        Logs audit trail.
+        **GATED**: Requires active subscription.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GenerationRequest'
+                - type: object
+                  properties:
+                    formats:
+                      type: array
+                      items:
+                        type: string
+                        enum: [pdf, docx]
+                      default: [pdf, docx]
+                      minItems: 1
+      responses:
+        '200':
+          description: Documents generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audit_id:
+                    type: string
+                    description: Unique audit log ID
+                    example: "aud_abc123xyz"
+                  outputs:
+                    type: object
+                    properties:
+                      pdf:
+                        type: string
+                        format: uri
+                        description: Signed URL to PDF (expires in 24h)
+                      docx:
+                        type: string
+                        format: uri
+                        description: Signed URL to DOCX (expires in 24h)
+                  expires_at:
+                    type: string
+                    format: date-time
+                  template_code:
+                    type: string
+                  template_version:
+                    type: string
+                  jurisdiction:
+                    $ref: '#/components/schemas/JurisdictionCode'
+              example:
+                audit_id: "aud_abc123xyz"
+                outputs:
+                  pdf: "https://cdn.legalmind.tech/docs/abc123.pdf?signature=xyz"
+                  docx: "https://cdn.legalmind.tech/docs/abc123.docx?signature=xyz"
+                expires_at: "2025-10-23T23:59:59Z"
+                template_code: "SAFE_PM_V1"
+                template_version: "1.0.0"
+                jurisdiction: "UK"
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ===== PURCHASE / SUBSCRIPTION =====
+  /purchase:
+    post:
+      tags: [Purchase]
+      summary: Create Stripe Checkout session
+      description: |
+        Creates a Stripe Checkout session for subscription purchase.
+        - **Starter**: One-time payment
+        - **Pro/Scale**: Monthly recurring subscription
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plan, pack]
+              properties:
+                plan:
+                  $ref: '#/components/schemas/Plan'
+                pack:
+                  type: string
+                  enum: [fundraising, saas]
+                  description: Initial pack to purchase
+                success_url:
+                  type: string
+                  format: uri
+                  description: Redirect URL on success (defaults to /dashboard)
+                cancel_url:
+                  type: string
+                  format: uri
+                  description: Redirect URL on cancel (defaults to /packs)
+            example:
+              plan: pro
+              pack: fundraising
+              success_url: "https://legalmind.tech/dashboard?purchase=success"
+              cancel_url: "https://legalmind.tech/packs"
+      responses:
+        '200':
+          description: Checkout session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  checkout_url:
+                    type: string
+                    format: uri
+                    description: Stripe Checkout URL to redirect user
+                  session_id:
+                    type: string
+                    description: Stripe session ID
+              example:
+                checkout_url: "https://checkout.stripe.com/c/pay/cs_test_abc123"
+                session_id: "cs_test_abc123"
+
+  /subscription:
+    get:
+      tags: [Purchase]
+      summary: Get current subscription status
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Subscription details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+
+    delete:
+      tags: [Purchase]
+      summary: Cancel subscription
+      description: Cancels at end of billing period (immediate for Starter)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Subscription cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "cancelled"
+                  cancel_at:
+                    type: string
+                    format: date-time
+                    description: Date subscription will end
+
+  # ===== REFERRALS =====
+  /referral:
+    post:
+      tags: [Referrals]
+      summary: Get attorney referral matches
+      description: |
+        Returns 1-3 partner attorneys matched to template and jurisdiction.
+        Generates unique discount token for tracking.
+        Displayed immediately after successful generation.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [template_code, jurisdiction]
+              properties:
+                template_code:
+                  type: string
+                jurisdiction:
+                  $ref: '#/components/schemas/JurisdictionCode'
+                audit_id:
+                  type: string
+                  description: Link to generation audit log (optional)
+            example:
+              template_code: SAFE_PM_V1
+              jurisdiction: UK
+              audit_id: "aud_abc123xyz"
+      responses:
+        '200':
+          description: Partners matched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  referral_id:
+                    type: string
+                    example: "ref_xyz789"
+                  partners:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PartnerReferral'
+                    minItems: 1
+                    maxItems: 3
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: Discount token expiration
+              example:
+                referral_id: "ref_xyz789"
+                partners:
+                  - name: "Lex & Co Solicitors"
+                    jurisdiction: "UK"
+                    specializations: ["fundraising", "corporate"]
+                    bio: "Leading UK startup law firm with 15+ years experience..."
+                    photo_url: "https://cdn.legalmind.tech/partners/lex-co.jpg"
+                    discount_token: "LM-UK-20-abc123"
+                    discount_percentage: 20
+                    booking_url: "https://lexco.com/book?ref=LM-UK-20-abc123"
+                    rating: 4.8
+                expires_at: "2025-10-29T23:59:59Z"
+
+  /referral/{referral_id}/cta-clicked:
+    post:
+      tags: [Referrals]
+      summary: Track CTA click
+      description: Called when user clicks "Get Attorney Review" CTA
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: referral_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                partner_id:
+                  type: string
+      responses:
+        '204':
+          description: Event tracked
+
+  /referral/{referral_id}/booking-webhook:
+    post:
+      tags: [Referrals]
+      summary: Partner booking webhook
+      description: |
+        **Internal webhook** called by partner systems when booking confirmed.
+        Used for commission tracking.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: referral_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [partner_id, discount_token, booking_confirmed]
+              properties:
+                partner_id:
+                  type: string
+                discount_token:
+                  type: string
+                booking_confirmed:
+                  type: boolean
+                booking_value:
+                  type: number
+                  description: Booking value for commission calculation
+      responses:
+        '200':
+          description: Webhook processed
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ===== USERS =====
+  /users/me:
+    get:
+      tags: [Users]
+      summary: Get current user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/me/usage:
+    get:
+      tags: [Users]
+      summary: Get usage statistics
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Usage stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  generation_count:
+                    type: integer
+                  last_generation:
+                    type: string
+                    format: date-time
+                  templates_used:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        template_code:
+                          type: string
+                        count:
+                          type: integer
+
+  # ===== ADMIN =====
+  /admin/audit-log:
+    get:
+      tags: [Admin]
+      summary: Query audit log
+      description: |
+        **Admin only**. Query generation audit trail.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: template_code
+          in: query
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 1000
+      responses:
+        '200':
+          description: Audit entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditLogEntry'
+                  total:
+                    type: integer
+                  has_more:
+                    type: boolean
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token from authentication flow
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Partner API key for webhooks
+
+  schemas:
+    # ===== ENUMS =====
+    JurisdictionCode:
+      type: string
+      enum:
+        - GLOBAL-EN
+        - UK
+        - US-DE
+        - DE
+        - FR
+        - CZ
+      description: |
+        Jurisdiction codes:
+        - GLOBAL-EN: Global English baseline
+        - UK: United Kingdom
+        - US-DE: United States (Delaware)
+        - DE: Germany
+        - FR: France
+        - CZ: Czech Republic
+
+    AccessLevel:
+      type: string
+      enum: [starter, pro, scale]
+      description: Subscription tier
+
+    Plan:
+      type: string
+      enum: [free, starter, pro, scale]
+
+    # ===== CORE MODELS =====
+    Pack:
+      type: object
+      properties:
+        pack_code:
+          type: string
+          example: fundraising
+        name:
+          type: string
+          example: Fundraising Pack
+        description:
+          type: string
+        template_count:
+          type: integer
+        access_level:
+          $ref: '#/components/schemas/AccessLevel'
+        pricing:
+          type: object
+          properties:
+            starter:
+              type: number
+              description: One-time price
+            pro:
+              type: number
+              description: Monthly price
+            scale:
+              type: number
+              description: Monthly price
+        templates:
+          type: array
+          items:
+            type: object
+            properties:
+              template_code:
+                type: string
+              name:
+                type: string
+              access_level:
+                $ref: '#/components/schemas/AccessLevel'
+
+    TemplateMeta:
+      type: object
+      description: Template metadata only - no clause content
+      properties:
+        template_code:
+          type: string
+          example: SAFE_PM_V1
+        name:
+          type: string
+          example: SAFE Agreement (Post-Money)
+        pack:
+          type: string
+        version:
+          type: string
+        supported_jurisdictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/JurisdictionCode'
+        access_level:
+          $ref: '#/components/schemas/AccessLevel'
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        usage_count:
+          type: integer
+        is_featured:
+          type: boolean
+
+    Questionnaire:
+      type: object
+      description: JSON Schema-based questionnaire
+      properties:
+        template_code:
+          type: string
+        version:
+          type: string
+        schema:
+          type: object
+          description: JSON Schema (draft 2020-12)
+          example:
+            $schema: "https://json-schema.org/draft/2020-12/schema"
+            type: object
+            required: ["company_name", "investor_name"]
+            properties:
+              company_name:
+                type: string
+                title: "Company Legal Name"
+              investor_name:
+                type: string
+                title: "Investor Name"
+        ui_schema:
+          type: object
+          description: UI rendering hints (optional)
+
+    GenerationRequest:
+      type: object
+      required: [template_code, jurisdiction, answers]
+      properties:
+        template_code:
+          type: string
+        jurisdiction:
+          $ref: '#/components/schemas/JurisdictionCode'
+        answers:
+          type: object
+          description: User answers matching questionnaire schema
+        metadata:
+          type: object
+          description: Optional metadata for audit
+
+    Subscription:
+      type: object
+      properties:
+        plan:
+          $ref: '#/components/schemas/Plan'
+        status:
+          type: string
+          enum: [active, cancelled, past_due, incomplete, trialing]
+        jurisdictions_allowed:
+          type: array
+          items:
+            $ref: '#/components/schemas/JurisdictionCode'
+        subscription_start:
+          type: string
+          format: date-time
+        subscription_end:
+          type: string
+          format: date-time
+          nullable: true
+        stripe_subscription_id:
+          type: string
+
+    PartnerReferral:
+      type: object
+      properties:
+        partner_id:
+          type: string
+        name:
+          type: string
+        jurisdiction:
+          $ref: '#/components/schemas/JurisdictionCode'
+        specializations:
+          type: array
+          items:
+            type: string
+        bio:
+          type: string
+        photo_url:
+          type: string
+          format: uri
+        discount_token:
+          type: string
+          description: Unique token for this referral
+        discount_percentage:
+          type: number
+        booking_url:
+          type: string
+          format: uri
+          description: Booking URL with discount token embedded
+        rating:
+          type: number
+          minimum: 0
+          maximum: 5
+
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        plan:
+          $ref: '#/components/schemas/Plan'
+        jurisdictions_allowed:
+          type: array
+          items:
+            $ref: '#/components/schemas/JurisdictionCode'
+        generation_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    AuditLogEntry:
+      type: object
+      properties:
+        audit_id:
+          type: string
+        user_id:
+          type: string
+        template_code:
+          type: string
+        template_version:
+          type: string
+        jurisdiction:
+          $ref: '#/components/schemas/JurisdictionCode'
+        inputs_hash:
+          type: string
+          description: SHA-256 hash of inputs
+        render_time_ms:
+          type: integer
+        output_formats:
+          type: array
+          items:
+            type: string
+            enum: [pdf, docx, html]
+        status:
+          type: string
+          enum: [success, failed, partial]
+        created_at:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: FORBIDDEN
+            message:
+              type: string
+              example: Subscription required to access this resource
+            details:
+              type: object
+
+  responses:
+    Unauthorized:
+      description: Unauthorized - missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - insufficient permissions or subscription required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            subscription_required:
+              value:
+                error:
+                  code: SUBSCRIPTION_REQUIRED
+                  message: This template requires an active Pro subscription
+                  details:
+                    needed_plan: pro
+                    current_plan: free
+                    upgrade_url: /purchase
+            jurisdiction_not_allowed:
+              value:
+                error:
+                  code: JURISDICTION_NOT_ALLOWED
+                  message: Your subscription does not include access to this jurisdiction
+                  details:
+                    needed_jurisdiction: DE
+                    allowed_jurisdictions: ["GLOBAL-EN", "UK"]
+                    upgrade_url: /purchase
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

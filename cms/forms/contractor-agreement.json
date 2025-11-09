@@ -1,0 +1,138 @@
+{
+  "schema": {
+    "title": "Independent Contractor Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": {
+        "type": "string",
+        "title": "Company Name"
+      },
+      "companyAddress": {
+        "type": "string",
+        "title": "Company Address"
+      },
+      "contractorName": {
+        "type": "string",
+        "title": "Contractor Name"
+      },
+      "contractorAddress": {
+        "type": "string",
+        "title": "Contractor Address"
+      },
+      "contractorEmail": {
+        "type": "string",
+        "format": "email",
+        "title": "Contractor Email"
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Governing Law",
+        "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Start Date"
+      },
+      "endDate": {
+        "type": "string",
+        "format": "date",
+        "title": "End Date (if fixed term)"
+      },
+      "services": {
+        "type": "string",
+        "title": "Services Description",
+        "description": "Detailed description of services to be provided"
+      },
+      "compensation": {
+        "type": "object",
+        "title": "Compensation",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Compensation Type",
+            "enum": ["hourly", "fixed", "milestone"],
+            "enumNames": ["Hourly rate", "Fixed project fee", "Milestone-based"],
+            "default": "hourly"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "enum": ["USD", "EUR", "GBP", "CZK"],
+            "default": "EUR"
+          },
+          "paymentSchedule": {
+            "type": "string",
+            "title": "Payment Schedule",
+            "enum": ["weekly", "biweekly", "monthly", "on-completion"],
+            "enumNames": ["Weekly", "Bi-weekly", "Monthly", "Upon completion"],
+            "default": "monthly"
+          }
+        },
+        "required": ["type", "amount", "currency"]
+      },
+      "hoursPerWeek": {
+        "type": "integer",
+        "title": "Expected Hours per Week (if applicable)",
+        "minimum": 0,
+        "maximum": 40
+      },
+      "independentContractor": {
+        "type": "boolean",
+        "title": "Confirm contractor is not an employee",
+        "default": true
+      },
+      "ipAssignment": {
+        "type": "boolean",
+        "title": "Work product IP assigned to Company?",
+        "default": true
+      },
+      "confidentiality": {
+        "type": "boolean",
+        "title": "Include confidentiality obligations?",
+        "default": true
+      },
+      "nonCompete": {
+        "type": "boolean",
+        "title": "Include non-compete clause?",
+        "default": false
+      },
+      "terminationNoticeDays": {
+        "type": "integer",
+        "title": "Termination Notice Period (days)",
+        "minimum": 0,
+        "maximum": 90,
+        "default": 14
+      }
+    },
+    "required": ["companyName", "contractorName", "jurisdiction", "effectiveDate", "services", "compensation"]
+  },
+  "uiSchema": {
+    "services": {
+      "ui:widget": "textarea",
+      "ui:placeholder": "Full-stack web development for the company's SaaS platform..."
+    },
+    "compensation": {
+      "amount": {
+        "ui:help": "Enter the rate per hour, or total project fee depending on compensation type"
+      }
+    }
+  },
+  "defaults": {
+    "compensation": {
+      "type": "hourly",
+      "currency": "EUR",
+      "paymentSchedule": "monthly"
+    },
+    "independentContractor": true,
+    "ipAssignment": true,
+    "confidentiality": true,
+    "nonCompete": false,
+    "terminationNoticeDays": 14
+  }
+}

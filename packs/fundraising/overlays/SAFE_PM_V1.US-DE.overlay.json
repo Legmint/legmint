@@ -1,0 +1,33 @@
+{
+  "jurisdiction": "US-DE",
+  "template_code": "SAFE_PM_V1",
+  "version": "1.0.0",
+  "overrides": {
+    "phrases": [
+      {
+        "id": "governing_law_text",
+        "text": "the laws of the State of Delaware, United States (excluding its conflict of law principles)"
+      },
+      {
+        "id": "venue_text",
+        "text": "the state and federal courts located in Wilmington, Delaware"
+      }
+    ],
+    "clauses": [
+      {
+        "id": "header",
+        "body_md": "# SIMPLE AGREEMENT FOR FUTURE EQUITY\n\n**THIS CERTIFIES THAT** in exchange for the payment by {{investor_name}} (the \"**Investor**\") of ${{purchase_amount}} (the \"**Purchase Amount**\") on or about {{date}}, {{company_name}}, a Delaware corporation (the \"**Company**\"), issues to the Investor the right to certain shares of the Company's Capital Stock, subject to the terms described below.\n\n**NOTE**: This instrument is subject to Delaware General Corporation Law (DGCL) and applicable federal securities laws."
+      }
+    ]
+  },
+  "metadata": {
+    "reviewed_by": "US-DE legal editor",
+    "effective_date": "2025-10-22",
+    "compliance_notes": "Standard Delaware C-corp SAFE. Ensure compliance with DGCL §§151-174 (stock), §242 (certificate of incorporation amendments). Federal securities law: Reg D / Rule 506 exemption typically applies; ensure investor qualifies as accredited under Reg D. Certificate of Incorporation must authorize sufficient shares.",
+    "statutory_references": [
+      "Delaware General Corporation Law (DGCL) Title 8",
+      "Securities Act of 1933, Regulation D (federal)",
+      "Securities Exchange Act of 1934 (beneficial ownership definitions)"
+    ]
+  }
+}

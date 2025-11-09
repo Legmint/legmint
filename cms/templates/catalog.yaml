@@ -1,0 +1,671 @@
+# Legmint Template Library Catalog
+# 70+ professional legal document templates
+# Categories: startup, b2b, b2c, p2p, other
+
+# ==================================================
+# STARTUP CATEGORY (25 templates)
+# ==================================================
+startup:
+  - code: founders-agreement
+    title: Founders Agreement
+    description: Comprehensive founders agreement covering equity split, vesting, roles, IP assignment, and exit provisions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: high
+
+  - code: advisor-agreement
+    title: Advisor Agreement
+    description: Standard agreement for advisors providing strategic guidance in exchange for equity or cash compensation.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: ip-assignment
+    title: IP Assignment Agreement
+    description: Transfer intellectual property rights from founders, employees, or contractors to the company.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: employee-stock-option-plan
+    title: Employee Stock Option Plan (ESOP)
+    description: Equity incentive plan document outlining stock option grants, vesting schedules, and exercise terms.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3900
+    priority: high
+
+  - code: convertible-note
+    title: Convertible Note Agreement
+    description: Early-stage financing instrument that converts to equity upon qualifying financing round.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3900
+    priority: high
+
+  - code: safe-agreement
+    title: SAFE (Simple Agreement for Future Equity)
+    description: Y Combinator-style simple equity instrument for early-stage fundraising without debt.
+    jurisdictions: [US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: high
+
+  - code: shareholders-agreement
+    title: Shareholders Agreement
+    description: Comprehensive shareholder rights, transfer restrictions, drag-along, tag-along, and voting provisions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 4900
+    priority: high
+
+  - code: subscription-agreement
+    title: Subscription Agreement
+    description: Investment agreement for purchasing shares in a financing round.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3900
+    priority: medium
+
+  - code: vesting-schedule
+    title: Vesting Schedule Document
+    description: Standalone vesting terms for founder or employee equity with cliff and monthly vesting.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: medium
+
+  - code: board-resolution
+    title: Board Resolution Template
+    description: Corporate governance resolution for approving major decisions (financing, contracts, hiring).
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 900
+    priority: medium
+
+  - code: shareholder-consent
+    title: Shareholder Written Consent
+    description: Written consent form for shareholder approvals without a formal meeting.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 900
+    priority: medium
+
+  - code: employment-offer-letter
+    title: Employment Offer Letter
+    description: Formal job offer outlining role, compensation, benefits, start date, and at-will employment.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: high
+
+  - code: employee-nda-ip
+    title: Employee NDA & IP Assignment
+    description: Combined confidentiality and IP assignment agreement for employees.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: contractor-agreement
+    title: Independent Contractor Agreement
+    description: Service agreement for independent contractors with IP assignment and confidentiality.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: high
+
+  - code: consultancy-agreement
+    title: Consultancy Agreement
+    description: Professional services agreement for consultants providing specialized expertise.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: medium
+
+  - code: term-sheet
+    title: Investment Term Sheet
+    description: Non-binding summary of key investment terms for equity financing rounds.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: medium
+
+  - code: stock-purchase-agreement
+    title: Stock Purchase Agreement
+    description: Definitive agreement for purchasing company shares with reps, warranties, and conditions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 4900
+    priority: medium
+
+  - code: shareholder-loan
+    title: Shareholder Loan Agreement
+    description: Loan from shareholder to company with repayment terms and interest.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: low
+
+  - code: co-founders-separation
+    title: Co-Founder Separation Agreement
+    description: Agreement for amicable co-founder departure with equity buyback and release provisions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3500
+    priority: low
+
+  - code: vesting-acceleration
+    title: Vesting Acceleration Agreement
+    description: Agreement to accelerate vesting upon acquisition, change of control, or termination.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: low
+
+  - code: equity-grant-letter
+    title: Equity Grant Letter
+    description: Formal letter documenting equity grant to employee or advisor with vesting terms.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: medium
+
+  - code: cap-table-template
+    title: Capitalization Table Template
+    description: Spreadsheet template for tracking company ownership and dilution.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: docx
+    price_cents: 1500
+    priority: low
+
+  - code: board-meeting-minutes
+    title: Board Meeting Minutes
+    description: Template for recording formal board meeting discussions and resolutions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 900
+    priority: low
+
+  - code: phantom-stock-plan
+    title: Phantom Stock Plan
+    description: Cash-based incentive plan simulating equity ownership without dilution.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3200
+    priority: low
+
+  - code: reverse-vesting-agreement
+    title: Reverse Vesting Agreement
+    description: Founders' equity subject to buyback if they leave before vesting completes.
+    jurisdictions: [UK, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2500
+    priority: low
+
+# ==================================================
+# B2B CATEGORY (20 templates)
+# ==================================================
+b2b:
+  - code: saas-msa
+    title: SaaS Master Service Agreement
+    description: Comprehensive MSA for SaaS products covering subscription, support, SLA, and liability.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3500
+    priority: high
+
+  - code: api-terms-of-service
+    title: API Terms of Service
+    description: Terms governing API access, rate limits, data usage, and developer obligations.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2500
+    priority: high
+
+  - code: data-processing-agreement
+    title: Data Processing Agreement (DPA)
+    description: GDPR-compliant DPA for processor-controller relationships with EU data subjects.
+    jurisdictions: [UK, DE, CZ, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: high
+
+  - code: reseller-agreement
+    title: Reseller Agreement
+    description: Agreement for third-party resale of products or services with pricing and territory.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3200
+    priority: medium
+
+  - code: white-label-agreement
+    title: White Label Agreement
+    description: License to rebrand and resell software or services under partner's own brand.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3500
+    priority: medium
+
+  - code: distribution-agreement
+    title: Distribution Agreement
+    description: Agreement appointing distributor to sell products in specific territories.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3500
+    priority: medium
+
+  - code: referral-partnership
+    title: Referral Partnership Agreement
+    description: Commission-based agreement for referring customers or leads to company.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: medium
+
+  - code: affiliate-agreement
+    title: Affiliate Marketing Agreement
+    description: Terms for affiliate marketers promoting products in exchange for commissions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: medium
+
+  - code: sla-addendum
+    title: Service Level Agreement (SLA) Addendum
+    description: SLA terms specifying uptime, response time, support tiers, and remedies.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: medium
+
+  - code: software-license
+    title: Software License Agreement
+    description: Perpetual or term-based license for on-premise or downloadable software.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: medium
+
+  - code: professional-services
+    title: Professional Services Agreement
+    description: SOW-based agreement for consulting, implementation, or customization services.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: high
+
+  - code: partnership-agreement
+    title: Partnership Agreement
+    description: Strategic partnership agreement outlining mutual benefits, responsibilities, and revenue share.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3200
+    priority: medium
+
+  - code: joint-venture
+    title: Joint Venture Agreement
+    description: Collaboration agreement for shared projects with profit/loss allocation.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 4200
+    priority: low
+
+  - code: supply-agreement
+    title: Supply Agreement
+    description: Agreement for ongoing supply of goods or materials with pricing, delivery, and quality terms.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3200
+    priority: medium
+
+  - code: procurement-contract
+    title: Procurement Contract
+    description: Enterprise purchasing contract for goods or services with volume discounts.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3200
+    priority: low
+
+  - code: managed-services
+    title: Managed Services Agreement
+    description: Ongoing IT or operational services with SLA, monitoring, and support.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3500
+    priority: medium
+
+  - code: co-marketing
+    title: Co-Marketing Agreement
+    description: Joint marketing collaboration with shared branding, content, and campaign responsibilities.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2500
+    priority: low
+
+  - code: oem-agreement
+    title: OEM Agreement
+    description: Original Equipment Manufacturer agreement to embed products in partner solutions.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 3900
+    priority: low
+
+  - code: technology-transfer
+    title: Technology Transfer Agreement
+    description: License or sale of proprietary technology with training and support.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 4500
+    priority: low
+
+  - code: maintenance-support
+    title: Maintenance & Support Agreement
+    description: Ongoing software or hardware maintenance with bug fixes, patches, and upgrades.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2500
+    priority: medium
+
+# ==================================================
+# B2C CATEGORY (15 templates)
+# ==================================================
+b2c:
+  - code: website-terms
+    title: Website Terms of Use
+    description: Standard website terms covering access, usage restrictions, disclaimers, and liability.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: high
+
+  - code: privacy-policy
+    title: Privacy Policy
+    description: GDPR and CCPA-compliant privacy policy for data collection, processing, and user rights.
+    jurisdictions: [UK, DE, CZ, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: cookie-policy
+    title: Cookie Policy
+    description: Detailed disclosure of cookies, tracking technologies, and user consent mechanisms.
+    jurisdictions: [UK, DE, CZ, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: high
+
+  - code: ecommerce-terms
+    title: E-Commerce Terms & Conditions
+    description: Sales terms for online store covering pricing, payment, shipping, returns, and warranties.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: high
+
+  - code: mobile-app-terms
+    title: Mobile App Terms of Service
+    description: Terms for mobile applications including user conduct, in-app purchases, and content rights.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: high
+
+  - code: marketplace-buyer-terms
+    title: Marketplace Buyer Terms
+    description: Terms for consumers purchasing from third-party sellers on marketplace platforms.
+    jurisdictions: [UK, DE, CZ, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2500
+    priority: medium
+
+  - code: marketplace-seller-terms
+    title: Marketplace Seller Terms
+    description: Agreement for third-party sellers listing and selling products on marketplace.
+    jurisdictions: [UK, DE, CZ, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: medium
+
+  - code: subscription-terms
+    title: Subscription Service Terms
+    description: Terms for recurring subscription services with billing cycles, cancellation, and auto-renewal.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: community-guidelines
+    title: Community Guidelines
+    description: User conduct rules for online communities, forums, or user-generated content platforms.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: medium
+
+  - code: acceptable-use-policy
+    title: Acceptable Use Policy
+    description: Prohibited activities and acceptable use standards for platform or service.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: medium
+
+  - code: dmca-policy
+    title: DMCA Takedown Policy
+    description: Copyright infringement policy and DMCA takedown procedures for US-based services.
+    jurisdictions: [US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: medium
+
+  - code: refund-policy
+    title: Refund & Return Policy
+    description: Consumer rights and company procedures for refunds, returns, and exchanges.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: high
+
+  - code: loyalty-program-terms
+    title: Loyalty Program Terms
+    description: Rules governing points, rewards, redemption, and loyalty program participation.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: low
+
+  - code: contest-sweepstakes
+    title: Contest & Sweepstakes Rules
+    description: Official rules for contests, sweepstakes, and promotional giveaways.
+    jurisdictions: [UK, DE, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: low
+
+  - code: end-user-license
+    title: End User License Agreement (EULA)
+    description: Software license for consumer applications with usage rights and restrictions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: medium
+
+# ==================================================
+# P2P CATEGORY (12 templates)
+# ==================================================
+p2p:
+  - code: nda-mutual
+    title: Mutual Non-Disclosure Agreement
+    description: Bilateral NDA for parties sharing confidential information with mutual obligations.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: high
+
+  - code: nda-unilateral
+    title: Unilateral Non-Disclosure Agreement
+    description: One-way NDA where only one party discloses confidential information.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: high
+
+  - code: service-agreement
+    title: Service Agreement (General)
+    description: General services contract for freelancers, consultants, or contractors.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: loan-agreement
+    title: Personal Loan Agreement
+    description: Agreement for lending money to individuals with repayment schedule and interest.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: medium
+
+  - code: promissory-note
+    title: Promissory Note
+    description: Written promise to repay debt with specified terms and interest rate.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: medium
+
+  - code: influencer-agreement
+    title: Influencer Marketing Agreement
+    description: Agreement for social media influencers promoting brands with deliverables and compensation.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: high
+
+  - code: freelance-contract
+    title: Freelance Contract
+    description: Project-based agreement for freelance work with scope, timeline, and payment terms.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1900
+    priority: high
+
+  - code: rental-agreement
+    title: Rental Agreement (Short-Term)
+    description: Short-term rental contract for equipment, space, or property.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1500
+    priority: medium
+
+  - code: release-waiver
+    title: Release & Waiver of Liability
+    description: Waiver releasing party from liability for injuries or damages during activities.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 1200
+    priority: medium
+
+  - code: settlement-agreement
+    title: Settlement Agreement
+    description: Agreement resolving disputes with mutual release and confidentiality provisions.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2900
+    priority: low
+
+  - code: photography-release
+    title: Photography/Video Release
+    description: Model or property release for commercial use of photos or videos.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 900
+    priority: medium
+
+  - code: non-compete
+    title: Non-Compete Agreement
+    description: Agreement restricting party from competing in specific market or geography for period.
+    jurisdictions: [UK, DE, CZ, US-DE, US-CA]
+    languages: [en]
+    render_engine: html
+    price_cents: 2200
+    priority: medium
+
+# ==================================================
+# TOTAL: 72 templates across 4 categories
+# ==================================================

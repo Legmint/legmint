@@ -1,0 +1,21 @@
+{
+  "schema": {
+    "title": "Website Terms of Use",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company/Website Name" },
+      "websiteUrl": { "type": "string", "format": "uri", "title": "Website URL" },
+      "contactEmail": { "type": "string", "format": "email", "title": "Contact Email" },
+      "jurisdiction": { "type": "string", "title": "Governing Law", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "hasUserAccounts": { "type": "boolean", "title": "Site has user accounts?", "default": false },
+      "hasUserContent": { "type": "boolean", "title": "Users can post content?", "default": false },
+      "hasEcommerce": { "type": "boolean", "title": "Site sells products/services?", "default": false },
+      "minimumAge": { "type": "integer", "title": "Minimum Age to Use Site", "default": 13, "minimum": 13, "maximum": 18 },
+      "disputeResolution": { "type": "string", "title": "Dispute Resolution", "enum": ["arbitration", "litigation"], "default": "litigation" }
+    },
+    "required": ["companyName", "websiteUrl", "contactEmail", "jurisdiction", "effectiveDate"]
+  },
+  "uiSchema": {},
+  "defaults": { "hasUserAccounts": false, "hasUserContent": false, "hasEcommerce": false, "minimumAge": 13, "disputeResolution": "litigation" }
+}

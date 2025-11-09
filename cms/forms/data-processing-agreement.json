@@ -1,0 +1,30 @@
+{
+  "schema": {
+    "title": "Data Processing Agreement (DPA)",
+    "type": "object",
+    "properties": {
+      "controllerName": { "type": "string", "title": "Data Controller Name" },
+      "controllerAddress": { "type": "string", "title": "Controller Address" },
+      "processorName": { "type": "string", "title": "Data Processor Name" },
+      "processorAddress": { "type": "string", "title": "Processor Address" },
+      "jurisdiction": { "type": "string", "title": "Governing Law", "enum": ["UK", "DE", "CZ", "US-CA"], "enumNames": ["UK GDPR", "Germany GDPR", "Czech Republic GDPR", "California CCPA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" },
+      "processingPurpose": { "type": "string", "title": "Purpose of Processing" },
+      "dataTypes": {
+        "type": "array",
+        "title": "Types of Personal Data",
+        "items": { "type": "string", "enum": ["names", "emails", "phone", "address", "ip-address", "payment-data", "health-data", "special-category"], "enumNames": ["Names", "Email addresses", "Phone numbers", "Physical addresses", "IP addresses", "Payment data", "Health data", "Special category data"] },
+        "uniqueItems": true,
+        "minItems": 1
+      },
+      "dataSubjects": { "type": "string", "title": "Categories of Data Subjects", "description": "e.g., customers, employees, website visitors" },
+      "subProcessors": { "type": "boolean", "title": "Processor may use sub-processors?", "default": true },
+      "dataLocation": { "type": "string", "title": "Data Storage Location", "enum": ["EU", "US", "UK", "multi-region"], "default": "EU" },
+      "termMonths": { "type": "integer", "title": "Term (months)", "default": 12, "minimum": 1 },
+      "autoRenew": { "type": "boolean", "title": "Auto-renew?", "default": true }
+    },
+    "required": ["controllerName", "processorName", "jurisdiction", "effectiveDate", "processingPurpose", "dataTypes", "dataSubjects"]
+  },
+  "uiSchema": { "processingPurpose": { "ui:widget": "textarea" }, "dataTypes": { "ui:widget": "checkboxes" } },
+  "defaults": { "subProcessors": true, "dataLocation": "EU", "termMonths": 12, "autoRenew": true }
+}

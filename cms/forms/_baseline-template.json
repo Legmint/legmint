@@ -1,0 +1,50 @@
+{
+  "_comment": "Baseline form schema template - used for templates without detailed forms yet",
+  "schema": {
+    "title": "Document Details",
+    "type": "object",
+    "properties": {
+      "partyA": {
+        "type": "object",
+        "title": "Party A",
+        "properties": {
+          "name": { "type": "string", "title": "Name/Company Name" },
+          "address": { "type": "string", "title": "Address" },
+          "email": { "type": "string", "format": "email", "title": "Email" }
+        },
+        "required": ["name"]
+      },
+      "partyB": {
+        "type": "object",
+        "title": "Party B",
+        "properties": {
+          "name": { "type": "string", "title": "Name/Company Name" },
+          "address": { "type": "string", "title": "Address" },
+          "email": { "type": "string", "format": "email", "title": "Email" }
+        },
+        "required": ["name"]
+      },
+      "jurisdiction": {
+        "type": "string",
+        "title": "Governing Law",
+        "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"]
+      },
+      "effectiveDate": {
+        "type": "string",
+        "format": "date",
+        "title": "Effective Date"
+      },
+      "additionalTerms": {
+        "type": "string",
+        "title": "Additional Terms or Notes"
+      }
+    },
+    "required": ["partyA", "partyB", "jurisdiction", "effectiveDate"]
+  },
+  "uiSchema": {
+    "additionalTerms": {
+      "ui:widget": "textarea"
+    }
+  },
+  "defaults": {}
+}

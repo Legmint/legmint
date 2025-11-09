@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalmind.tech/questionnaires/NDA_MUTUAL_V1",
+  "title": "Mutual Non-Disclosure Agreement - Questionnaire",
+  "description": "Create a mutual NDA to protect confidential information shared between two parties",
+  "type": "object",
+  "required": [
+    "governing_jurisdiction",
+    "party1_name",
+    "party1_address",
+    "party1_jurisdiction",
+    "party2_name",
+    "party2_address",
+    "party2_jurisdiction",
+    "effective_date",
+    "purpose",
+    "term_years"
+  ],
+  "properties": {
+    "governing_jurisdiction": {
+      "type": "string",
+      "title": "Select Governing Law Jurisdiction",
+      "description": "Choose the legal jurisdiction that will govern this agreement",
+      "enum": ["GLOBAL-EN", "UK", "US-DE", "DE", "FR", "CZ"],
+      "enumNames": [
+        "Global (English baseline)",
+        "United Kingdom",
+        "United States - Delaware",
+        "Germany",
+        "France",
+        "Czech Republic"
+      ],
+      "default": "GLOBAL-EN"
+    },
+    "party1_name": {
+      "type": "string",
+      "title": "First Party Legal Name",
+      "description": "Full legal name of the first company or individual",
+      "minLength": 2,
+      "maxLength": 200
+    },
+    "party1_address": {
+      "type": "string",
+      "title": "First Party Address",
+      "description": "Complete registered address of the first party",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "party1_jurisdiction": {
+      "type": "string",
+      "title": "First Party Jurisdiction",
+      "description": "Where is the first party incorporated or located? (e.g., 'Delaware', 'England and Wales')",
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "party2_name": {
+      "type": "string",
+      "title": "Second Party Legal Name",
+      "description": "Full legal name of the second company or individual",
+      "minLength": 2,
+      "maxLength": 200
+    },
+    "party2_address": {
+      "type": "string",
+      "title": "Second Party Address",
+      "description": "Complete registered address of the second party",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "party2_jurisdiction": {
+      "type": "string",
+      "title": "Second Party Jurisdiction",
+      "description": "Where is the second party incorporated or located?",
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "effective_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Effective Date",
+      "description": "The date this agreement becomes effective"
+    },
+    "purpose": {
+      "type": "string",
+      "title": "Purpose of Disclosure",
+      "description": "Brief description of the business purpose (e.g., 'evaluating a potential partnership', 'merger discussions', 'joint venture exploration')",
+      "minLength": 10,
+      "maxLength": 300
+    },
+    "term_years": {
+      "type": "number",
+      "title": "Confidentiality Period (Years)",
+      "description": "How long should confidential information remain protected?",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 3
+    },
+    "return_destruction_days": {
+      "type": "number",
+      "title": "Days to Return/Destroy Materials",
+      "description": "Time allowed for return or destruction of confidential materials after agreement ends",
+      "minimum": 5,
+      "maximum": 90,
+      "default": 30
+    },
+    "include_residuals_clause": {
+      "type": "boolean",
+      "title": "Include Residuals Clause?",
+      "description": "Allows the receiving party to use general ideas/concepts retained in memory (without copying specific information). This is favorable to the receiving party.",
+      "default": false
+    },
+    "include_non_solicit": {
+      "type": "boolean",
+      "title": "Include Non-Solicitation Clause?",
+      "description": "Prevents hiring of the other party's employees who were identified through this relationship",
+      "default": false
+    },
+    "non_solicit_period_months": {
+      "type": "number",
+      "title": "Non-Solicitation Period (Months)",
+      "description": "Duration of non-solicitation restriction (only applicable if non-solicitation is included)",
+      "minimum": 6,
+      "maximum": 24,
+      "default": 12
+    }
+  },
+  "dependencies": {
+    "include_non_solicit": {
+      "oneOf": [
+        {
+          "properties": {
+            "include_non_solicit": {"const": true},
+            "non_solicit_period_months": {
+              "type": "number",
+              "minimum": 6,
+              "maximum": 24
+            }
+          },
+          "required": ["non_solicit_period_months"]
+        },
+        {
+          "properties": {
+            "include_non_solicit": {"const": false}
+          }
+        }
+      ]
+    }
+  },
+  "ui_schema": {
+    "ui:order": [
+      "governing_jurisdiction",
+      "*",
+      "include_residuals_clause",
+      "include_non_solicit",
+      "non_solicit_period_months"
+    ],
+    "party1_address": {
+      "ui:widget": "textarea",
+      "ui:options": {"rows": 3}
+    },
+    "party2_address": {
+      "ui:widget": "textarea",
+      "ui:options": {"rows": 3}
+    },
+    "purpose": {
+      "ui:widget": "textarea",
+      "ui:options": {"rows": 2},
+      "ui:placeholder": "e.g., exploring a potential strategic partnership in the SaaS space"
+    },
+    "term_years": {
+      "ui:help": "Most NDAs use 2-5 years; sensitive information may warrant longer periods"
+    },
+    "include_residuals_clause": {
+      "ui:help": "⚠️ Including this weakens confidentiality protection"
+    },
+    "non_solicit_period_months": {
+      "ui:help": "Note: Some jurisdictions restrict or prohibit non-solicitation clauses"
+    }
+  },
+  "validation_rules": {
+    "term_reasonable": {
+      "rule": "term_years <= 5",
+      "message": "Terms longer than 5 years may be viewed as unreasonable in some jurisdictions",
+      "severity": "warning"
+    }
+  }
+}

@@ -1,0 +1,1101 @@
+openapi: 3.1.0
+info:
+  title: LegalMind Startup Launchpad API
+  version: 3.0.0
+  description: |
+    **LegalMind Startup Launchpad API** — Generate legal documents via two commercial packs:
+
+    - **Fundraising Pack** (7 templates): Founders' Agreement, SAFE, Shareholders' Agreement, etc.
+    - **SaaS Operations Pack** (7 templates): SaaS Agreement, DPA, Privacy Policy, etc.
+
+    ## Product Tiers
+    - **Starter** (€99 one-time): Access to 1 pack, 5 docs/month, 1 jurisdiction
+    - **Pro** (€49/month): Both packs, unlimited docs, all 5 jurisdictions
+    - **Scale** (€149/month): Pro + lawyer referral matching
+
+    ## Authentication
+    All endpoints require JWT Bearer token from Clerk authentication.
+
+    ## Rate Limiting
+    - Public endpoints: 100 requests/hour per IP
+    - Authenticated endpoints: 1000 requests/hour per user
+    - Generation endpoints: 50 generations/hour (waived for Pro/Scale tiers)
+
+    ## Error Handling
+    All errors follow RFC 7807 Problem Details format with custom extensions:
+    - `error_code`: Machine-readable error code (e.g., "INSUFFICIENT_TIER")
+    - `required_tier`: Minimum tier needed (if access denied)
+    - `upgrade_url`: Link to pricing page
+
+  contact:
+    name: LegalMind API Support
+    email: api@legalmind.com
+    url: https://docs.legalmind.com
+  license:
+    name: Proprietary
+    url: https://legalmind.com/terms
+
+servers:
+  - url: https://api.legalmind.com/v1
+    description: Production
+  - url: https://api.staging.legalmind.com/v1
+    description: Staging
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Packs
+    description: Browse and access commercial packs
+  - name: Templates
+    description: Template management within packs
+  - name: Questionnaires
+    description: Guided questionnaire flows
+  - name: Generation
+    description: Document generation and export
+  - name: Documents
+    description: User document library
+  - name: Billing
+    description: Stripe integration and purchases
+  - name: Referrals
+    description: Lawyer referral system (Scale tier)
+  - name: User
+    description: User profile and settings
+
+paths:
+  # ============================================
+  # PACKS
+  # ============================================
+  /packs:
+    get:
+      summary: List available packs
+      description: |
+        Returns metadata for Fundraising Pack and SaaS Operations Pack.
+        Access level indicated per pack (may require tier upgrade).
+      tags:
+        - Packs
+      security: []  # Public endpoint
+      responses:
+        '200':
+          description: List of packs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  packs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Pack'
+              example:
+                packs:
+                  - id: fundraising
+                    title: Fundraising Pack
+                    description: Everything you need to raise capital
+                    template_count: 7
+                    jurisdictions: [UK, US-DE, DE, FR, CZ]
+                    min_tier: starter
+                    pricing:
+                      starter: €99 one-time
+                      pro: €49/month
+                      scale: €149/month
+                  - id: saas
+                    title: SaaS Operations Pack
+                    description: Launch and scale your SaaS business legally
+                    template_count: 7
+                    jurisdictions: [UK, US-DE, DE, FR, CZ]
+                    min_tier: starter
+                    pricing:
+                      starter: €99 one-time
+                      pro: €49/month
+                      scale: €149/month
+
+  /packs/{pack_id}:
+    get:
+      summary: Get pack details
+      tags:
+        - Packs
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PackId'
+      responses:
+        '200':
+          description: Pack details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackDetails'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /packs/{pack_id}/templates:
+    get:
+      summary: List templates in a pack
+      description: |
+        Returns templates within the specified pack.
+        **Access control:** User must have purchased this pack (Starter) or have Pro/Scale tier.
+      tags:
+        - Packs
+      parameters:
+        - $ref: '#/components/parameters/PackId'
+        - name: jurisdiction
+          in: query
+          description: Filter by jurisdiction
+          schema:
+            type: string
+            enum: [UK, US-DE, DE, FR, CZ]
+      responses:
+        '200':
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pack_id:
+                    type: string
+                  templates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Template'
+        '403':
+          $ref: '#/components/responses/InsufficientTier'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # TEMPLATES
+  # ============================================
+  /templates/{template_id}:
+    get:
+      summary: Get template details
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/TemplateId'
+        - name: jurisdiction
+          in: query
+          required: true
+          description: Jurisdiction for overlay resolution
+          schema:
+            type: string
+            enum: [UK, US-DE, DE, FR, CZ]
+      responses:
+        '200':
+          description: Template with jurisdiction overlay applied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetails'
+        '403':
+          $ref: '#/components/responses/InsufficientTier'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # QUESTIONNAIRES
+  # ============================================
+  /questionnaire/{pack_id}/{template_id}:
+    get:
+      summary: Retrieve questionnaire for a template
+      description: |
+        Returns the guided questionnaire for generating this template.
+        Questions include conditional logic (JSONLogic) for show/hide rules.
+      tags:
+        - Questionnaires
+      parameters:
+        - $ref: '#/components/parameters/PackId'
+        - $ref: '#/components/parameters/TemplateId'
+        - name: jurisdiction
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [UK, US-DE, DE, FR, CZ]
+      responses:
+        '200':
+          description: Questionnaire definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+        '403':
+          $ref: '#/components/responses/InsufficientTier'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # GENERATION
+  # ============================================
+  /generate/{pack_id}/{template_id}:
+    post:
+      summary: Generate document (DOCX/PDF)
+      description: |
+        Generates a legal document based on user answers.
+
+        **Requirements:**
+        - Valid subscription tier (Starter with pack purchased, or Pro/Scale)
+        - Starter tier: Max 5 documents/month
+        - Pro/Scale: Unlimited
+
+        **Processing:**
+        - Documents are generated asynchronously via BullMQ queue
+        - Returns HTTP 202 with `document_id` for status polling
+        - Estimated time: 5-15 seconds depending on complexity
+      tags:
+        - Generation
+      parameters:
+        - $ref: '#/components/parameters/PackId'
+        - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jurisdiction:
+                  type: string
+                  enum: [UK, US-DE, DE, FR, CZ]
+                  description: Legal jurisdiction for document
+                language:
+                  type: string
+                  enum: [en, de, fr, cs]
+                  default: en
+                  description: Document language
+                answers:
+                  type: object
+                  description: User answers to questionnaire (key-value pairs)
+                  additionalProperties: true
+                format:
+                  type: string
+                  enum: [docx, pdf, both]
+                  default: docx
+                  description: Export format(s)
+              required:
+                - jurisdiction
+                - answers
+            example:
+              jurisdiction: UK
+              language: en
+              answers:
+                company_name: Acme Ltd
+                incorporation_date: "2024-01-15"
+                founders:
+                  - name: Alice Smith
+                    equity: 60
+                  - name: Bob Jones
+                    equity: 40
+                has_vesting: true
+                vesting_period_months: 48
+                cliff_months: 12
+              format: docx
+      responses:
+        '202':
+          description: Document generation queued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [queued, generating]
+                  estimated_time_seconds:
+                    type: integer
+                  poll_url:
+                    type: string
+                    format: uri
+              example:
+                document_id: 550e8400-e29b-41d4-a716-446655440000
+                status: generating
+                estimated_time_seconds: 8
+                poll_url: /documents/550e8400-e29b-41d4-a716-446655440000
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/InsufficientTier'
+        '429':
+          $ref: '#/components/responses/QuotaExceeded'
+
+  # ============================================
+  # DOCUMENTS
+  # ============================================
+  /documents:
+    get:
+      summary: List user's documents
+      tags:
+        - Documents
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, generating, completed, downloaded, archived]
+        - name: pack_id
+          in: query
+          schema:
+            type: string
+            enum: [fundraising, saas]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+
+  /documents/{document_id}:
+    get:
+      summary: Get document status and download URLs
+      tags:
+        - Documents
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Document ready for download
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              example:
+                id: 550e8400-e29b-41d4-a716-446655440000
+                title: Founders Agreement - Acme Ltd
+                template_id: founders-agreement
+                pack_id: fundraising
+                jurisdiction: UK
+                status: completed
+                file_docx_url: https://cdn.legalmind.com/docs/550e8400.docx
+                file_pdf_url: https://cdn.legalmind.com/docs/550e8400.pdf
+                file_size_bytes: 45120
+                expiry_date: "2025-10-29T12:00:00Z"
+                created_at: "2025-10-22T10:30:00Z"
+                completed_at: "2025-10-22T10:30:08Z"
+        '403':
+          description: Forbidden (not owner)
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Archive document
+      tags:
+        - Documents
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Document archived successfully
+        '403':
+          description: Forbidden
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # BILLING
+  # ============================================
+  /purchase:
+    post:
+      summary: Create Stripe Checkout session
+      description: |
+        Creates a Stripe Checkout session for purchasing a subscription tier.
+
+        **Tiers:**
+        - **Starter** (€99 one-time): Requires `pack_id` (fundraising or saas)
+        - **Pro** (€49/month): Access to both packs
+        - **Scale** (€149/month): Pro features + lawyer referral
+      tags:
+        - Billing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tier:
+                  type: string
+                  enum: [starter, pro, scale]
+                pack_id:
+                  type: string
+                  enum: [fundraising, saas]
+                  description: Required for Starter tier only
+                billing_interval:
+                  type: string
+                  enum: [monthly, annual]
+                  description: Required for Pro/Scale tiers
+              required:
+                - tier
+            example:
+              tier: pro
+              billing_interval: monthly
+      responses:
+        '200':
+          description: Checkout session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  checkout_url:
+                    type: string
+                    format: uri
+                    description: Redirect user to this Stripe Checkout URL
+                  session_id:
+                    type: string
+                    description: Stripe session ID for tracking
+              example:
+                checkout_url: https://checkout.stripe.com/pay/cs_test_abc123
+                session_id: cs_test_abc123
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+  /webhooks/stripe:
+    post:
+      summary: Stripe webhook handler
+      description: |
+        Handles Stripe webhook events (internal endpoint, called by Stripe only).
+
+        **Supported events:**
+        - `checkout.session.completed` → Activate subscription
+        - `customer.subscription.updated` → Update subscription
+        - `customer.subscription.deleted` → Cancel subscription
+        - `invoice.payment_failed` → Handle payment failure
+      tags:
+        - Billing
+      security: []  # No auth (verified via Stripe signature)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Stripe event object
+      responses:
+        '200':
+          description: Event processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  received:
+                    type: boolean
+                    example: true
+        '400':
+          description: Invalid signature or event
+
+  # ============================================
+  # REFERRALS (Scale Tier Only)
+  # ============================================
+  /referral:
+    post:
+      summary: Create lawyer referral
+      description: |
+        Matches user with a verified lawyer based on jurisdiction and specialization.
+
+        **Requirements:**
+        - Scale tier subscription
+        - Document must be generated first
+
+        **Lawyer Matching:**
+        - Filters by: jurisdiction, specialization, availability, rating
+        - Returns top-rated lawyer (or top 3 for user choice)
+      tags:
+        - Referrals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_id:
+                  type: string
+                  format: uuid
+                  description: Document ID to review
+                jurisdiction:
+                  type: string
+                  enum: [UK, US-DE, DE, FR, CZ]
+                specialization:
+                  type: string
+                  enum: [corporate, ip, employment, commercial, data_privacy]
+                referral_type:
+                  type: string
+                  enum: [document_review, full_setup, consultation]
+                  default: document_review
+                message:
+                  type: string
+                  maxLength: 500
+                  description: Optional message to lawyer
+              required:
+                - document_id
+                - jurisdiction
+                - specialization
+            example:
+              document_id: 550e8400-e29b-41d4-a716-446655440000
+              jurisdiction: UK
+              specialization: corporate
+              referral_type: document_review
+              message: Need review of our Founders' Agreement before signing
+      responses:
+        '201':
+          description: Referral created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  referral_id:
+                    type: string
+                    format: uuid
+                  referral_code:
+                    type: string
+                    description: Unique referral code
+                  matched_lawyer:
+                    $ref: '#/components/schemas/Lawyer'
+                  status:
+                    type: string
+                    enum: [initiated]
+              example:
+                referral_id: 660f9511-f30c-52e5-b827-557766551111
+                referral_code: REF-20251022-001234
+                matched_lawyer:
+                  id: 770g0622-g41d-63f6-c938-668877662222
+                  name: Sarah Thompson
+                  firm: Thompson & Partners LLP
+                  specialties: [corporate, fundraising, ip]
+                  rating: 4.8
+                  calendly_url: https://calendly.com/sarah-thompson
+                status: initiated
+        '403':
+          $ref: '#/components/responses/InsufficientTier'
+        '404':
+          description: No lawyers available
+
+  /referrals:
+    get:
+      summary: List user's referrals
+      tags:
+        - Referrals
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [initiated, contacted, engaged, completed, cancelled]
+      responses:
+        '200':
+          description: List of referrals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  referrals:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Referral'
+
+  /referrals/{referral_id}:
+    get:
+      summary: Get referral details
+      tags:
+        - Referrals
+      parameters:
+        - name: referral_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Referral details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referral'
+        '403':
+          description: Forbidden
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # USER
+  # ============================================
+  /user/profile:
+    get:
+      summary: Get user profile
+      tags:
+        - User
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    patch:
+      summary: Update user profile
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                language_preference:
+                  type: string
+                  enum: [en, de, fr, cs]
+                jurisdiction_preference:
+                  type: string
+                  enum: [UK, US-DE, DE, FR, CZ]
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /user/subscription:
+    get:
+      summary: Get subscription details
+      tags:
+        - User
+      responses:
+        '200':
+          description: Subscription details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+
+# ============================================
+# COMPONENTS
+# ============================================
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token from Clerk authentication
+
+  parameters:
+    PackId:
+      name: pack_id
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [fundraising, saas]
+
+    TemplateId:
+      name: template_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-z0-9-]+$'
+
+  schemas:
+    Pack:
+      type: object
+      properties:
+        id:
+          type: string
+          enum: [fundraising, saas]
+        title:
+          type: string
+        description:
+          type: string
+        template_count:
+          type: integer
+        jurisdictions:
+          type: array
+          items:
+            type: string
+        min_tier:
+          type: string
+          enum: [starter, pro, scale]
+        pricing:
+          type: object
+          properties:
+            starter:
+              type: string
+            pro:
+              type: string
+            scale:
+              type: string
+
+    PackDetails:
+      allOf:
+        - $ref: '#/components/schemas/Pack'
+        - type: object
+          properties:
+            templates:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  complexity_score:
+                    type: integer
+
+    Template:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        pack:
+          type: string
+          enum: [fundraising, saas]
+        complexity_score:
+          type: integer
+          minimum: 1
+          maximum: 10
+        estimated_time_minutes:
+          type: integer
+        jurisdictions:
+          type: array
+          items:
+            type: string
+        min_tier:
+          type: string
+          enum: [starter, pro, scale]
+
+    TemplateDetails:
+      allOf:
+        - $ref: '#/components/schemas/Template'
+        - type: object
+          properties:
+            content_preview:
+              type: string
+              description: First 500 chars of template content
+            variable_count:
+              type: integer
+            clause_count:
+              type: integer
+
+    Questionnaire:
+      type: object
+      properties:
+        template_id:
+          type: string
+        jurisdiction:
+          type: string
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+                enum: [text, number, date, select, multi_select, boolean, array]
+              label:
+                type: string
+              help_text:
+                type: string
+              required:
+                type: boolean
+              validation:
+                type: object
+                description: Validation rules (e.g., min, max, pattern)
+              conditional_logic:
+                type: object
+                description: JSONLogic expression for show/hide
+              options:
+                type: array
+                items:
+                  type: string
+                description: For select/multi_select types
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        template_id:
+          type: string
+        pack_id:
+          type: string
+          enum: [fundraising, saas]
+        jurisdiction:
+          type: string
+        language:
+          type: string
+        status:
+          type: string
+          enum: [draft, generating, completed, downloaded, archived]
+        file_docx_url:
+          type: string
+          format: uri
+        file_pdf_url:
+          type: string
+          format: uri
+        file_size_bytes:
+          type: integer
+        expiry_date:
+          type: string
+          format: date-time
+          description: Download link expiry (7 days from generation)
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+
+    Lawyer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        firm:
+          type: string
+        jurisdiction:
+          type: string
+        specialties:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+        total_referrals:
+          type: integer
+        hourly_rate_range:
+          type: object
+          properties:
+            min:
+              type: integer
+              description: Hourly rate in EUR
+            max:
+              type: integer
+        calendly_url:
+          type: string
+          format: uri
+
+    Referral:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        referral_code:
+          type: string
+        document_id:
+          type: string
+          format: uuid
+        lawyer:
+          $ref: '#/components/schemas/Lawyer'
+        status:
+          type: string
+          enum: [initiated, viewed, contacted, engaged, completed, cancelled]
+        referral_type:
+          type: string
+          enum: [document_review, full_setup, consultation]
+        created_at:
+          type: string
+          format: date-time
+        contacted_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        full_name:
+          type: string
+        tier:
+          type: string
+          enum: [free, starter, pro, scale]
+        purchased_packs:
+          type: array
+          items:
+            type: string
+            enum: [fundraising, saas]
+          description: Applicable for Starter tier only
+        language_preference:
+          type: string
+        jurisdiction_preference:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        plan_tier:
+          type: string
+          enum: [starter, pro, scale]
+        status:
+          type: string
+          enum: [active, cancelled, past_due, expired]
+        billing_interval:
+          type: string
+          enum: [monthly, annual]
+        current_period_start:
+          type: string
+          format: date-time
+        current_period_end:
+          type: string
+          format: date-time
+        cancel_at_period_end:
+          type: boolean
+
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: string
+        message:
+          type: string
+        required_tier:
+          type: string
+          enum: [starter, pro, scale]
+          description: Present if error is tier-related
+        upgrade_url:
+          type: string
+          format: uri
+          description: Link to pricing page
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error_code: NOT_FOUND
+            message: The requested resource was not found
+
+    InsufficientTier:
+      description: Insufficient subscription tier
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error_code: INSUFFICIENT_TIER
+            message: Upgrade to Pro to access this pack
+            required_tier: pro
+            upgrade_url: https://legalmind.com/pricing
+
+    QuotaExceeded:
+      description: Monthly quota exceeded (Starter tier)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error_code: QUOTA_EXCEEDED
+            message: You've generated 5 documents this month. Upgrade to Pro for unlimited documents.
+            required_tier: pro
+            upgrade_url: https://legalmind.com/pricing
+
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error_code:
+                type: string
+                example: VALIDATION_ERROR
+              message:
+                type: string
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                    message:
+                      type: string
+          example:
+            error_code: VALIDATION_ERROR
+            message: Request validation failed
+            errors:
+              - field: answers.company_name
+                message: Company name is required
+              - field: answers.founders
+                message: At least 2 founders required

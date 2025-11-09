@@ -1,0 +1,21 @@
+{
+  "schema": {
+    "title": "Influencer Marketing Agreement",
+    "type": "object",
+    "properties": {
+      "brandName": { "type": "string", "title": "Brand/Company Name" },
+      "influencerName": { "type": "string", "title": "Influencer Name" },
+      "platforms": { "type": "array", "title": "Social Media Platforms", "items": { "type": "string", "enum": ["instagram", "tiktok", "youtube", "twitter", "facebook"] }, "uniqueItems": true, "minItems": 1 },
+      "campaignDescription": { "type": "string", "title": "Campaign Description" },
+      "deliverables": { "type": "string", "title": "Deliverables", "description": "e.g., 3 posts, 2 stories, 1 video" },
+      "compensation": { "type": "number", "title": "Compensation Amount", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR", "GBP"], "default": "EUR" },
+      "exclusivity": { "type": "boolean", "title": "Exclusive to brand during campaign?", "default": false },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Campaign Start Date" },
+      "endDate": { "type": "string", "format": "date", "title": "Campaign End Date" }
+    },
+    "required": ["brandName", "influencerName", "platforms", "campaignDescription", "deliverables", "compensation", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "currency": "EUR", "exclusivity": false }
+}

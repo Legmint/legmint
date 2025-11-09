@@ -1,0 +1,21 @@
+{
+  "schema": {
+    "title": "Professional Services Agreement",
+    "type": "object",
+    "properties": {
+      "providerName": { "type": "string", "title": "Service Provider Name" },
+      "clientName": { "type": "string", "title": "Client Name" },
+      "servicesDescription": { "type": "string", "title": "Services Description" },
+      "sowRequired": { "type": "boolean", "title": "Services defined in Statement of Work (SOW)?", "default": true },
+      "feeStructure": { "type": "string", "enum": ["hourly", "fixed", "retainer", "time-and-materials"], "enumNames": ["Hourly rate", "Fixed fee", "Monthly retainer", "Time & materials"], "default": "time-and-materials" },
+      "rate": { "type": "number", "title": "Rate/Fee Amount", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "CZK"], "default": "EUR" },
+      "termMonths": { "type": "integer", "title": "Initial Term (months)", "default": 6, "minimum": 1 },
+      "ipOwnership": { "type": "string", "enum": ["client", "provider", "joint"], "enumNames": ["Client owns all IP", "Provider retains IP", "Joint ownership"], "default": "client" },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Effective Date" }
+    },
+    "required": ["providerName", "clientName", "servicesDescription", "feeStructure", "rate", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "sowRequired": true, "feeStructure": "time-and-materials", "currency": "EUR", "termMonths": 6, "ipOwnership": "client" }
+}

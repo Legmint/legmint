@@ -1,0 +1,20 @@
+{
+  "schema": {
+    "title": "Freelance Contract",
+    "type": "object",
+    "properties": {
+      "clientName": { "type": "string", "title": "Client Name" },
+      "freelancerName": { "type": "string", "title": "Freelancer Name" },
+      "projectDescription": { "type": "string", "title": "Project Description" },
+      "deliverables": { "type": "string", "title": "Deliverables" },
+      "projectFee": { "type": "number", "title": "Total Project Fee", "minimum": 0 },
+      "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "CZK"], "default": "EUR" },
+      "paymentSchedule": { "type": "string", "enum": ["upfront", "50-50", "milestone", "on-completion"], "enumNames": ["100% upfront", "50% upfront, 50% on delivery", "Milestone-based", "100% on completion"], "default": "50-50" },
+      "deadline": { "type": "string", "format": "date", "title": "Project Deadline" },
+      "jurisdiction": { "type": "string", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Contract Date" }
+    },
+    "required": ["clientName", "freelancerName", "projectDescription", "projectFee", "jurisdiction", "effectiveDate"]
+  },
+  "defaults": { "currency": "EUR", "paymentSchedule": "50-50" }
+}

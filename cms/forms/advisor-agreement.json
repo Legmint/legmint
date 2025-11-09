@@ -1,0 +1,31 @@
+{
+  "schema": {
+    "title": "Advisor Agreement",
+    "type": "object",
+    "properties": {
+      "companyName": { "type": "string", "title": "Company Name" },
+      "advisorName": { "type": "string", "title": "Advisor Name" },
+      "advisorEmail": { "type": "string", "format": "email", "title": "Advisor Email" },
+      "jurisdiction": { "type": "string", "title": "Governing Law", "enum": ["UK", "DE", "CZ", "US-DE", "US-CA"] },
+      "effectiveDate": { "type": "string", "format": "date", "title": "Start Date" },
+      "termMonths": { "type": "integer", "title": "Initial Term (months)", "default": 12, "minimum": 6, "maximum": 48 },
+      "servicesDescription": { "type": "string", "title": "Advisory Services Description" },
+      "compensation": {
+        "type": "object",
+        "title": "Compensation",
+        "properties": {
+          "type": { "type": "string", "enum": ["equity", "cash", "both"], "enumNames": ["Equity only", "Cash only", "Equity + Cash"], "default": "equity" },
+          "equityPercent": { "type": "number", "title": "Equity %", "minimum": 0, "maximum": 5 },
+          "cashAmount": { "type": "number", "title": "Cash Amount (monthly)", "minimum": 0 },
+          "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "CZK"], "default": "EUR" }
+        }
+      },
+      "vestingMonths": { "type": "integer", "title": "Vesting Period (months)", "default": 24, "minimum": 12, "maximum": 48 },
+      "cliffMonths": { "type": "integer", "title": "Vesting Cliff (months)", "default": 6, "minimum": 0, "maximum": 12 },
+      "hoursPerMonth": { "type": "integer", "title": "Expected Hours per Month", "minimum": 1, "maximum": 40, "default": 5 }
+    },
+    "required": ["companyName", "advisorName", "jurisdiction", "effectiveDate", "servicesDescription", "compensation"]
+  },
+  "uiSchema": { "servicesDescription": { "ui:widget": "textarea" } },
+  "defaults": { "termMonths": 12, "compensation": { "type": "equity", "currency": "EUR" }, "vestingMonths": 24, "cliffMonths": 6, "hoursPerMonth": 5 }
+}

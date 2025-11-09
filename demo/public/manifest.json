@@ -1,0 +1,25 @@
+{
+  "name": "Legmint - Legal docs, minted for startups",
+  "short_name": "Legmint",
+  "description": "Interactive legal templates for founders. Incorporate, raise, hire, and scale with confidence.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F9FB",
+  "theme_color": "#4BE1A0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "120x120"
+    }
+  ],
+  "categories": ["business", "productivity", "legal"],
+  "lang": "en-US"
+}

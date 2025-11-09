@@ -1,0 +1,126 @@
+services:
+  # ===========================================
+  # LegalMind API - NestJS Backend Service
+  # ===========================================
+  - type: web
+    name: legalmind-api
+    env: node
+    region: oregon
+    plan: starter
+    branch: main
+    rootDir: api
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /v1/health
+    autoDeploy: true
+
+    envVars:
+      # Application
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 3000
+
+      - key: API_BASE_URL
+        value: https://api.legalmind.tech
+
+      - key: FRONTEND_URL
+        value: https://legalmind.tech
+
+      # Database (PostgreSQL)
+      - key: DATABASE_URL
+        fromDatabase:
+          name: legalmind-db
+          property: connectionString
+
+      - key: DATABASE_SSL
+        value: true
+
+      # Redis
+      - key: REDIS_URL
+        fromService:
+          name: legalmind-redis
+          type: redis
+          property: connectionString
+
+      # Secrets (set these in Render Dashboard)
+      - key: JWT_SECRET
+        generateValue: true
+        sync: false
+
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+        sync: false
+
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+
+      - key: CLERK_SECRET_KEY
+        sync: false
+
+      - key: STRIPE_SECRET_KEY
+        sync: false
+
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+
+      - key: AWS_REGION
+        value: eu-west-1
+
+      - key: S3_BUCKET
+        value: legalmind-documents
+
+      - key: SENDGRID_API_KEY
+        sync: false
+
+      - key: EMAIL_FROM
+        value: noreply@legalmind.tech
+
+      # Configuration
+      - key: RATE_LIMIT_MAX_AUTHENTICATED
+        value: 100
+
+      - key: RATE_LIMIT_MAX_UNAUTHENTICATED
+        value: 10
+
+      - key: LOG_LEVEL
+        value: info
+
+      - key: CORS_ORIGINS
+        value: https://legalmind.tech,https://www.legalmind.tech
+
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/chromium-browser
+
+    # Install Chromium for PDF generation
+    buildCommand: |
+      npm ci && \
+      npm run build && \
+      apt-get update && \
+      apt-get install -y chromium-browser
+
+# ===========================================
+# PostgreSQL Database
+# ===========================================
+databases:
+  - name: legalmind-db
+    databaseName: legalmind
+    user: legalmind
+    region: oregon
+    plan: starter
+    ipAllowList: []
+
+# ===========================================
+# Redis Cache & Queue
+# ===========================================
+  - name: legalmind-redis
+    plan: free
+    region: oregon
+    maxmemoryPolicy: allkeys-lru
