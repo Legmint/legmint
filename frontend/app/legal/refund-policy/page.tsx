@@ -31,7 +31,7 @@ export default function RefundPolicyPage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="prose prose-emerald max-w-none">
+        <div className="prose prose-emerald max-w-none text-gray-900">
           {/* Title */}
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Refund Policy
@@ -42,10 +42,10 @@ export default function RefundPolicyPage() {
 
           {/* Introduction */}
           <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 mb-8">
-            <p className="text-lg text-gray-800 font-medium mb-2">
+            <p className="text-lg text-gray-900 font-medium mb-2">
               Summary
             </p>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               Legmint provides digital legal templates that are delivered instantly upon generation.
               Because you receive the completed document immediately, we cannot offer refunds after
               successful delivery. However, we will review refund requests for technical failures,
@@ -55,10 +55,10 @@ export default function RefundPolicyPage() {
 
           {/* Not a Law Firm Disclaimer */}
           <div className="bg-amber-50 border-l-4 border-amber-500 p-6 mb-8">
-            <p className="text-sm font-semibold text-amber-900 mb-2">
+            <p className="text-sm font-semibold text-gray-900 mb-2">
               Important: Legmint Is Not a Law Firm
             </p>
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-gray-900">
               {LEGAL.companyName} is a technology platform providing document generation tools
               and lawyer referrals. We do not provide legal advice, representation, or attorney-client
               relationships. Our templates are informational tools, not substitutes for professional

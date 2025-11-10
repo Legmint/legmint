@@ -125,6 +125,51 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Company Information */}
+        <section className="mb-16">
+          <div className="card p-8 bg-white">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              About the Company
+            </h2>
+            <div className="prose prose-lg text-gray-700 space-y-4">
+              <p>
+                Legmint is a trading name of <strong>Global Legal Consulting Ltd</strong>, a private limited company registered in the United Kingdom.
+              </p>
+              <div className="bg-gray-50 p-6 rounded-lg text-base">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 mb-1">Legal Entity</p>
+                    <p className="text-gray-900">Global Legal Consulting Ltd</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 mb-1">Trading Name</p>
+                    <p className="text-gray-900">Legmint</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 mb-1">Company Number</p>
+                    <p className="text-gray-900">16615750</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600 mb-1">Registered Office</p>
+                    <p className="text-gray-900">128 City Road, London, EC1V 2NX, United Kingdom</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">
+                For more information, you can view our{' '}
+                <a
+                  href="https://find-and-update.company-information.service.gov.uk/company/16615750"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-mint-400 hover:text-mint-500 underline"
+                >
+                  Companies House listing
+                </a>.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Positioning */}
         <section>
           <div className="card p-8 bg-navy-500 text-white text-center">

@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="prose prose-emerald max-w-none">
+        <div className="prose prose-emerald max-w-none text-gray-900">
           {/* Title */}
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Privacy Policy
@@ -42,10 +42,10 @@ export default function PrivacyPolicyPage() {
 
           {/* Introduction */}
           <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 mb-8">
-            <p className="text-lg text-gray-800 font-medium mb-2">
+            <p className="text-lg text-gray-900 font-medium mb-2">
               Your Privacy Matters
             </p>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               {LEGAL.companyName} ("Legmint," "we," "us") is committed to protecting your
               personal data and respecting your privacy rights. This Privacy Policy explains
               how we collect, use, share, and protect your information when you use our
@@ -55,10 +55,10 @@ export default function PrivacyPolicyPage() {
 
           {/* GDPR Notice */}
           <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8">
-            <p className="text-sm font-semibold text-blue-900 mb-2">
+            <p className="text-sm font-semibold text-gray-900 mb-2">
               GDPR Compliance
             </p>
-            <p className="text-sm text-blue-800">
+            <p className="text-sm text-gray-900">
               If you are located in the European Union or United Kingdom, this policy complies
               with the General Data Protection Regulation (GDPR) and UK GDPR. You have specific
               rights regarding your personal data—see Section 9 for details.

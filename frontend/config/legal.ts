@@ -7,9 +7,10 @@
 
 export const LEGAL = {
   // Company Identity
-  companyName: "Legmint s.r.o.",
-  companyNumber: "#######", // Optional: Company registration number
-  registeredAddress: "Street, City, Country, ZIP", // UPDATE with actual registered address
+  companyName: "Global Legal Consulting Ltd",
+  tradingName: "Legmint",
+  companyNumber: "16615750",
+  registeredAddress: "128 City Road, London, EC1V 2NX, United Kingdom",
 
   // Contact Information
   contactEmail: "hello@legmint.com",
@@ -18,8 +19,8 @@ export const LEGAL = {
   consumerRefundEmail: "support@legmint.com",
 
   // Jurisdiction & Legal Framework
-  governingLaw: "Czech Republic", // Choose: "Czech Republic", "England and Wales", "Delaware", etc.
-  disputeVenue: "Prague, Czech Republic", // Where disputes will be resolved
+  governingLaw: "England and Wales",
+  disputeVenue: "England and Wales",
 
   // Refund Policy Settings
   refundWindowHours: 24, // Time window for refund requests after failed/duplicate charges

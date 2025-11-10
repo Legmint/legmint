@@ -31,7 +31,7 @@ export default function TermsOfServicePage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="prose prose-emerald max-w-none">
+        <div className="prose prose-emerald max-w-none text-gray-900">
           {/* Title */}
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Terms of Service
@@ -42,10 +42,10 @@ export default function TermsOfServicePage() {
 
           {/* Introduction */}
           <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 mb-8">
-            <p className="text-lg text-gray-800 font-medium mb-2">
+            <p className="text-lg text-gray-900 font-medium mb-2">
               Agreement to Terms
             </p>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               By accessing or using Legmint, you agree to be bound by these Terms of Service
               and our{' '}
               <Link href="/legal/privacy" className="text-emerald-600 hover:underline font-medium">
@@ -57,15 +57,15 @@ export default function TermsOfServicePage() {
 
           {/* Not a Law Firm Disclaimer */}
           <div className="bg-amber-50 border-l-4 border-amber-500 p-6 mb-8">
-            <p className="text-sm font-semibold text-amber-900 mb-2">
+            <p className="text-sm font-semibold text-gray-900 mb-2">
               Critical: Legmint Is Not a Law Firm
             </p>
-            <p className="text-sm text-amber-800 mb-2">
+            <p className="text-sm text-gray-900 mb-2">
               {LEGAL.companyName} provides technology tools for generating legal document templates
               and connecting users with independent lawyers. We do not provide legal advice,
               representation, or legal opinions.
             </p>
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-gray-900">
               <strong>No attorney-client relationship</strong> is created between you and Legmint
               by using our platform. Our templates are informational starting points, not substitutes
               for professional legal counsel. Always consult a licensed attorney for advice on your
@@ -546,10 +546,10 @@ export default function TermsOfServicePage() {
               10. Disclaimers & No Warranties
             </h2>
             <div className="bg-red-50 border-l-4 border-red-500 p-6 mb-4">
-              <p className="text-sm font-semibold text-red-900 mb-2 uppercase">
+              <p className="text-sm font-semibold text-gray-900 mb-2 uppercase">
                 Important Legal Disclaimer
               </p>
-              <p className="text-sm text-red-800">
+              <p className="text-sm text-gray-900">
                 THE PLATFORM AND ALL TEMPLATES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT
                 WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.
               </p>
