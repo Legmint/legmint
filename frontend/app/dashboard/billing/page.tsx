@@ -21,7 +21,6 @@ interface Subscription {
 }
 
 export default function BillingPage() {
-  const { user } = useUser();
   const { openBillingPortal, checkoutSubscription, isLoading, error } = useCheckout();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -65,9 +64,18 @@ export default function BillingPage() {
     await openBillingPortal();
   };
 
+  // Billing upgrade handler
   const handleUpgrade = async () => {
-    // In real app, use actual price ID from env or config
-    const scalePrice ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_SCALE || 'price_SCALE_FROM_SEED';
+    // Read Scale price from env, with safe fallback
+    const scalePriceID =
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_SCALE ?? 'price_SCALE_FROM_SEED';
+
+    // Guard: avoid broken checkout when price is missing/invalid
+    if (!scalePriceID || !scalePriceID.startsWith('price_')) {
+      alert('Pricing is not configured yet. Please try again later.');
+      return;
+    }
+
     await checkoutSubscription(scalePriceID);
   };
 
@@ -158,7 +166,7 @@ export default function BillingPage() {
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
                         <p className="text-sm text-yellow-800">
                           Your subscription will be canceled on {new Date(subscription.currentPeriodEnd).toLocaleDateString()}.
-                          You'll continue to have access until then.
+                          You&apos;ll continue to have access until then.
                         </p>
                       </div>
                     )}
@@ -186,7 +194,7 @@ export default function BillingPage() {
                     <p className="text-red-600 text-sm mt-3">{error}</p>
                   )}
                   <p className="text-xs text-gray-500 text-center mt-3">
-                    You'll be redirected to Stripe to manage your subscription
+                    You&apos;ll be redirected to Stripe to manage your subscription
                   </p>
                 </div>
 

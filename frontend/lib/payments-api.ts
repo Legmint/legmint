@@ -39,10 +39,15 @@ async function apiRequest<T>(
 ): Promise<T> {
   const token = await getAuthToken();
 
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options.headers || {}),
   };
+
+  // Merge existing headers if present
+  if (options.headers) {
+    const existingHeaders = options.headers as Record<string, string>;
+    Object.assign(headers, existingHeaders);
+  }
 
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
