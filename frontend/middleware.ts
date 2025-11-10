@@ -1,32 +1,29 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { authMiddleware } from "@clerk/nextjs";
 
-// Define public routes that don't require authentication
-const isPublicRoute = createRouteMatcher([
-  '/',
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks(.*)',
-  '/pricing',
-  '/templates',
-  '/about',
-  '/contact',
-  '/lawyers(.*)',
-  '/admin(.*)',
-  '/legal(.*)',
-]);
+// Public routes that do NOT require auth
+const publicRoutes = [
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/pricing",
+  "/legal(.*)",
+  "/templates",
+  "/about",
+  "/contact",
+  "/lawyers(.*)",
+  "/admin(.*)",           // keep public if admin has its own auth gate later
+  "/api/webhooks(.*)",    // webhooks shouldn't be blocked by auth middleware
+];
 
-export default clerkMiddleware(async (auth, request) => {
-  // Protect all routes except public ones
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
+// Use Clerk's high-level middleware (handles edge/runtime safely)
+export default authMiddleware({
+  publicRoutes,
 });
 
+// Run middleware on everything except Next internals & static assets
 export const config = {
   matcher: [
-    // Skip Next.js internals and static files
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
+    // exclude Next internals and static files
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|ico|webp|css|js|map)$).*)",
   ],
 };
