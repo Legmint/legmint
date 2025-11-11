@@ -1,0 +1,111 @@
+{
+  "common": {
+    "brand": "Legmint",
+    "tagline": "AI Legal Templates for Startups",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "backToHome": "Back to Home"
+  },
+  "nav": {
+    "pricing": "Pricing",
+    "templates": "Templates",
+    "lawyers": "Find a Lawyer",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "footer": {
+    "disclaimer": "Legmint provides automated document generation and general legal information only. It does not constitute legal advice, and no attorney-client relationship is created. Always consult a licensed attorney for advice specific to your situation.",
+    "product": "Product",
+    "forLawyers": "For Lawyers",
+    "company": "Company",
+    "legal": "Legal",
+    "copyright": "© 2025 Legmint. All rights reserved.",
+    "templates": "Templates",
+    "jurisdictions": "Jurisdictions",
+    "howItWorks": "How it works",
+    "partnerProgram": "Partner program",
+    "referralTerms": "Referral terms",
+    "applyNow": "Apply now",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "refundPolicy": "Refund Policy",
+    "disclaimer": "Disclaimer"
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Get instant access to legal templates. Cancel anytime.",
+    "free": {
+      "name": "Free",
+      "price": "€0",
+      "period": "",
+      "description": "Explore and preview templates",
+      "features": {
+        "preview": "Browse and preview all templates",
+        "form": "Use the interactive form up to preview",
+        "noDownload": "No downloads or exports",
+        "noGeneration": "No finalized generation",
+        "upgrade": "Upgrade anytime"
+      },
+      "cta": "Browse Templates"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "€99",
+      "period": "/month",
+      "description": "Full access for growing startups",
+      "badge": "Most Popular",
+      "features": {
+        "fullAccess": "Full access to all templates across jurisdictions (UK, DE, CZ, US-DE, US-CA)",
+        "unlimited": "Unlimited document generation and downloads (PDF/DOCX)",
+        "autoUpdate": "Templates auto-updated with latest laws (GDPR, CCPA, UK Companies Act, etc.)",
+        "multilingual": "Multilingual support (EN / DE / CS)",
+        "futureTemplates": "Access to future template categories (funding, HR, IP, data protection)",
+        "lawyerReferral": "Lawyer referral integration: direct consultation with verified local attorneys"
+      },
+      "cta": "Subscribe to Pro",
+      "annual": "Annual billing: Save 15%"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": {
+        "question": "Can I cancel anytime?",
+        "answer": "Yes! Cancel your subscription anytime from your billing portal. No questions asked, no penalties."
+      },
+      "q2": {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit cards (Visa, Mastercard, Amex) through our secure Stripe checkout."
+      },
+      "q3": {
+        "question": "How does the Free plan work?",
+        "answer": "The Free plan lets you browse all templates and use the interactive form to preview what the final document will look like. To download or generate the final document, upgrade to Pro."
+      },
+      "q4": {
+        "question": "Do you offer refunds?",
+        "answer": "We offer a 14-day money-back guarantee on subscriptions. See our Refund Policy for complete details."
+      }
+    },
+    "secureBadge": "Secure checkout with Stripe • Cancel anytime"
+  },
+  "disclaimer": {
+    "title": "Legal Disclaimer",
+    "notLegalAdvice": {
+      "title": "Not Legal Advice",
+      "content": "Legmint provides automated document generation tools and general legal information only. We do not provide legal advice, representation, or legal opinions."
+    },
+    "noAttorneyClient": {
+      "title": "No Attorney-Client Relationship",
+      "content": "Using Legmint does not create an attorney-client relationship between you and Legmint. Our templates are informational starting points, not substitutes for professional legal counsel."
+    },
+    "consultAttorney": {
+      "title": "Always Consult an Attorney",
+      "content": "You should always consult a licensed attorney for advice specific to your situation. Laws vary by jurisdiction and change over time. Templates may not be suitable for your specific needs."
+    },
+    "userResponsibility": {
+      "title": "Your Responsibility",
+      "content": "You are solely responsible for reviewing, customizing, and verifying that any document generated through Legmint is appropriate for your needs and complies with applicable laws."
+    }
+  }
+}

@@ -1,11 +1,11 @@
 /**
- * Pricing Page with Stripe Integration
- *
- * Shows how subscription checkout buttons appear on the website
+ * Pricing Page - Simplified 2-Tier Model
+ * Free (preview only) + Pro (€99/mo with 15% yearly discount)
  */
 
 'use client';
 
+import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useCheckout } from '@/hooks/useCheckout';
 import Link from 'next/link';
@@ -13,12 +13,12 @@ import Link from 'next/link';
 export default function PricingPage() {
   const { isSignedIn } = useUser();
   const { checkoutSubscription, isLoading, error } = useCheckout();
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
-  // These would come from your Stripe seed script output
-  // For now, using placeholders
+  // Stripe Price IDs (set these in your environment variables)
   const PRICE_IDS = {
-    pro: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO || 'price_PRO_FROM_SEED',
-    scale: process.env.NEXT_PUBLIC_STRIPE_PRICE_SCALE || 'price_SCALE_FROM_SEED',
+    proMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_PRO_MONTHLY',
+    proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_PRO_YEARLY',
   };
 
   const handleSubscribe = async (priceId: string) => {
@@ -30,62 +30,97 @@ export default function PricingPage() {
     await checkoutSubscription(priceId);
   };
 
+  const yearlyPrice = 99 * 12 * 0.85; // 15% discount
+  const monthlySavings = (99 * 12 - yearlyPrice) / 12;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
         <div className="text-center">
-          <Link href="/" className="text-indigo-600 hover:underline mb-4 inline-block">
+          <Link href="/" className="text-emerald-600 hover:underline mb-4 inline-block">
             ← Back to Home
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Choose Your Plan
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Get instant access to all legal templates. Cancel anytime.
+            Get instant access to legal templates. Cancel anytime.
           </p>
+
+          {/* Billing Toggle */}
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+              Monthly
+            </span>
+            <button
+              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                billingCycle === 'yearly' ? 'bg-emerald-600' : 'bg-gray-300'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+              Yearly
+            </span>
+            {billingCycle === 'yearly' && (
+              <span className="ml-2 inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                Save 15%
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid md:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
-          {/* Starter - One-time */}
+          {/* Free Tier */}
           <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-lg transition">
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
               <div className="flex items-baseline justify-center mb-4">
-                <span className="text-5xl font-extrabold text-gray-900">€49</span>
-                <span className="text-gray-600 ml-2">/document</span>
+                <span className="text-5xl font-extrabold text-gray-900">€0</span>
               </div>
-              <p className="text-gray-600">Perfect for one-off needs</p>
+              <p className="text-gray-600">Explore and preview templates</p>
             </div>
 
             <ul className="space-y-4 mb-8">
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-emerald-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Single document generation</span>
+                <span className="text-gray-700">Browse and preview all templates</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-emerald-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Professional formatting</span>
+                <span className="text-gray-700">Use the interactive form up to preview</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <svg className="w-6 h-6 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
-                <span className="text-gray-700">Instant PDF/DOCX download</span>
+                <span className="text-gray-500">No downloads or exports</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="text-gray-500">No finalized generation</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="w-6 h-6 text-emerald-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">30-minute access window</span>
+                <span className="text-gray-700 font-medium">Upgrade anytime</span>
               </li>
             </ul>
 
@@ -96,14 +131,14 @@ export default function PricingPage() {
               Browse Templates
             </Link>
             <p className="text-xs text-gray-500 text-center mt-3">
-              Pay per template on checkout
+              No credit card required
             </p>
           </div>
 
           {/* Pro - Most Popular */}
-          <div className="bg-white border-2 border-indigo-600 rounded-xl p-8 shadow-lg relative transform md:scale-105">
+          <div className="bg-white border-2 border-emerald-600 rounded-xl p-8 shadow-lg relative transform md:scale-105">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <span className="bg-indigo-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              <span className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </span>
             </div>
@@ -111,49 +146,69 @@ export default function PricingPage() {
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
               <div className="flex items-baseline justify-center mb-4">
-                <span className="text-5xl font-extrabold text-indigo-600">€99</span>
-                <span className="text-gray-600 ml-2">/month</span>
+                {billingCycle === 'monthly' ? (
+                  <>
+                    <span className="text-5xl font-extrabold text-emerald-600">€99</span>
+                    <span className="text-gray-600 ml-2">/month</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-5xl font-extrabold text-emerald-600">€{Math.round(yearlyPrice / 12)}</span>
+                    <span className="text-gray-600 ml-2">/month</span>
+                  </>
+                )}
               </div>
-              <p className="text-gray-600">For growing startups</p>
+              {billingCycle === 'yearly' && (
+                <p className="text-sm text-emerald-600 font-medium mb-2">
+                  €{Math.round(yearlyPrice)}/year • Save €{Math.round(99 * 12 - yearlyPrice)} annually
+                </p>
+              )}
+              <p className="text-gray-600">Full access for growing startups</p>
             </div>
 
-            <ul className="space-y-4 mb-8">
+            <ul className="space-y-3 mb-8 text-sm">
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 font-semibold">Unlimited documents</span>
+                <span className="text-gray-700"><strong>Full access</strong> to all templates across jurisdictions (UK, DE, CZ, US-DE, US-CA)</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Access to all templates</span>
+                <span className="text-gray-700"><strong>Unlimited</strong> document generation and downloads (PDF/DOCX)</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Priority support</span>
+                <span className="text-gray-700">Templates <strong>auto-updated</strong> with latest laws (GDPR, CCPA, UK Companies Act, etc.)</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Document versioning</span>
+                <span className="text-gray-700"><strong>Multilingual</strong> support (EN / DE / CS)</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700">Cancel anytime</span>
+                <span className="text-gray-700">Access to <strong>future template categories</strong> (funding, HR, IP, data protection)</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-gray-700"><strong>Lawyer referral integration:</strong> direct consultation with verified local attorneys</span>
               </li>
             </ul>
 
             <button
-              onClick={() => handleSubscribe(PRICE_IDS.pro)}
+              onClick={() => handleSubscribe(billingCycle === 'monthly' ? PRICE_IDS.proMonthly : PRICE_IDS.proYearly)}
               disabled={isLoading}
-              className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -164,68 +219,12 @@ export default function PricingPage() {
                   Redirecting to Stripe...
                 </span>
               ) : (
-                'Subscribe to Pro'
+                `Subscribe to Pro${billingCycle === 'yearly' ? ' (Annual)' : ''}`
               )}
             </button>
             {error && (
               <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             )}
-            <p className="text-xs text-gray-500 text-center mt-3">
-              Secure checkout with Stripe • Cancel anytime
-            </p>
-          </div>
-
-          {/* Scale - Enterprise */}
-          <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-lg transition">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Scale</h3>
-              <div className="flex items-baseline justify-center mb-4">
-                <span className="text-5xl font-extrabold text-gray-900">€299</span>
-                <span className="text-gray-600 ml-2">/month</span>
-              </div>
-              <p className="text-gray-600">For scaling companies</p>
-            </div>
-
-            <ul className="space-y-4 mb-8">
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700 font-semibold">Everything in Pro</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Multi-user accounts</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Custom branding</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Dedicated account manager</span>
-              </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">5 lawyer review credits/mo</span>
-              </li>
-            </ul>
-
-            <button
-              onClick={() => handleSubscribe(PRICE_IDS.scale)}
-              disabled={isLoading}
-              className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Redirecting...' : 'Subscribe to Scale'}
-            </button>
             <p className="text-xs text-gray-500 text-center mt-3">
               Secure checkout with Stripe • Cancel anytime
             </p>
@@ -236,28 +235,40 @@ export default function PricingPage() {
         <div className="mt-16 max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h3 className="font-semibold text-lg mb-2">Can I cancel anytime?</h3>
               <p className="text-gray-600">
                 Yes! Cancel your subscription anytime from your billing portal. No questions asked, no penalties.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h3 className="font-semibold text-lg mb-2">What payment methods do you accept?</h3>
               <p className="text-gray-600">
                 We accept all major credit cards (Visa, Mastercard, Amex) through our secure Stripe checkout.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">How does the one-time Starter plan work?</h3>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold text-lg mb-2">How does the Free plan work?</h3>
               <p className="text-gray-600">
-                Pay €49 for a single template. You'll have 30 minutes to generate and download your document. Perfect for one-off needs.
+                The Free plan lets you browse all templates and use the interactive form to preview what the final document will look like.
+                To download or generate the final document, upgrade to Pro.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h3 className="font-semibold text-lg mb-2">Do you offer refunds?</h3>
               <p className="text-gray-600">
-                We offer a 14-day money-back guarantee on subscriptions. For one-time purchases, refunds are available if you haven't generated the document yet.
+                We offer a 14-day money-back guarantee on subscriptions. See our{' '}
+                <Link href="/legal/refund-policy" className="text-emerald-600 hover:underline font-medium">
+                  Refund Policy
+                </Link>{' '}
+                for complete details.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold text-lg mb-2">What's included in the lawyer referral integration?</h3>
+              <p className="text-gray-600">
+                Pro subscribers get access to our verified network of local attorneys across all supported jurisdictions.
+                Book consultations directly through the platform with transparent pricing and vetted professionals.
               </p>
             </div>
           </div>

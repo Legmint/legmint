@@ -1,0 +1,111 @@
+{
+  "common": {
+    "brand": "Legmint",
+    "tagline": "KI-gestützte Rechtsvorlagen für Startups",
+    "getStarted": "Loslegen",
+    "learnMore": "Mehr erfahren",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "backToHome": "Zurück zur Startseite"
+  },
+  "nav": {
+    "pricing": "Preise",
+    "templates": "Vorlagen",
+    "lawyers": "Anwalt finden",
+    "blog": "Blog",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "footer": {
+    "disclaimer": "Legmint bietet automatisierte Dokumentenerstellung und allgemeine Rechtsinformationen. Dies stellt keine Rechtsberatung dar, und es wird kein Mandatsverhältnis begründet. Konsultieren Sie immer einen zugelassenen Anwalt für spezifische rechtliche Beratung.",
+    "product": "Produkt",
+    "forLawyers": "Für Anwälte",
+    "company": "Unternehmen",
+    "legal": "Rechtliches",
+    "copyright": "© 2025 Legmint. Alle Rechte vorbehalten.",
+    "templates": "Vorlagen",
+    "jurisdictions": "Rechtsräume",
+    "howItWorks": "So funktioniert's",
+    "partnerProgram": "Partnerprogramm",
+    "referralTerms": "Empfehlungsbedingungen",
+    "applyNow": "Jetzt bewerben",
+    "privacyPolicy": "Datenschutz",
+    "termsOfService": "Nutzungsbedingungen",
+    "refundPolicy": "Rückerstattung",
+    "disclaimer": "Haftungsausschluss"
+  },
+  "pricing": {
+    "title": "Wählen Sie Ihren Plan",
+    "subtitle": "Sofortiger Zugang zu Rechtsvorlagen. Jederzeit kündbar.",
+    "free": {
+      "name": "Kostenlos",
+      "price": "€0",
+      "period": "",
+      "description": "Vorlagen erkunden und ansehen",
+      "features": {
+        "preview": "Alle Vorlagen durchsuchen und ansehen",
+        "form": "Interaktives Formular bis zur Vorschau nutzen",
+        "noDownload": "Keine Downloads oder Exporte",
+        "noGeneration": "Keine endgültige Generierung",
+        "upgrade": "Jederzeit upgraden"
+      },
+      "cta": "Vorlagen durchsuchen"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "€99",
+      "period": "/Monat",
+      "description": "Vollzugriff für wachsende Startups",
+      "badge": "Am beliebtesten",
+      "features": {
+        "fullAccess": "Vollzugriff auf alle Vorlagen in allen Rechtsräumen (UK, DE, CZ, US-DE, US-CA)",
+        "unlimited": "Unbegrenzte Dokumentenerstellung und Downloads (PDF/DOCX)",
+        "autoUpdate": "Vorlagen automatisch aktualisiert mit neuesten Gesetzen (DSGVO, CCPA, UK Companies Act, etc.)",
+        "multilingual": "Mehrsprachige Unterstützung (EN / DE / CS)",
+        "futureTemplates": "Zugang zu zukünftigen Vorlagenkategorien (Finanzierung, HR, IP, Datenschutz)",
+        "lawyerReferral": "Anwalts-Empfehlungsintegration: Direktberatung mit geprüften lokalen Anwälten"
+      },
+      "cta": "Pro abonnieren",
+      "annual": "Jährliche Abrechnung: 15% sparen"
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "q1": {
+        "question": "Kann ich jederzeit kündigen?",
+        "answer": "Ja! Kündigen Sie Ihr Abonnement jederzeit über Ihr Abrechnungsportal. Keine Fragen, keine Strafen."
+      },
+      "q2": {
+        "question": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "answer": "Wir akzeptieren alle gängigen Kreditkarten (Visa, Mastercard, Amex) über unseren sicheren Stripe-Checkout."
+      },
+      "q3": {
+        "question": "Wie funktioniert der kostenlose Plan?",
+        "answer": "Der kostenlose Plan ermöglicht es Ihnen, alle Vorlagen zu durchsuchen und das interaktive Formular zu verwenden, um eine Vorschau des endgültigen Dokuments zu sehen. Um das endgültige Dokument herunterzuladen oder zu erstellen, upgraden Sie auf Pro."
+      },
+      "q4": {
+        "question": "Bieten Sie Rückerstattungen an?",
+        "answer": "Wir bieten eine 14-tägige Geld-zurück-Garantie für Abonnements. Weitere Details finden Sie in unserer Rückerstattungsrichtlinie."
+      }
+    },
+    "secureBadge": "Sicherer Checkout mit Stripe • Jederzeit kündbar"
+  },
+  "disclaimer": {
+    "title": "Rechtlicher Haftungsausschluss",
+    "notLegalAdvice": {
+      "title": "Keine Rechtsberatung",
+      "content": "Legmint bietet automatisierte Dokumentenerstellungstools und allgemeine Rechtsinformationen. Wir bieten keine Rechtsberatung, Vertretung oder rechtliche Gutachten."
+    },
+    "noAttorneyClient": {
+      "title": "Kein Mandatsverhältnis",
+      "content": "Die Nutzung von Legmint begründet kein Mandatsverhältnis zwischen Ihnen und Legmint. Unsere Vorlagen sind informative Ausgangspunkte, kein Ersatz für professionelle Rechtsberatung."
+    },
+    "consultAttorney": {
+      "title": "Konsultieren Sie immer einen Anwalt",
+      "content": "Sie sollten immer einen zugelassenen Anwalt für spezifische rechtliche Beratung konsultieren. Gesetze variieren je nach Rechtsraum und ändern sich im Laufe der Zeit. Vorlagen sind möglicherweise nicht für Ihre spezifischen Bedürfnisse geeignet."
+    },
+    "userResponsibility": {
+      "title": "Ihre Verantwortung",
+      "content": "Sie sind allein verantwortlich für die Überprüfung, Anpassung und Verifizierung, dass jedes über Legmint erstellte Dokument für Ihre Bedürfnisse geeignet ist und den geltenden Gesetzen entspricht."
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "common": {
+    "brand": "Legmint",
+    "tagline": "AI Právní Šablony pro Startupy",
+    "getStarted": "Začít",
+    "learnMore": "Zjistit více",
+    "signIn": "Přihlásit se",
+    "signUp": "Registrovat se",
+    "backToHome": "Zpět na hlavní stránku"
+  },
+  "nav": {
+    "pricing": "Ceník",
+    "templates": "Šablony",
+    "lawyers": "Najít právníka",
+    "blog": "Blog",
+    "about": "O nás",
+    "contact": "Kontakt"
+  },
+  "footer": {
+    "disclaimer": "Legmint poskytuje automatizované generování dokumentů a obecné právní informace. Nejedná se o právní poradenství a nevzniká vztah advokát-klient. Vždy se poraďte s licencovaným právníkem pro radu specifickou pro vaši situaci.",
+    "product": "Produkt",
+    "forLawyers": "Pro právníky",
+    "company": "Společnost",
+    "legal": "Právní informace",
+    "copyright": "© 2025 Legmint. Všechna práva vyhrazena.",
+    "templates": "Šablony",
+    "jurisdictions": "Jurisdikce",
+    "howItWorks": "Jak to funguje",
+    "partnerProgram": "Partnerský program",
+    "referralTerms": "Podmínky doporučení",
+    "applyNow": "Přihlásit se nyní",
+    "privacyPolicy": "Ochrana osobních údajů",
+    "termsOfService": "Podmínky služby",
+    "refundPolicy": "Vrácení peněz",
+    "disclaimer": "Vyloučení odpovědnosti"
+  },
+  "pricing": {
+    "title": "Vyberte si váš plán",
+    "subtitle": "Získejte okamžitý přístup k právním šablonám. Zrušte kdykoli.",
+    "free": {
+      "name": "Zdarma",
+      "price": "€0",
+      "period": "",
+      "description": "Prozkoumat a zobrazit náhledy šablon",
+      "features": {
+        "preview": "Procházet a zobrazit všechny šablony",
+        "form": "Použít interaktivní formulář až po náhled",
+        "noDownload": "Žádné stahování ani exporty",
+        "noGeneration": "Žádné dokončené generování",
+        "upgrade": "Upgradovat kdykoli"
+      },
+      "cta": "Procházet šablony"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "€99",
+      "period": "/měsíc",
+      "description": "Plný přístup pro rostoucí startupy",
+      "badge": "Nejoblíbenější",
+      "features": {
+        "fullAccess": "Plný přístup ke všem šablonám ve všech jurisdikcích (UK, DE, CZ, US-DE, US-CA)",
+        "unlimited": "Neomezené generování a stahování dokumentů (PDF/DOCX)",
+        "autoUpdate": "Šablony automaticky aktualizovány s nejnovějšími zákony (GDPR, CCPA, UK Companies Act, atd.)",
+        "multilingual": "Vícejazyčná podpora (EN / DE / CS)",
+        "futureTemplates": "Přístup k budoucím kategoriím šablon (financování, HR, IP, ochrana dat)",
+        "lawyerReferral": "Integrace doporučení právníků: přímá konzultace s ověřenými místními advokáty"
+      },
+      "cta": "Předplatit Pro",
+      "annual": "Roční fakturace: Ušetřete 15%"
+    },
+    "faq": {
+      "title": "Často kladené otázky",
+      "q1": {
+        "question": "Mohu zrušit kdykoli?",
+        "answer": "Ano! Zrušte své předplatné kdykoli z vašeho fakturačního portálu. Bez otázek, bez penále."
+      },
+      "q2": {
+        "question": "Jaké platební metody přijímáte?",
+        "answer": "Přijímáme všechny hlavní kreditní karty (Visa, Mastercard, Amex) prostřednictvím našeho bezpečného Stripe checkout."
+      },
+      "q3": {
+        "question": "Jak funguje bezplatný plán?",
+        "answer": "Bezplatný plán vám umožňuje procházet všechny šablony a používat interaktivní formulář k zobrazení náhledu konečného dokumentu. Pro stažení nebo vygenerování konečného dokumentu upgradujte na Pro."
+      },
+      "q4": {
+        "question": "Nabízíte vrácení peněz?",
+        "answer": "Nabízíme 14denní záruku vrácení peněz na předplatné. Podrobnosti naleznete v našich zásadách vrácení peněz."
+      }
+    },
+    "secureBadge": "Bezpečný checkout se Stripe • Zrušit kdykoli"
+  },
+  "disclaimer": {
+    "title": "Právní prohlášení",
+    "notLegalAdvice": {
+      "title": "Není právní poradenství",
+      "content": "Legmint poskytuje nástroje pro automatizované generování dokumentů a obecné právní informace. Neposkytujeme právní poradenství, zastoupení ani právní stanoviska."
+    },
+    "noAttorneyClient": {
+      "title": "Žádný vztah advokát-klient",
+      "content": "Používání Legmint nevytváří vztah advokát-klient mezi vámi a Legmint. Naše šablony jsou informativní výchozí body, nikoli náhrada za profesionální právní poradenství."
+    },
+    "consultAttorney": {
+      "title": "Vždy se poraďte s právníkem",
+      "content": "Měli byste se vždy poradit s licencovaným právníkem pro radu specifickou pro vaši situaci. Zákony se liší podle jurisdikce a mění se v průběhu času. Šablony nemusí být vhodné pro vaše specifické potřeby."
+    },
+    "userResponsibility": {
+      "title": "Vaše odpovědnost",
+      "content": "Nesete výhradní odpovědnost za kontrolu, přizpůsobení a ověření, že jakýkoli dokument vygenerovaný prostřednictvím Legmint je vhodný pro vaše potřeby a je v souladu s platnými zákony."
+    }
+  }
+}

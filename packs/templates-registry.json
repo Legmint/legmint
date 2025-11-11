@@ -1,0 +1,264 @@
+{
+  "version": "2025.01",
+  "last_updated": "2025-11-11",
+  "templates": [
+    {
+      "template_id": "nda-uk",
+      "name": "Non-Disclosure Agreement (Mutual)",
+      "category": "commercial",
+      "jurisdiction": "UK",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Common Law",
+        "UK Data Protection Act 2018",
+        "GDPR (UK-GDPR)"
+      ],
+      "status": "published",
+      "description": "Mutual NDA for protecting confidential information between two parties",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/commercial/templates/nda-uk.md"
+    },
+    {
+      "template_id": "employment-contract-uk",
+      "name": "Employment Contract (UK)",
+      "category": "employment",
+      "jurisdiction": "UK",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Employment Rights Act 1996",
+        "Equality Act 2010",
+        "Working Time Regulations 1998",
+        "UK GDPR"
+      ],
+      "status": "published",
+      "description": "Standard employment contract for UK employees",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/employment/templates/employment-contract-uk.md"
+    },
+    {
+      "template_id": "privacy-policy-gdpr",
+      "name": "Privacy Policy (GDPR Compliant)",
+      "category": "privacy",
+      "jurisdiction": "EU",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "GDPR (EU) 2016/679",
+        "ePrivacy Directive 2002/58/EC"
+      ],
+      "status": "published",
+      "description": "GDPR-compliant privacy policy for EU-based services",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/privacy/templates/privacy-policy-gdpr.md"
+    },
+    {
+      "template_id": "privacy-policy-ccpa",
+      "name": "Privacy Policy (CCPA Compliant)",
+      "category": "privacy",
+      "jurisdiction": "US-CA",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "California Consumer Privacy Act (CCPA)",
+        "California Privacy Rights Act (CPRA)"
+      ],
+      "status": "published",
+      "description": "CCPA-compliant privacy policy for California consumers",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/privacy/templates/privacy-policy-ccpa.md"
+    },
+    {
+      "template_id": "saas-terms-uk",
+      "name": "SaaS Terms of Service",
+      "category": "saas",
+      "jurisdiction": "UK",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Consumer Rights Act 2015",
+        "Electronic Commerce Regulations 2002",
+        "UK GDPR"
+      ],
+      "status": "published",
+      "description": "Terms of service for SaaS businesses operating in the UK",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/saas/templates/saas-terms-uk.md"
+    },
+    {
+      "template_id": "company-formation-de",
+      "name": "GmbH Formation Documents",
+      "category": "fundraising",
+      "jurisdiction": "DE",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "GmbHG (German Limited Liability Companies Act)",
+        "BGB (German Civil Code)",
+        "HGB (German Commercial Code)"
+      ],
+      "status": "published",
+      "description": "Formation documents for German GmbH (limited liability company)",
+      "requires_notarization": true,
+      "requires_witness": false,
+      "notes": "German company formations require notarization. This template provides the foundation but must be reviewed and notarized by a German Notar.",
+      "file_path": "/packs/fundraising/templates/company-formation-de.md"
+    },
+    {
+      "template_id": "ip-assignment-us",
+      "name": "Intellectual Property Assignment Agreement",
+      "category": "ip",
+      "jurisdiction": "US",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "US Copyright Act",
+        "Patent Act (35 U.S.C.)",
+        "State contract law"
+      ],
+      "status": "published",
+      "description": "IP assignment agreement for assigning copyrights, patents, and trademarks",
+      "requires_notarization": false,
+      "requires_witness": true,
+      "file_path": "/packs/ip/templates/ip-assignment-us.md"
+    },
+    {
+      "template_id": "founder-agreement-cz",
+      "name": "Founder Agreement (Czech Republic)",
+      "category": "fundraising",
+      "jurisdiction": "CZ",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Czech Civil Code (Act No. 89/2012 Coll.)",
+        "Business Corporations Act (Act No. 90/2012 Coll.)"
+      ],
+      "status": "published",
+      "description": "Founder agreement for Czech startups",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/fundraising/templates/founder-agreement-cz.md"
+    },
+    {
+      "template_id": "safe-agreement-us-de",
+      "name": "SAFE Agreement (Simple Agreement for Future Equity)",
+      "category": "fundraising",
+      "jurisdiction": "US-DE",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Delaware General Corporation Law (DGCL)",
+        "Securities Act of 1933",
+        "Y Combinator SAFE template"
+      ],
+      "status": "published",
+      "description": "SAFE agreement for early-stage startup fundraising (Delaware)",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/fundraising/templates/safe-agreement-us-de.md"
+    },
+    {
+      "template_id": "consulting-agreement-uk",
+      "name": "Consulting Services Agreement",
+      "category": "commercial",
+      "jurisdiction": "UK",
+      "version": "2025.01",
+      "last_reviewed": "2025-11-11",
+      "legal_basis": [
+        "Common Law",
+        "Supply of Goods and Services Act 1982",
+        "IR35 Regulations"
+      ],
+      "status": "published",
+      "description": "Agreement for engaging independent consultants (IR35 compliant)",
+      "requires_notarization": false,
+      "requires_witness": false,
+      "file_path": "/packs/commercial/templates/consulting-agreement-uk.md"
+    }
+  ],
+  "jurisdictions": {
+    "UK": {
+      "name": "United Kingdom",
+      "legal_system": "Common Law",
+      "key_legislation": [
+        "Companies Act 2006",
+        "Employment Rights Act 1996",
+        "UK GDPR",
+        "Consumer Rights Act 2015"
+      ]
+    },
+    "DE": {
+      "name": "Germany",
+      "legal_system": "Civil Law",
+      "key_legislation": [
+        "Bürgerliches Gesetzbuch (BGB - Civil Code)",
+        "Handelsgesetzbuch (HGB - Commercial Code)",
+        "GmbHG (Limited Liability Companies Act)",
+        "BDSG (Federal Data Protection Act)"
+      ],
+      "notes": "Many business transactions require notarization by a Notar."
+    },
+    "CZ": {
+      "name": "Czech Republic",
+      "legal_system": "Civil Law",
+      "key_legislation": [
+        "Civil Code (Act No. 89/2012 Coll.)",
+        "Business Corporations Act (Act No. 90/2012 Coll.)",
+        "Labor Code (Act No. 262/2006 Coll.)"
+      ]
+    },
+    "US-DE": {
+      "name": "United States - Delaware",
+      "legal_system": "Common Law",
+      "key_legislation": [
+        "Delaware General Corporation Law (DGCL)",
+        "Delaware LLC Act",
+        "Securities Act of 1933"
+      ],
+      "notes": "Delaware is the most popular state for startup incorporation in the US."
+    },
+    "US-CA": {
+      "name": "United States - California",
+      "legal_system": "Common Law",
+      "key_legislation": [
+        "California Corporations Code",
+        "California Civil Code",
+        "CCPA (California Consumer Privacy Act)",
+        "CPRA (California Privacy Rights Act)"
+      ],
+      "notes": "California has strong employee and consumer protection laws."
+    }
+  },
+  "categories": {
+    "commercial": {
+      "name": "Commercial Contracts",
+      "description": "NDAs, consulting agreements, service agreements, and sales contracts"
+    },
+    "employment": {
+      "name": "Employment & HR",
+      "description": "Employment contracts, offer letters, contractor agreements, and HR policies"
+    },
+    "privacy": {
+      "name": "Privacy & Data Protection",
+      "description": "Privacy policies, data processing agreements, and cookie policies"
+    },
+    "saas": {
+      "name": "SaaS & Technology",
+      "description": "Terms of service, SLAs, API agreements, and acceptable use policies"
+    },
+    "fundraising": {
+      "name": "Fundraising & Formation",
+      "description": "Company formation, SAFE agreements, founder agreements, and investment documents"
+    },
+    "ip": {
+      "name": "Intellectual Property",
+      "description": "IP assignment, licensing agreements, trademark applications"
+    }
+  }
+}
