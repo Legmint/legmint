@@ -2,6 +2,8 @@
  * Pricing Page - Simplified 2-Tier Model
  * Free (preview only) + Pro (€99/mo with 15% yearly discount)
  */
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 'use client';
 
