@@ -55,7 +55,7 @@ export default function HeroSection() {
           </div>
 
           <p className="text-sm text-gray-500">
-            Built for founders in London, Berlin, and beyond.
+            Your startup's legal copilot
           </p>
         </div>
       </div>
