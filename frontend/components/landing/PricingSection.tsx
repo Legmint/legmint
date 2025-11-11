@@ -1,58 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { ALL_PLANS } from '@/lib/pricing';
 
 export default function PricingSection() {
-  const plans = [
-    {
-      name: 'Free',
-      price: '€0',
-      period: '/month',
-      description: 'Browse and preview all templates',
-      features: [
-        'Browse and preview all templates',
-        'See jurisdiction coverage',
-        'Access template descriptions'
-      ],
-      cta: 'Start free — no card required',
-      href: '/sign-up',
-      highlighted: false,
-      buttonStyle: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-    },
-    {
-      name: 'Pro',
-      price: '€49',
-      period: '/month',
-      description: 'Most popular for growing startups',
-      features: [
-        'Unlimited documents',
-        'All 5 jurisdictions',
-        'PDF + DOCX downloads',
-        'Priority email support',
-        'Early access to new templates'
-      ],
-      cta: 'Start free trial',
-      href: '/sign-up',
-      highlighted: true,
-      buttonStyle: 'bg-emerald-600 text-white hover:bg-emerald-700'
-    },
-    {
-      name: 'Scale',
-      price: '€99',
-      period: '/month',
-      description: 'For teams and high-volume needs',
-      features: [
-        'Everything in Pro',
-        '15% discount on lawyer referrals',
-        'Dedicated account manager',
-        'Custom template requests'
-      ],
-      cta: 'Start free trial',
-      href: '/sign-up',
-      highlighted: false,
-      buttonStyle: 'bg-emerald-600 text-white hover:bg-emerald-700'
-    }
-  ];
+  const plans = ALL_PLANS;
 
   return (
     <div className="bg-gradient-to-b from-emerald-50 to-white py-16 sm:py-24">
@@ -63,10 +15,10 @@ export default function PricingSection() {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 max-w-5xl mx-auto">
-          {plans.map((plan, index) => (
+        <div className="grid sm:grid-cols-2 gap-6 lg:gap-8 mb-8 max-w-4xl mx-auto">
+          {plans.map((plan) => (
             <div
-              key={index}
+              key={plan.id}
               className={`relative bg-white rounded-2xl p-8 ${
                 plan.highlighted
                   ? 'border-4 border-emerald-600 shadow-2xl scale-105'
@@ -76,7 +28,7 @@ export default function PricingSection() {
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <span className="bg-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    Recommended
+                    Most Popular
                   </span>
                 </div>
               )}
@@ -87,10 +39,10 @@ export default function PricingSection() {
 
               <div className="mb-4">
                 <span className="text-5xl font-bold text-gray-900">
-                  {plan.price}
+                  {plan.displayPrice}
                 </span>
                 <span className="text-gray-600 ml-1">
-                  {plan.period}
+                  /{plan.period}
                 </span>
               </div>
 
@@ -108,7 +60,7 @@ export default function PricingSection() {
               </ul>
 
               <Link
-                href={plan.href}
+                href={plan.ctaHref}
                 className={`block text-center px-6 py-3 rounded-lg font-semibold transition-all ${plan.buttonStyle}`}
               >
                 {plan.cta}
