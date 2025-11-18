@@ -34,7 +34,9 @@
       "Bash(git fetch:*)",
       "Bash(git branch:*)",
       "Bash(gh auth login:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []

@@ -17,12 +17,12 @@ export class CreateCheckoutSessionDto {
   plan: Plan;
 
   @ApiProperty({
-    description: 'Initial pack to purchase',
-    enum: ['fundraising', 'saas'],
-    example: 'fundraising',
+    description: 'Billing cycle',
+    enum: ['monthly', 'yearly'],
+    example: 'monthly',
   })
-  @IsString()
-  pack: string;
+  @IsEnum(['monthly', 'yearly'])
+  billingCycle: 'monthly' | 'yearly';
 
   @ApiProperty({
     description: 'Success redirect URL',

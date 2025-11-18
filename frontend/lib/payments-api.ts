@@ -104,7 +104,7 @@ export async function createBillingPortal(): Promise<PortalResponse> {
 }
 
 /**
- * Create a referral checkout (€25 fixed fee)
+ * Create a referral checkout (€30 fixed fee)
  */
 export async function createReferralCheckout(params: {
   lawyerId: string;
@@ -119,7 +119,7 @@ export async function createReferralCheckout(params: {
 }
 
 /**
- * Create a referral add-on checkout (10% fee)
+ * Create a referral add-on checkout (15% commission)
  */
 export async function createReferralAddonCheckout(params: {
   lawyerId: string;

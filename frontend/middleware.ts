@@ -11,7 +11,6 @@ const isPublicRoute = createRouteMatcher([
   '/about',
   '/contact',
   '/lawyers(.*)',
-  '/admin(.*)',        // remove this if admin should be protected
   '/legal(.*)',
   '/api/webhooks(.*)', // keep public if you have unauthenticated webhooks
 ]);

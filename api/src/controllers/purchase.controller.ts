@@ -34,7 +34,7 @@ export class PurchaseController {
     const result = await this.stripeService.createCheckoutSession(
       userId,
       dto.plan,
-      dto.pack,
+      dto.billingCycle,
       defaultSuccessUrl,
       defaultCancelUrl,
     );

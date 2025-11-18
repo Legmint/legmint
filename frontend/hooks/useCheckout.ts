@@ -120,7 +120,7 @@ export function useCheckout(): UseCheckoutReturn {
   };
 
   /**
-   * Handle checkout for lawyer referral (€25 fixed)
+   * Handle checkout for lawyer referral (€30 fixed)
    */
   const checkoutReferral = async (params: {
     lawyerId: string;
@@ -149,7 +149,7 @@ export function useCheckout(): UseCheckoutReturn {
   };
 
   /**
-   * Handle checkout for referral add-on (10% fee)
+   * Handle checkout for referral add-on (15% commission)
    */
   const checkoutReferralAddon = async (params: {
     lawyerId: string;

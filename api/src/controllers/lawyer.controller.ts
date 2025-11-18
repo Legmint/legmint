@@ -15,6 +15,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { LawyerService } from '../services/lawyer.service';
 import { S3Service } from '../services/s3.service';
+import { EmailService } from '../email/email.service';
 import {
   CreateLawyerApplicationDto,
   UpdateLawyerProfileDto,
@@ -29,6 +30,7 @@ export class LawyerController {
   constructor(
     private readonly lawyerService: LawyerService,
     private readonly s3Service: S3Service,
+    private readonly emailService: EmailService,
   ) {}
 
   /**
@@ -48,8 +50,17 @@ export class LawyerController {
   async applyAsLawyer(@Body() dto: CreateLawyerApplicationDto) {
     const result = await this.lawyerService.createApplication(dto);
 
-    // TODO: Send confirmation email using EmailService
-    // await this.emailService.sendLawyerApplicationConfirmation(result.email);
+    // Send confirmation email
+    const emailTemplate = this.emailService.lawyerApplicationConfirmationTemplate({
+      fullName: dto.fullName,
+      applicationId: result.applicationId,
+    });
+
+    await this.emailService.sendEmail({
+      to: dto.email,
+      subject: emailTemplate.subject,
+      html: emailTemplate.html,
+    });
 
     return {
       message: 'Application received. We will review your submission shortly.',
@@ -122,23 +133,28 @@ export class LawyerController {
   }
 
   /**
-   * Get all pending applications (admin only - TODO: add auth guard)
+   * Get all pending applications (admin only)
+   * TODO: Add @UseGuards(AdminGuard) decorator before deployment
+   * AdminGuard should verify user has admin role from Clerk or JWT
    */
   @Get('applications/pending/all')
+  // @UseGuards(AdminGuard) // UNCOMMENT THIS AFTER IMPLEMENTING AdminGuard
   @ApiOperation({ summary: 'Get all pending applications (admin only)' })
   @ApiResponse({
     status: 200,
     description: 'List of pending applications',
   })
   async getPendingApplications() {
-    // TODO: Add admin authentication guard
     return await this.lawyerService.getPendingApplications();
   }
 
   /**
    * Verify application (approve/reject) - Admin only
+   * TODO: Add @UseGuards(AdminGuard) decorator before deployment
+   * TODO: Get admin user ID from JWT token via @CurrentUser() decorator
    */
   @Post('applications/verify')
+  // @UseGuards(AdminGuard) // UNCOMMENT THIS AFTER IMPLEMENTING AdminGuard
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Approve or reject lawyer application (admin only)' })
   @ApiResponse({
@@ -146,7 +162,7 @@ export class LawyerController {
     description: 'Application processed',
   })
   async verifyApplication(@Body() dto: VerifyLawyerDto) {
-    // TODO: Get admin user ID from JWT token
+    // TODO: Replace with actual admin user ID from JWT: @CurrentUser() user: User
     const adminUserId = 'admin-temp-id';
 
     const result = await this.lawyerService.verifyApplication(dto, adminUserId);
@@ -209,8 +225,11 @@ export class LawyerController {
 
   /**
    * Update lawyer profile
+   * TODO: Add @UseGuards(JwtAuthGuard) decorator before deployment
+   * TODO: Verify that current user ID matches partnerId (prevent updating other lawyers' profiles)
    */
   @Patch(':partnerId/profile')
+  // @UseGuards(JwtAuthGuard) // UNCOMMENT THIS AFTER IMPLEMENTING JwtAuthGuard
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Update lawyer profile' })
   @ApiResponse({
@@ -220,8 +239,9 @@ export class LawyerController {
   async updateLawyerProfile(
     @Param('partnerId') partnerId: string,
     @Body() dto: UpdateLawyerProfileDto,
+    // @CurrentUser() user: User, // UNCOMMENT AND USE TO VERIFY OWNERSHIP
   ) {
-    // TODO: Add authentication check - only allow lawyer to update their own profile
+    // TODO: Add check: if (user.partnerId !== partnerId) throw new ForbiddenException();
     const result = await this.lawyerService.updateLawyerProfile(partnerId, dto);
 
     return {

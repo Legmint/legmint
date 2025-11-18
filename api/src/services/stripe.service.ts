@@ -25,18 +25,19 @@ export class StripeService {
   async createCheckoutSession(
     userId: string,
     plan: Plan,
-    pack: string,
+    billingCycle: 'monthly' | 'yearly',
     successUrl: string,
     cancelUrl: string,
+    metadata?: Record<string, any>,
   ): Promise<{ checkoutUrl: string; sessionId: string }> {
     try {
-      // Get price ID based on plan
-      const priceId = this.getPriceId(plan);
+      // Get price ID based on plan and billing cycle
+      const priceId = this.getPriceId(plan, billingCycle);
 
       const session = await this.stripe.checkout.sessions.create({
         customer_email: undefined, // Can be filled from user data
         client_reference_id: userId,
-        mode: plan === Plan.STARTER ? 'payment' : 'subscription',
+        mode: 'subscription',
         payment_method_types: ['card'],
         line_items: [
           {
@@ -49,12 +50,13 @@ export class StripeService {
         metadata: {
           userId,
           plan,
-          pack,
+          billingCycle,
+          ...metadata,
         },
       });
 
       this.logger.log(
-        `Created checkout session ${session.id} for user ${userId}, plan ${plan}`,
+        `Created checkout session ${session.id} for user ${userId}, plan ${plan}, billing ${billingCycle}`,
       );
 
       return {
@@ -332,20 +334,29 @@ export class StripeService {
   }
 
   /**
-   * Get price ID based on plan
+   * Get price ID based on plan and billing cycle
    */
-  private getPriceId(plan: Plan): string {
-    const priceIdMap = {
-      [Plan.STARTER]: this.configService.get('STRIPE_PRICE_STARTER'),
-      [Plan.PRO]: this.configService.get('STRIPE_PRICE_PRO'),
-      [Plan.SCALE]: this.configService.get('STRIPE_PRICE_SCALE'),
-    };
-
-    const priceId = priceIdMap[plan];
-    if (!priceId) {
-      throw new Error(`No Stripe price ID configured for plan: ${plan}`);
+  private getPriceId(plan: Plan, billingCycle: 'monthly' | 'yearly' = 'monthly'): string {
+    // Free plan has no Stripe price
+    if (plan === Plan.FREE) {
+      throw new Error('Free plan does not require a Stripe price ID');
     }
 
-    return priceId;
+    // Pro plan: choose price based on billing cycle
+    if (plan === Plan.PRO) {
+      const envKey = billingCycle === 'monthly'
+        ? 'STRIPE_PRICE_PRO_MONTHLY'
+        : 'STRIPE_PRICE_PRO_YEARLY';
+
+      const priceId = this.configService.get(envKey);
+
+      if (!priceId) {
+        throw new Error(`No Stripe price ID configured for ${envKey}`);
+      }
+
+      return priceId;
+    }
+
+    throw new Error(`Unsupported plan: ${plan}`);
   }
 }

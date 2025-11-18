@@ -454,17 +454,17 @@ export class TemplatesController {
       );
       if (user && user.length > 0 && user[0].email) {
         const frontendUrl = process.env.FRONTEND_URL || 'https://legmint.com';
-        await this.emailService['sendEmail'](
-          user[0].email,
-          `Your ${templateTitle} is Ready`,
-          `
+        await this.emailService['sendEmail']({
+          to: user[0].email,
+          subject: `Your ${templateTitle} is Ready`,
+          html: `
             <h2>Document Ready!</h2>
             <p>Your <strong>${templateTitle}</strong> has been generated and is ready to download.</p>
             <a href="${frontendUrl}/dashboard/documents" style="display:inline-block;padding:12px 24px;background:#4F46E5;color:white;text-decoration:none;border-radius:6px;margin:16px 0;">View in Dashboard</a>
             <p>Your document is available in your dashboard for download.</p>
             <p><strong>Legmint</strong><br>Legal documents, minted for startups</p>
           `,
-        );
+        });
       }
     } catch (error) {
       // Log but don't fail

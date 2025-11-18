@@ -1,8 +1,6 @@
 export enum Plan {
   FREE = 'free',
-  STARTER = 'starter',
   PRO = 'pro',
-  SCALE = 'scale',
 }
 
 export enum JurisdictionCode {
