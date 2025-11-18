@@ -409,8 +409,8 @@ export default function TermsOfServicePage() {
             </h3>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>
-                When you book a consultation or engagement through Legmint, we earn a referral
-                or platform fee (typically 10-20% of the lawyer's fee, or a flat fee).
+                When you book a consultation or engagement through Legmint, we earn a platform
+                fee (€30 fixed fee for initial document reviews, and 15% for additional legal work).
               </li>
               <li>
                 This fee structure is disclosed to lawyers and does not affect your cost—lawyers

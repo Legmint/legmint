@@ -468,10 +468,10 @@ export default function LawyerApplyPage() {
                 <h3 className="font-semibold text-lg mb-4">Platform Fee Structure</h3>
                 <ul className="list-disc ml-6 mb-6 space-y-2">
                   <li>
-                    <strong>€25 fixed fee</strong> per initial document review referral
+                    <strong>€30 fixed fee</strong> per initial document review referral
                   </li>
                   <li>
-                    <strong>10% fee</strong> on any additional work billed through the platform
+                    <strong>15% fee</strong> on any additional work billed through the platform
                   </li>
                   <li>Payments processed via Stripe Connect with instant transfers</li>
                   <li>You set your own base review rates (recommended: €200-300)</li>
@@ -495,7 +495,7 @@ export default function LawyerApplyPage() {
 
                 <p className="text-sm text-gray-600 mb-4">
                   Full terms available at:{' '}
-                  <a href="/terms-lawyers" className="text-indigo-600 hover:underline">
+                  <a href="/legal/terms-lawyers" className="text-indigo-600 hover:underline" target="_blank" rel="noopener noreferrer">
                     Terms for Lawyers
                   </a>
                 </p>
@@ -512,7 +512,7 @@ export default function LawyerApplyPage() {
                 />
                 <span className="text-sm text-gray-700">
                   I have read and accept the{' '}
-                  <a href="/terms-lawyers" className="text-indigo-600 hover:underline">
+                  <a href="/legal/terms-lawyers" className="text-indigo-600 hover:underline" target="_blank" rel="noopener noreferrer">
                     Terms for Lawyers
                   </a>{' '}
                   and confirm that I am authorized to practice law in my jurisdiction with valid

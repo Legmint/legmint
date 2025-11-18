@@ -1,7 +1,6 @@
 # Legmint Lawyer Partner Program Terms
 
-**Effective Date:** [Date]
-**Last Updated:** [Date]
+**Last Updated:** January 2025
 
 ---
 
@@ -15,7 +14,7 @@ These Terms for Lawyers ("Terms") govern your participation in the Legmint Lawye
 
 ## 2. Definitions
 
-- **"Legmint," "we," "us," or "our"** refers to [Legal Entity Name], the operator of the Platform.
+- **"Legmint," "we," "us," or "our"** refers to Global Legal Consulting Ltd, trading as Legmint, a company registered in England and Wales (Company Number: 16615750), the operator of the Platform.
 - **"Lawyer," "you," or "your"** refers to the attorney, solicitor, or legal professional participating in the Program.
 - **"Client" or "User"** refers to individuals or entities who use the Platform and may request legal services.
 - **"Referral"** means a connection facilitated by the Platform between a User and a Lawyer for potential legal services.
@@ -94,14 +93,22 @@ You must promptly notify Legmint of:
 
 Legmint charges a **Platform Service Fee** for connecting you with Clients and providing infrastructure services. The current fee structure is:
 
-- **Standard Fee:** 15% of the gross amount paid by the Client
+- **Fixed Referral Fee:** €30 per initial document review referral
+- **Ongoing Work Fee:** 15% of the gross amount paid by the Client for any additional legal work
 - **Calculation:** Fee is calculated on the total payment before any taxes or expenses
 - **Deduction:** Fee is automatically deducted via Stripe Connect before funds are transferred to your account
 
-**Example:**
-- Client pays: €200
-- Platform Fee (15%): €30
-- Your payment: €170
+**Examples:**
+
+*Initial Document Review:*
+- Client pays: €250 for initial review
+- Platform Fee (fixed): €30
+- Your payment: €220
+
+*Additional Legal Work:*
+- Client pays: €1,000 for follow-on services
+- Platform Fee (15%): €150
+- Your payment: €850
 
 ### 5.2 Payment Processing
 
@@ -132,7 +139,8 @@ Violation of this provision may result in immediate termination and liability fo
 **Client Disclosure:** Clients are informed that:
 - Legmint receives a Platform Service Fee
 - The fee does not increase their total cost
-- Lawyers receive 85% of the payment
+- For initial reviews: lawyers receive payment minus €30 fixed fee
+- For additional work: lawyers receive 85% of the payment
 - Fees support platform operations, compliance, and technology
 
 ---
@@ -155,7 +163,7 @@ When a User requests legal assistance:
    - Jurisdiction
    - Proposed engagement terms
 
-3. You may accept or decline within [X hours]
+3. You may accept or decline within 2 working days
 
 ### 6.2 No Guarantee of Referrals
 
@@ -354,7 +362,7 @@ These Terms remain in effect until terminated by either party.
 ### 12.2 Termination by You
 
 You may terminate participation by:
-- Providing [30 days] written notice
+- Providing 30 days written notice
 - Completing all pending engagements
 - Returning Platform materials
 - Disconnecting Stripe account
@@ -457,11 +465,11 @@ This indemnification survives termination.
 
 ### 15.1 Governing Law
 
-These Terms are governed by the laws of **England and Wales** (or specify your jurisdiction).
+These Terms are governed by the laws of **England and Wales**.
 
 ### 15.2 Arbitration
 
-Disputes will be resolved through binding arbitration in [Location] under [Arbitration Rules], except:
+Disputes will be resolved through binding arbitration in London, United Kingdom under the Arbitration Act 1996, except:
 - Claims related to professional conduct (subject to bar jurisdiction)
 - Intellectual property disputes
 - Small claims court matters (under applicable threshold)
@@ -477,7 +485,7 @@ You waive the right to participate in class actions or representative proceeding
 ### 16.1 Amendments
 
 Legmint may update these Terms by:
-- Providing [30 days] notice
+- Providing 30 days notice
 - Posting updated Terms on the Platform
 - Obtaining your acknowledgment for material changes
 
@@ -508,8 +516,8 @@ Neither party is liable for delays caused by events beyond reasonable control (n
 Notices must be sent to:
 
 **To Legmint:**
-[Legal Department Email]
-[Mailing Address]
+Email: welcome@legmint.com
+Address: 128 City Road, London, EC1V 2NX, United Kingdom
 
 **To You:**
 Email address on file in your Partner account
@@ -536,16 +544,16 @@ By clicking "I Accept" or by participating in the Program, you acknowledge that:
 If you have questions about these Terms, please contact:
 
 **Legmint Legal Team**
-📧 Email: lawyers@legmint.com
-📞 Phone: [Phone Number]
-🌐 Web: https://legmint.com/lawyers/support
+📧 Email: welcome@legmint.com
+📞 Phone: +420 732 913 027
+🌐 Web: https://legmint.com
 
 ---
 
 **Version:** 1.0
-**Effective Date:** [Date]
+**Last Updated:** January 2025
 **Review Schedule:** Annually or as needed for regulatory compliance
 
 ---
 
-**Important Legal Notice:** These Terms are designed for informational purposes and comply with common legal standards. However, professional referral fee regulations vary significantly by jurisdiction. Consult with local counsel to ensure compliance with your specific bar association rules before participating in the Program.
+**Important Legal Notice:** These Terms are designed for informational purposes and comply with common legal standards. However, professional referral fee regulations vary significantly by jurisdiction. You are responsible for ensuring compliance with your specific bar association rules before participating in the Program.

@@ -71,10 +71,10 @@ export default function LawyerSection() {
 
         <div className="text-center">
           <Link
-            href="/lawyers/apply"
+            href="/lawyers"
             className="inline-flex items-center bg-white text-emerald-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-emerald-50 transition-all shadow-lg hover:shadow-xl"
           >
-            Apply as a Partner Lawyer →
+            Join Our Lawyer Network →
           </Link>
         </div>
       </div>

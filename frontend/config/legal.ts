@@ -13,10 +13,13 @@ export const LEGAL = {
   registeredAddress: "128 City Road, London, EC1V 2NX, United Kingdom",
 
   // Contact Information
-  contactEmail: "hello@legmint.com",
+  // NOTE: Titan Mail (human inboxes): founder@legmint.com, welcome@legmint.com
+  // NOTE: SendGrid (transactional): All automated emails sent from welcome@legmint.com
+  contactEmail: "welcome@legmint.com",
   supportEmail: "support@legmint.com",
   dpoEmail: "privacy@legmint.com", // Data Protection Officer (can be same as contact)
   consumerRefundEmail: "support@legmint.com",
+  phone: "+420 732 913 027",
 
   // Jurisdiction & Legal Framework
   governingLaw: "England and Wales",
