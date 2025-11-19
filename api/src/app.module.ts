@@ -24,7 +24,6 @@ import * as entities from './entities';
 // Import services
 import {
   S3Service,
-  RedisService,
   AuditLogService,
   StripeService,
   TemplateService,
@@ -91,7 +90,6 @@ import { EmailModule } from './email/email.module';
     // Email module (SendGrid integration)
     EmailModule,
 
-    // TODO: Add Redis module for caching and queue
     // TODO: Add JWT authentication module
     // TODO: Add Passport module for authentication strategies
   ],
@@ -117,7 +115,6 @@ import { EmailModule } from './email/email.module';
   providers: [
     // Services (always available)
     S3Service,
-    RedisService,
     StripeService,
     RenderService,
     // Database-dependent services (only when DATABASE_URL is available)
