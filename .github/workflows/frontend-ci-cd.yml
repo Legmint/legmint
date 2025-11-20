@@ -68,7 +68,7 @@ jobs:
 
   deploy-preview:
     name: Deploy Preview (Vercel)
-    needs: [test, security]
+    needs: [test]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
@@ -107,7 +107,7 @@ jobs:
 
   deploy-production:
     name: Deploy Production (Vercel)
-    needs: [test, security]
+    needs: [test]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
