@@ -64,7 +64,7 @@ jobs:
 
       - name: Run npm audit
         working-directory: ./demo
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=high
 
   deploy-preview:
     name: Deploy Preview (Vercel)
