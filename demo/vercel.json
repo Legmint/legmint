@@ -69,14 +69,6 @@
       ]
     }
   ],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@next_public_api_url",
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@next_public_clerk_publishable_key",
-    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@next_public_stripe_publishable_key",
-    "NEXT_PUBLIC_GA_MEASUREMENT_ID": "@next_public_ga_measurement_id",
-    "NEXT_PUBLIC_APP_ENV": "production",
-    "NEXT_PUBLIC_APP_URL": "https://legmint.com"
-  },
   "regions": ["iad1"],
   "public": false,
   "github": {
