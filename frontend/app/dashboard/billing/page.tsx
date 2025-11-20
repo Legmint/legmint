@@ -14,7 +14,7 @@ import Link from 'next/link';
 // Mock subscription data - in real app, fetch from API
 interface Subscription {
   id: string;
-  plan: 'pro' | 'scale';
+  plan: 'pro';
   status: 'active' | 'canceled' | 'past_due';
   currentPeriodEnd: string;
   cancelAtPeriodEnd: boolean;
@@ -45,38 +45,18 @@ export default function BillingPage() {
     pro: {
       name: 'Pro',
       price: 99,
-      features: ['Unlimited documents', 'All templates', 'Priority support', 'Version history'],
-    },
-    scale: {
-      name: 'Scale',
-      price: 299,
       features: [
-        'Everything in Pro',
-        'Multi-user accounts',
-        'Custom branding',
-        'Account manager',
-        'Lawyer review credits',
+        'Full access to all templates (UK, DE, CZ, US-DE, US-CA)',
+        'Unlimited document generation and downloads',
+        'Multilingual templates (EN, DE, CS)',
+        'Auto-updates when laws change',
+        'Access to verified lawyer referral network',
       ],
     },
   };
 
   const handleManageBilling = async () => {
     await openBillingPortal();
-  };
-
-  // Billing upgrade handler
-  const handleUpgrade = async () => {
-    // Read Scale price from env, with safe fallback
-    const scalePriceID =
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_SCALE ?? 'price_SCALE_FROM_SEED';
-
-    // Guard: avoid broken checkout when price is missing/invalid
-    if (!scalePriceID || !scalePriceID.startsWith('price_')) {
-      alert('Pricing is not configured yet. Please try again later.');
-      return;
-    }
-
-    await checkoutSubscription(scalePriceID);
   };
 
   if (isLoadingData) {
@@ -172,24 +152,13 @@ export default function BillingPage() {
                     )}
                   </div>
 
-                  <div className="flex gap-3">
-                    <button
-                      onClick={handleManageBilling}
-                      disabled={isLoading}
-                      className="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isLoading ? 'Opening...' : 'Manage Subscription'}
-                    </button>
-                    {subscription.plan === 'pro' && (
-                      <button
-                        onClick={handleUpgrade}
-                        disabled={isLoading}
-                        className="flex-1 bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition disabled:opacity-50"
-                      >
-                        Upgrade to Scale
-                      </button>
-                    )}
-                  </div>
+                  <button
+                    onClick={handleManageBilling}
+                    disabled={isLoading}
+                    className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Opening...' : 'Manage Subscription'}
+                  </button>
                   {error && (
                     <p className="text-red-600 text-sm mt-3">{error}</p>
                   )}

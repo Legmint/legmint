@@ -36,7 +36,11 @@
       "Bash(gh auth login:*)",
       "Bash(gh auth:*)",
       "Bash(git pull:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run watch:*)",
+      "Bash(npm audit fix:*)"
     ],
     "deny": [],
     "ask": []

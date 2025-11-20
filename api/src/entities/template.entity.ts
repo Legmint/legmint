@@ -8,9 +8,8 @@ import {
 } from 'typeorm';
 
 export enum AccessLevel {
-  STARTER = 'starter',
-  PRO = 'pro',
-  SCALE = 'scale',
+  FREE = 'free',     // Templates accessible to free users (preview only)
+  PRO = 'pro',       // Templates requiring Pro subscription
 }
 
 @Entity('templates')

@@ -3,6 +3,10 @@
  *
  * Enforces subscription requirements for protected routes.
  * Checks user plan, jurisdiction access, and template permissions.
+ *
+ * Legmint Pricing Model:
+ * - FREE: Preview templates only, no generation
+ * - PRO (€99/month): Full access to all templates and jurisdictions
  */
 
 import { Injectable, NestMiddleware, ForbiddenException, UnauthorizedException } from '@nestjs/common';
@@ -12,7 +16,7 @@ export interface AuthenticatedRequest extends Request {
   user?: {
     user_id: string;
     email: string;
-    plan: 'free' | 'starter' | 'pro' | 'scale';
+    plan: 'free' | 'pro';
     jurisdictions_allowed: string[];
     subscription_status?: string;
   };
@@ -20,16 +24,12 @@ export interface AuthenticatedRequest extends Request {
 
 const PLAN_HIERARCHY = {
   free: 0,
-  starter: 1,
-  pro: 2,
-  scale: 3
+  pro: 1,
 };
 
 const DEFAULT_JURISDICTIONS = {
-  free: ['GLOBAL-EN'],
-  starter: ['GLOBAL-EN', 'UK', 'US-DE'],
-  pro: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ'],
-  scale: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ']
+  free: ['GLOBAL-EN'],  // Free users can preview templates
+  pro: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ', 'US-CA'],  // Pro users get all jurisdictions
 };
 
 @Injectable()
@@ -49,12 +49,12 @@ export class PaywallMiddleware implements NestMiddleware {
       });
     }
 
-    // Check if subscription is active (for recurring plans)
-    if (req.user.plan !== 'free' && req.user.plan !== 'starter') {
+    // Check if subscription is active (for Pro plan)
+    if (req.user.plan === 'pro') {
       if (req.user.subscription_status !== 'active' && req.user.subscription_status !== 'trialing') {
         throw new ForbiddenException({
           code: 'SUBSCRIPTION_INACTIVE',
-          message: 'Your subscription is not active',
+          message: 'Your Pro subscription is not active',
           details: {
             current_status: req.user.subscription_status,
             renew_url: '/subscription/renew'
@@ -67,9 +67,9 @@ export class PaywallMiddleware implements NestMiddleware {
   }
 
   /**
-   * Check if user has required plan level
+   * Check if user has Pro plan
    */
-  static requirePlan(requiredPlan: 'starter' | 'pro' | 'scale') {
+  static requireProPlan() {
     return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
       if (!req.user) {
         throw new UnauthorizedException({
@@ -78,17 +78,14 @@ export class PaywallMiddleware implements NestMiddleware {
         });
       }
 
-      const userLevel = PLAN_HIERARCHY[req.user.plan];
-      const requiredLevel = PLAN_HIERARCHY[requiredPlan];
-
-      if (userLevel < requiredLevel) {
+      if (req.user.plan !== 'pro') {
         throw new ForbiddenException({
-          code: 'INSUFFICIENT_PLAN',
-          message: `This resource requires ${requiredPlan} plan or higher`,
+          code: 'PRO_PLAN_REQUIRED',
+          message: 'This resource requires a Pro subscription',
           details: {
             current_plan: req.user.plan,
-            required_plan: requiredPlan,
-            upgrade_url: `/purchase?plan=${requiredPlan}`
+            required_plan: 'pro',
+            upgrade_url: '/pricing'
           }
         });
       }
@@ -119,7 +116,7 @@ export class PaywallMiddleware implements NestMiddleware {
           details: {
             requested_jurisdiction: jurisdiction,
             allowed_jurisdictions: allowedJurisdictions,
-            upgrade_url: `/purchase/jurisdiction/${jurisdiction}`
+            upgrade_url: '/pricing'
           }
         });
       }
@@ -161,14 +158,14 @@ export class PaywallMiddleware implements NestMiddleware {
 
         if (userLevel < requiredLevel) {
           throw new ForbiddenException({
-            code: 'INSUFFICIENT_PLAN_FOR_TEMPLATE',
-            message: `This template requires ${template.access_level} plan or higher`,
+            code: 'PRO_PLAN_REQUIRED_FOR_TEMPLATE',
+            message: `This template requires a Pro subscription`,
             details: {
               template_code: templateCode,
               template_name: template.name,
               current_plan: req.user.plan,
               required_plan: template.access_level,
-              upgrade_url: `/purchase?plan=${template.access_level}`
+              upgrade_url: '/pricing'
             }
           });
         }
@@ -184,7 +181,7 @@ export class PaywallMiddleware implements NestMiddleware {
               template_code: templateCode,
               requested_jurisdiction: jurisdiction,
               allowed_jurisdictions: allowedJurisdictions,
-              upgrade_url: `/purchase/jurisdiction/${jurisdiction}`
+              upgrade_url: '/pricing'
             }
           });
         }
@@ -227,20 +224,20 @@ async function fetchTemplateMetadata(templateCode: string) {
     'SAFE_PM_V1': {
       template_code: 'SAFE_PM_V1',
       name: 'SAFE Agreement (Post-Money)',
-      access_level: 'starter',
-      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ']
+      access_level: 'pro',  // All templates require Pro for generation
+      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'US-CA', 'DE', 'FR', 'CZ']
     },
     'SHAREHOLDERS_AGREEMENT_V1': {
       template_code: 'SHAREHOLDERS_AGREEMENT_V1',
       name: "Shareholders' Agreement",
       access_level: 'pro',
-      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ']
+      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'US-CA', 'DE', 'FR', 'CZ']
     },
     'DPA_V1': {
       template_code: 'DPA_V1',
       name: 'Data Processing Agreement (GDPR)',
       access_level: 'pro',
-      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'DE', 'FR', 'CZ']
+      supported_jurisdictions: ['GLOBAL-EN', 'UK', 'US-DE', 'US-CA', 'DE', 'FR', 'CZ']
     }
   };
 

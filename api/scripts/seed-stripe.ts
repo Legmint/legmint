@@ -6,9 +6,8 @@
  * Run with: npm run stripe:seed
  *
  * Creates:
- * - Legmint – Starter (one-time payment)
- * - Legmint – Pro (monthly subscription)
- * - Legmint – Scale (monthly subscription)
+ * - Legmint – Pro (Monthly) - €99/month
+ * - Legmint – Pro (Yearly) - €1,008.60/year (15% discount)
  *
  * Outputs price IDs to stripe.prices.json for easy reference.
  */
@@ -22,7 +21,7 @@ import * as path from 'path';
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-11-20.acacia',
+  apiVersion: '2025-11-17.clover',
 });
 
 interface ProductConfig {
@@ -38,23 +37,9 @@ interface ProductConfig {
 }
 
 const PRODUCTS: Record<string, ProductConfig> = {
-  starter: {
-    name: 'Legmint – Starter',
-    description: 'One-time access to a single legal document template',
-    type: 'one-time',
-    price: {
-      amount: 4900, // €49
-      currency: 'eur',
-    },
-    features: [
-      'Single document generation',
-      'Professional formatting',
-      'Instant download',
-    ],
-  },
-  pro: {
-    name: 'Legmint – Pro',
-    description: 'Monthly subscription for growing startups',
+  'pro-monthly': {
+    name: 'Legmint – Pro (Monthly)',
+    description: 'Monthly subscription for startups - full access to all templates',
     type: 'subscription',
     price: {
       amount: 9900, // €99/month
@@ -62,27 +47,31 @@ const PRODUCTS: Record<string, ProductConfig> = {
       interval: 'month',
     },
     features: [
-      'Unlimited document generation',
-      'All template library access',
-      'Priority support',
-      'Document versioning',
+      'Full access to all templates (UK, DE, CZ, US-DE, US-CA)',
+      'Unlimited document generation and downloads',
+      'Multilingual templates (EN, DE, CS)',
+      'Auto-updates when laws change',
+      'Access to verified lawyer referral network',
+      'Early access to new template categories',
     ],
   },
-  scale: {
-    name: 'Legmint – Scale',
-    description: 'Monthly subscription for scaling companies',
+  'pro-yearly': {
+    name: 'Legmint – Pro (Yearly)',
+    description: 'Yearly subscription for startups - save 15% compared to monthly',
     type: 'subscription',
     price: {
-      amount: 29900, // €299/month
+      amount: 100860, // €1,008.60/year (99 * 12 * 0.85)
       currency: 'eur',
-      interval: 'month',
+      interval: 'year',
     },
     features: [
-      'Everything in Pro',
-      'Multi-user accounts',
-      'Custom branding',
-      'Dedicated account manager',
-      'Lawyer review credits',
+      'Full access to all templates (UK, DE, CZ, US-DE, US-CA)',
+      'Unlimited document generation and downloads',
+      'Multilingual templates (EN, DE, CS)',
+      'Auto-updates when laws change',
+      'Access to verified lawyer referral network',
+      'Early access to new template categories',
+      'Save 15% vs monthly billing',
     ],
   },
 };
