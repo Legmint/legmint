@@ -5,8 +5,8 @@
  *
  * Seeds the database with:
  * - 70+ template metadata from cms/templates/catalog.yaml
- * - JSON Schema forms from cms/forms/*.json
- * - Jurisdiction overlays from cms/overlays/*/*.json
+ * - JSON Schema forms from cms/forms/ (JSON files)
+ * - Jurisdiction overlays from cms/overlays/ (JSON files)
  *
  * Usage: npm run seed:templates
  */
@@ -85,8 +85,8 @@ async function seedTemplates() {
 
     for (const template of allTemplates) {
       await pool.query(
-        `INSERT INTO templates (code, title, category, jurisdictions, languages, description, render_engine, price_cents, is_active)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `INSERT INTO templates (code, title, category, jurisdictions, languages, description, render_engine, price_cents, is_active, metadata)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          ON CONFLICT (code) DO UPDATE
          SET title = EXCLUDED.title,
              category = EXCLUDED.category,
@@ -106,6 +106,9 @@ async function seedTemplates() {
           template.render_engine,
           template.price_cents,
           true,
+          {
+            priority: template.priority,
+          },
         ]
       );
       insertedCount++;
