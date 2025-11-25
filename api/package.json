@@ -22,7 +22,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "stripe:seed": "ts-node ./scripts/seed-stripe.ts",
     "seed:templates": "ts-node ./scripts/seed-templates.ts",
-    "migrate": "for f in migrations/*.sql; do echo \"Running $f...\"; psql $DATABASE_URL -f \"$f\"; done"
+    "migrate": "node ./scripts/run-migrations.js",
+    "db:init": "npm run migrate && npm run seed:templates"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.490.0",
