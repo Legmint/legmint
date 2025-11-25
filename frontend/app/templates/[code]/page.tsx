@@ -9,7 +9,6 @@
 
 import { useParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-import { useCheckout } from '@/hooks/useCheckout';
 import Link from 'next/link';
 
 // Mock template data - in real app, fetch from API
@@ -17,7 +16,6 @@ const TEMPLATES: Record<string, any> = {
   'incorporation-delaware': {
     name: 'Delaware C-Corp Incorporation',
     description: 'Complete incorporation package for Delaware C-Corporations',
-    price: 49,
     category: 'Formation',
     difficulty: 'Beginner',
     estimatedTime: '15 minutes',
@@ -28,17 +26,10 @@ const TEMPLATES: Record<string, any> = {
       'Stock issuance documents',
       'Jurisdiction-specific compliance checklist',
     ],
-    includes: [
-      'Customized for Delaware law',
-      'Professional formatting',
-      'Instant PDF & DOCX download',
-      '30-minute access window',
-    ],
   },
   'nda-mutual': {
     name: 'Mutual Non-Disclosure Agreement',
     description: 'Two-way NDA for sharing confidential information',
-    price: 49,
     category: 'Contracts',
     difficulty: 'Beginner',
     estimatedTime: '10 minutes',
@@ -49,34 +40,15 @@ const TEMPLATES: Record<string, any> = {
       'Return/destruction provisions',
       'Governing law selection',
     ],
-    includes: [
-      'Multi-jurisdiction support',
-      'Professional formatting',
-      'Instant PDF & DOCX download',
-      '30-minute access window',
-    ],
   },
 };
 
 export default function TemplateDetailPage() {
   const params = useParams();
   const { isSignedIn } = useUser();
-  const { checkoutTemplate, isLoading, error } = useCheckout();
 
   const templateCode = params?.code as string;
   const template = TEMPLATES[templateCode] || TEMPLATES['incorporation-delaware'];
-
-  const handleBuyNow = async () => {
-    if (!isSignedIn) {
-      window.location.href = `/sign-up?redirect=/templates/${templateCode}`;
-      return;
-    }
-
-    await checkoutTemplate({
-      templateCode,
-      amountCents: template.price * 100,
-    });
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -116,74 +88,71 @@ export default function TemplateDetailPage() {
               </div>
             </div>
 
-            {/* Pricing Card */}
+            {/* Subscription Required Card */}
             <div className="bg-white text-gray-900 p-8 rounded-xl shadow-2xl">
               <div className="text-center mb-6">
-                <div className="text-5xl font-extrabold mb-2">
-                  €{template.price}
+                <div className="text-3xl font-extrabold mb-2 text-indigo-600">
+                  Pro Subscription Required
                 </div>
-                <p className="text-gray-600">One-time payment</p>
+                <p className="text-gray-600">Subscribe to generate this template</p>
               </div>
 
-              <button
-                onClick={handleBuyNow}
-                disabled={isLoading}
-                className="w-full bg-indigo-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
-              >
-                {isLoading ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Redirecting to Stripe...
-                  </span>
-                ) : (
-                  <>
-                    <svg className="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    Buy Now - Generate Instantly
-                  </>
-                )}
-              </button>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-4">
-                  <p className="text-sm">{error}</p>
+              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-6 mb-6">
+                <div className="text-center mb-4">
+                  <div className="text-4xl font-extrabold text-indigo-600 mb-1">€99</div>
+                  <div className="text-gray-600">per month</div>
                 </div>
-              )}
-
-              <div className="border-t border-gray-200 pt-4 mb-4">
-                <p className="text-sm text-gray-600 mb-3 font-medium">What's included:</p>
-                <ul className="space-y-2">
-                  {template.includes.map((item: string, idx: number) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-700">
-                      <svg className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      {item}
-                    </li>
-                  ))}
+                <ul className="space-y-2 text-sm text-indigo-900">
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Unlimited template generation</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>All jurisdictions (UK, DE, CZ, US)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>PDF & DOCX downloads</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Lawyer referral integration</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Cancel anytime</span>
+                  </li>
                 </ul>
               </div>
 
-              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
-                <p className="text-sm text-indigo-900 font-medium mb-2">
-                  💡 Pro Tip: Get Unlimited Access
-                </p>
-                <p className="text-sm text-indigo-700 mb-3">
-                  Subscribe to Pro for €99/month and generate this template (and all others) unlimited times.
-                </p>
-                <Link
-                  href="/pricing"
-                  className="text-indigo-600 font-semibold text-sm hover:underline"
-                >
-                  Compare Plans →
-                </Link>
-              </div>
+              <Link
+                href="/pricing"
+                className="block w-full bg-indigo-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition text-center mb-4"
+              >
+                Subscribe to Pro - €99/month
+              </Link>
 
-              <div className="flex items-center justify-center gap-4 text-xs text-gray-500 mt-4">
+              {!isSignedIn && (
+                <p className="text-xs text-gray-500 text-center">
+                  Need an account?{' '}
+                  <Link href="/sign-up" className="text-indigo-600 hover:underline font-medium">
+                    Sign up free
+                  </Link>
+                </p>
+              )}
+
+              <div className="flex items-center justify-center gap-4 text-xs text-gray-500 mt-6">
                 <div className="flex items-center gap-1">
                   <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -269,15 +238,14 @@ export default function TemplateDetailPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
           <p className="text-xl text-indigo-100 mb-8">
-            Generate your {template.name} in minutes
+            Subscribe to Pro and generate {template.name} (and all templates) unlimited times
           </p>
-          <button
-            onClick={handleBuyNow}
-            disabled={isLoading}
-            className="bg-white text-indigo-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition inline-flex items-center disabled:opacity-50"
+          <Link
+            href="/pricing"
+            className="bg-white text-indigo-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition inline-flex items-center"
           >
-            {isLoading ? 'Redirecting...' : `Buy Now - €${template.price}`}
-          </button>
+            Subscribe to Pro - €99/month
+          </Link>
         </div>
       </div>
     </div>

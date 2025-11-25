@@ -15,7 +15,6 @@ const TEMPLATE_CATALOG = [
     code: 'incorporation-delaware',
     name: 'Delaware C-Corp Incorporation',
     description: 'Complete incorporation package for Delaware C-Corporations',
-    price: 49,
     category: 'Formation',
     difficulty: 'Beginner',
     estimatedTime: '15 minutes',
@@ -26,7 +25,6 @@ const TEMPLATE_CATALOG = [
     code: 'nda-mutual',
     name: 'Mutual Non-Disclosure Agreement',
     description: 'Two-way NDA for sharing confidential information',
-    price: 49,
     category: 'Contracts',
     difficulty: 'Beginner',
     estimatedTime: '10 minutes',
@@ -37,7 +35,6 @@ const TEMPLATE_CATALOG = [
     code: 'employment-contract-uk',
     name: 'UK Employment Contract',
     description: 'Standard employment agreement compliant with UK law',
-    price: 49,
     category: 'Employment',
     difficulty: 'Intermediate',
     estimatedTime: '20 minutes',
@@ -48,7 +45,6 @@ const TEMPLATE_CATALOG = [
     code: 'safe-agreement',
     name: 'SAFE Agreement',
     description: 'Simple Agreement for Future Equity for startup fundraising',
-    price: 49,
     category: 'Funding',
     difficulty: 'Intermediate',
     estimatedTime: '15 minutes',
@@ -59,7 +55,6 @@ const TEMPLATE_CATALOG = [
     code: 'gdpr-dpa',
     name: 'GDPR Data Processing Agreement',
     description: 'EU-compliant DPA for processor relationships',
-    price: 49,
     category: 'Data Protection',
     difficulty: 'Advanced',
     estimatedTime: '25 minutes',
@@ -70,7 +65,6 @@ const TEMPLATE_CATALOG = [
     code: 'saas-terms',
     name: 'SaaS Terms of Service',
     description: 'Terms of service for SaaS platforms',
-    price: 49,
     category: 'Legal',
     difficulty: 'Intermediate',
     estimatedTime: '20 minutes',
@@ -173,8 +167,7 @@ export default function TemplatesPage() {
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div>
-                    <span className="text-2xl font-bold text-gray-900">€{template.price}</span>
-                    <span className="text-gray-500 text-sm ml-1">one-time</span>
+                    <span className="text-sm font-semibold text-indigo-600">Pro Plan Required</span>
                   </div>
                   <span className="text-indigo-600 font-semibold text-sm group-hover:underline">
                     View Details →
@@ -244,8 +237,7 @@ export default function TemplatesPage() {
                 {/* Footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div>
-                    <span className="text-2xl font-bold text-gray-900">€{template.price}</span>
-                    <span className="text-gray-500 text-sm ml-1">one-time</span>
+                    <span className="text-sm font-semibold text-indigo-600">Pro Plan Required</span>
                   </div>
                   <span className="text-indigo-600 font-semibold text-sm group-hover:underline">
                     View Details →
