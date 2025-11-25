@@ -1,6 +1,7 @@
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -149,12 +150,12 @@ export default async function DashboardPage() {
             library.
           </p>
           <div className="mt-6 flex space-x-4">
-            <button className="rounded-lg bg-indigo-600 px-6 py-3 text-white font-semibold shadow-md hover:bg-indigo-700 transition-colors">
+            <Link href="/pricing" className="rounded-lg bg-indigo-600 px-6 py-3 text-white font-semibold shadow-md hover:bg-indigo-700 transition-colors inline-block">
               Browse Templates
-            </button>
-            <button className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 transition-colors">
+            </Link>
+            <Link href="/pricing" className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 transition-colors inline-block">
               Upgrade Plan
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -164,7 +165,7 @@ export default async function DashboardPage() {
             Quick Actions
           </h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <button className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
+            <Link href="/pricing" className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
                 <svg
                   className="h-5 w-5 text-indigo-600"
@@ -184,9 +185,9 @@ export default async function DashboardPage() {
                 <p className="font-medium text-gray-900">SAFE Agreement</p>
                 <p className="text-sm text-gray-500">Fundraising</p>
               </div>
-            </button>
+            </Link>
 
-            <button className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
+            <Link href="/pricing" className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
                 <svg
                   className="h-5 w-5 text-green-600"
@@ -206,9 +207,9 @@ export default async function DashboardPage() {
                 <p className="font-medium text-gray-900">Employment Contract</p>
                 <p className="text-sm text-gray-500">Hiring</p>
               </div>
-            </button>
+            </Link>
 
-            <button className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
+            <Link href="/pricing" className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
                 <svg
                   className="h-5 w-5 text-purple-600"
@@ -228,9 +229,9 @@ export default async function DashboardPage() {
                 <p className="font-medium text-gray-900">NDA</p>
                 <p className="text-sm text-gray-500">Legal</p>
               </div>
-            </button>
+            </Link>
 
-            <button className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
+            <Link href="/pricing" className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 text-left hover:border-indigo-500 hover:shadow-md transition-all">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
                 <svg
                   className="h-5 w-5 text-orange-600"
@@ -250,7 +251,7 @@ export default async function DashboardPage() {
                 <p className="font-medium text-gray-900">SaaS Terms</p>
                 <p className="text-sm text-gray-500">Legal</p>
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </main>
