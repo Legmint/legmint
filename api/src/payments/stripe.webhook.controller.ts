@@ -290,8 +290,8 @@ export class StripeWebhookController {
    * Handle invoice.paid
    */
   private async handleInvoicePaid(invoice: Stripe.Invoice) {
-    const subscriptionId = invoice.subscription as string;
-    const customerId = invoice.customer as string;
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+    const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
 
     if (!subscriptionId) {
       return;
@@ -316,6 +316,7 @@ export class StripeWebhookController {
     await this.upsertSubscription(subscription, userId);
 
     // Create order record for the invoice
+    const paymentIntentId = typeof invoice.payment_intent === 'string' ? invoice.payment_intent : invoice.payment_intent?.id;
     await this.dataSource.query(
       `INSERT INTO orders (user_id, type, amount_gross_cents, currency, stripe_invoice_id, stripe_payment_intent_id, metadata)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -326,7 +327,7 @@ export class StripeWebhookController {
         invoice.amount_paid,
         invoice.currency,
         invoice.id,
-        invoice.payment_intent,
+        paymentIntentId,
         JSON.stringify({ subscriptionId }),
       ],
     );
@@ -397,6 +398,7 @@ export class StripeWebhookController {
   ) {
     const priceId = subscription.items.data[0]?.price.id;
     const planKey = this.getPlanKeyFromPriceId(priceId);
+    const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id;
 
     await this.dataSource.query(
       `INSERT INTO subscriptions (
@@ -416,12 +418,12 @@ export class StripeWebhookController {
       [
         userId,
         subscription.id,
-        subscription.customer,
+        customerId,
         priceId,
         planKey,
         subscription.status,
-        new Date(subscription.current_period_start * 1000),
-        new Date(subscription.current_period_end * 1000),
+        new Date((subscription.current_period_start as number) * 1000),
+        new Date((subscription.current_period_end as number) * 1000),
         subscription.cancel_at_period_end,
         subscription.canceled_at
           ? new Date(subscription.canceled_at * 1000)
