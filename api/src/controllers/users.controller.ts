@@ -1,10 +1,9 @@
-import { Controller, Get, Version } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuditLogService } from '../services/audit-log.service';
 
 @ApiTags('Users')
 @Controller('users')
-@Version('1')
 export class UsersController {
   constructor(private readonly auditLogService: AuditLogService) {}
 

@@ -10,7 +10,6 @@ import {
   HttpException,
   HttpStatus,
   Logger,
-  Version,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DataSource } from 'typeorm';
@@ -28,10 +27,11 @@ import { EmailService } from '../email/email.service';
  * - POST /v1/generate/:templateCode - Paywalled generate (PDF/DOCX + S3 + email)
  * - GET /v1/user/documents - List user's documents
  * - GET /v1/user/documents/:id/download - Get download URL
+ *
+ * Routes: /v1/templates/* (v1 prefix added by NestJS versioning with defaultVersion: '1')
  */
 @ApiTags('Templates')
 @Controller('templates')
-@Version('1')
 export class TemplatesController {
   private readonly logger = new Logger(TemplatesController.name);
 

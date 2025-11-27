@@ -6,7 +6,6 @@ import {
   Body,
   HttpCode,
   HttpStatus,
-  Version,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { StripeService } from '../services/stripe.service';
@@ -14,7 +13,6 @@ import { CreateCheckoutSessionDto } from '../dto';
 
 @ApiTags('Purchase')
 @Controller('purchase')
-@Version('1')
 export class PurchaseController {
   constructor(private readonly stripeService: StripeService) {}
 

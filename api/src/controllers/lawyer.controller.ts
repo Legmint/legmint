@@ -10,7 +10,6 @@ import {
   HttpStatus,
   UseInterceptors,
   UploadedFile,
-  Version,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
@@ -27,7 +26,6 @@ import {
 
 @ApiTags('Lawyers')
 @Controller('lawyers')
-@Version('1')
 export class LawyerController {
   constructor(
     private readonly lawyerService: LawyerService,

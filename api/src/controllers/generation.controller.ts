@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Req,
-  Version,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { GenerationService } from '../services/generation.service';
@@ -18,7 +17,6 @@ import { Request } from 'express';
 
 @ApiTags('Generation')
 @Controller('generation')
-@Version('1')
 export class GenerationController {
   constructor(private readonly generationService: GenerationService) {}
 
