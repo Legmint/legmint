@@ -55,7 +55,7 @@
  * ⚠️ TODO: Obtain legal opinion on regulatory registration requirements
  */
 
-import { Controller, Post, Get, Body, Param, Req, Headers, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Req, Headers, UnauthorizedException, Version } from '@nestjs/common';
 import { AuthenticatedRequest } from '../middleware/paywall.middleware';
 import { createHash, randomBytes } from 'crypto';
 
@@ -90,6 +90,7 @@ interface Partner {
 }
 
 @Controller('referral')
+@Version('1')
 export class ReferralController {
   private readonly partners: Partner[] = [
     {

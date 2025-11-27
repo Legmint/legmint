@@ -7,6 +7,7 @@ import {
   Logger,
   BadRequestException,
   NotFoundException,
+  Version,
 } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { DataSource } from 'typeorm';
@@ -21,6 +22,7 @@ import { DataSource } from 'typeorm';
  * - Referral payments (Stripe Connect)
  */
 @Controller('payments')
+@Version('1')
 export class PaymentsController {
   private readonly logger = new Logger(PaymentsController.name);
 

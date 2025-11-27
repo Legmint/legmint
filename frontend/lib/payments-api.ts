@@ -17,28 +17,15 @@ interface PortalResponse {
 }
 
 /**
- * Get auth token from Clerk (or your auth provider)
- * This function should be implemented based on your auth setup
- */
-async function getAuthToken(): Promise<string | null> {
-  // If using Clerk:
-  // const { getToken } = useAuth();
-  // return await getToken();
-
-  // For now, return null - implement based on your auth
-  // In a real implementation, you'd get this from your auth context
-  return null;
-}
-
-/**
  * Make authenticated API request
+ * Token is passed as a parameter from the calling hook/component
+ * which has access to Clerk's useAuth() hook
  */
 async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {},
+  token?: string | null,
 ): Promise<T> {
-  const token = await getAuthToken();
-
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -53,7 +40,7 @@ async function apiRequest<T>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${API_BASE_URL}/v1${endpoint}`, {
     ...options,
     headers,
   });
@@ -71,64 +58,98 @@ async function apiRequest<T>(
 /**
  * Create a one-time checkout for a template
  */
-export async function createTemplateCheckout(params: {
-  templateCode: string;
-  amountCents: number;
-  currency?: string;
-}): Promise<CheckoutResponse> {
-  return apiRequest<CheckoutResponse>('/payments/checkout/template', {
-    method: 'POST',
-    body: JSON.stringify(params),
-  });
+export async function createTemplateCheckout(
+  params: {
+    templateCode: string;
+    amountCents: number;
+    currency?: string;
+  },
+  token?: string | null,
+): Promise<CheckoutResponse> {
+  return apiRequest<CheckoutResponse>(
+    '/payments/checkout/template',
+    {
+      method: 'POST',
+      body: JSON.stringify(params),
+    },
+    token,
+  );
 }
 
 /**
  * Create a subscription checkout
  */
-export async function createSubscriptionCheckout(params: {
-  priceId: string;
-}): Promise<CheckoutResponse> {
-  return apiRequest<CheckoutResponse>('/payments/checkout/subscription', {
-    method: 'POST',
-    body: JSON.stringify(params),
-  });
+export async function createSubscriptionCheckout(
+  params: {
+    priceId: string;
+  },
+  token?: string | null,
+): Promise<CheckoutResponse> {
+  return apiRequest<CheckoutResponse>(
+    '/payments/checkout/subscription',
+    {
+      method: 'POST',
+      body: JSON.stringify(params),
+    },
+    token,
+  );
 }
 
 /**
  * Create a billing portal session
  */
-export async function createBillingPortal(): Promise<PortalResponse> {
-  return apiRequest<PortalResponse>('/payments/portal', {
-    method: 'POST',
-  });
+export async function createBillingPortal(
+  token?: string | null,
+): Promise<PortalResponse> {
+  return apiRequest<PortalResponse>(
+    '/payments/portal',
+    {
+      method: 'POST',
+    },
+    token,
+  );
 }
 
 /**
  * Create a referral checkout (€30 fixed fee)
  */
-export async function createReferralCheckout(params: {
-  lawyerId: string;
-  amountCents: number;
-  currency?: string;
-  referralId: string;
-}): Promise<CheckoutResponse> {
-  return apiRequest<CheckoutResponse>('/payments/checkout/referral', {
-    method: 'POST',
-    body: JSON.stringify(params),
-  });
+export async function createReferralCheckout(
+  params: {
+    lawyerId: string;
+    amountCents: number;
+    currency?: string;
+    referralId: string;
+  },
+  token?: string | null,
+): Promise<CheckoutResponse> {
+  return apiRequest<CheckoutResponse>(
+    '/payments/checkout/referral',
+    {
+      method: 'POST',
+      body: JSON.stringify(params),
+    },
+    token,
+  );
 }
 
 /**
  * Create a referral add-on checkout (15% commission)
  */
-export async function createReferralAddonCheckout(params: {
-  lawyerId: string;
-  extraAmountCents: number;
-  currency?: string;
-  referralId: string;
-}): Promise<CheckoutResponse> {
-  return apiRequest<CheckoutResponse>('/payments/checkout/referral-addon', {
-    method: 'POST',
-    body: JSON.stringify(params),
-  });
+export async function createReferralAddonCheckout(
+  params: {
+    lawyerId: string;
+    extraAmountCents: number;
+    currency?: string;
+    referralId: string;
+  },
+  token?: string | null,
+): Promise<CheckoutResponse> {
+  return apiRequest<CheckoutResponse>(
+    '/payments/checkout/referral-addon',
+    {
+      method: 'POST',
+      body: JSON.stringify(params),
+    },
+    token,
+  );
 }

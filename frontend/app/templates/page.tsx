@@ -10,7 +10,8 @@ import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+// Use API_BASE_URL (without /v1) to avoid double path
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 interface Template {
   code: string;
@@ -34,7 +35,7 @@ export default function TemplatesPage() {
 
   async function fetchTemplates() {
     try {
-      const response = await fetch(`${API_URL}/v1/templates`);
+      const response = await fetch(`${API_BASE_URL}/v1/templates`);
       if (!response.ok) {
         throw new Error('Failed to fetch templates');
       }

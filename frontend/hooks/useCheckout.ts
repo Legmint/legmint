@@ -7,6 +7,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
 import {
   createTemplateCheckout,
   createSubscriptionCheckout,
@@ -39,6 +40,7 @@ interface UseCheckoutReturn {
 export function useCheckout(): UseCheckoutReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { getToken } = useAuth();
 
   /**
    * Handle checkout for template one-time purchase
@@ -51,7 +53,8 @@ export function useCheckout(): UseCheckoutReturn {
     setError(null);
 
     try {
-      const { url } = await createTemplateCheckout(params);
+      const token = await getToken();
+      const { url } = await createTemplateCheckout(params, token);
 
       // Redirect to Stripe Checkout
       if (url) {
@@ -77,7 +80,8 @@ export function useCheckout(): UseCheckoutReturn {
     setError(null);
 
     try {
-      const { url } = await createSubscriptionCheckout({ priceId });
+      const token = await getToken();
+      const { url } = await createSubscriptionCheckout({ priceId }, token);
 
       if (url) {
         window.location.href = url;
@@ -102,7 +106,8 @@ export function useCheckout(): UseCheckoutReturn {
     setError(null);
 
     try {
-      const { url } = await createBillingPortal();
+      const token = await getToken();
+      const { url } = await createBillingPortal(token);
 
       if (url) {
         window.location.href = url;
@@ -131,7 +136,8 @@ export function useCheckout(): UseCheckoutReturn {
     setError(null);
 
     try {
-      const { url } = await createReferralCheckout(params);
+      const token = await getToken();
+      const { url } = await createReferralCheckout(params, token);
 
       if (url) {
         window.location.href = url;
@@ -160,7 +166,8 @@ export function useCheckout(): UseCheckoutReturn {
     setError(null);
 
     try {
-      const { url } = await createReferralAddonCheckout(params);
+      const token = await getToken();
+      const { url } = await createReferralAddonCheckout(params, token);
 
       if (url) {
         window.location.href = url;

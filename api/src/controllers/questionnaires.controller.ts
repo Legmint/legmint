@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Version } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { TemplateService } from '../services/template.service';
 
 @ApiTags('Questionnaires')
-@Controller('v1/questionnaire')
+@Controller('questionnaire')
+@Version('1')
 export class QuestionnairesController {
   constructor(private readonly templateService: TemplateService) {}
 

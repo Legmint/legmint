@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Version } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 
 @ApiTags('Packs')
-@Controller('v1/packs')
+@Controller('packs')
+@Version('1')
 export class PacksController {
   @Get()
   @ApiOperation({ summary: 'List all template packs' })

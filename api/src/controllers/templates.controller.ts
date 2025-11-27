@@ -10,6 +10,7 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  Version,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DataSource } from 'typeorm';
@@ -29,7 +30,8 @@ import { EmailService } from '../email/email.service';
  * - GET /v1/user/documents/:id/download - Get download URL
  */
 @ApiTags('Templates')
-@Controller('v1/templates')
+@Controller('templates')
+@Version('1')
 export class TemplatesController {
   private readonly logger = new Logger(TemplatesController.name);
 
