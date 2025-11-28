@@ -99,10 +99,8 @@ services:
       - key: PUPPETEER_EXECUTABLE_PATH
         value: /usr/bin/chromium-browser
 
-    # Build and run database migrations
-    buildCommand: npm ci && npm run build
-
-    # Pre-deploy command to run migrations (requires Render's pre-deploy feature or manual trigger)
+    # Build and copy migrations to dist folder
+    buildCommand: npm ci && npm run build && cp -r migrations dist/migrations
 
 # ===========================================
 # PostgreSQL Database

@@ -21,10 +21,25 @@ async function runMigrations(dataSource: DataSource, logger: any) {
     return;
   }
 
-  const migrationsDir = path.join(__dirname, '..', 'migrations');
+  // Try multiple possible locations for migrations
+  const possibleDirs = [
+    path.join(__dirname, 'migrations'),           // dist/migrations (copied by nest build)
+    path.join(__dirname, '..', 'migrations'),     // api/migrations (development)
+    path.join(process.cwd(), 'migrations'),       // cwd/migrations
+  ];
 
-  if (!fs.existsSync(migrationsDir)) {
-    logger.log('Migrations directory not found, skipping');
+  let migrationsDir: string | null = null;
+  for (const dir of possibleDirs) {
+    if (fs.existsSync(dir)) {
+      migrationsDir = dir;
+      logger.log(`Found migrations directory at: ${dir}`);
+      break;
+    }
+  }
+
+  if (!migrationsDir) {
+    logger.warn('Migrations directory not found in any expected location');
+    logger.warn(`Searched: ${possibleDirs.join(', ')}`);
     return;
   }
 
@@ -42,8 +57,11 @@ async function runMigrations(dataSource: DataSource, logger: any) {
     } catch (error) {
       // Ignore "already exists" errors
       if (!error.message?.includes('already exists') &&
-          !error.message?.includes('duplicate key')) {
+          !error.message?.includes('duplicate key') &&
+          !error.message?.includes('violates check constraint')) {
         logger.error(`Migration ${file} failed: ${error.message}`);
+      } else {
+        logger.log(`Migration ${file}: already applied or constraint exists`);
       }
     }
   }

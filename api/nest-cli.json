@@ -5,7 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "tsConfigPath": "tsconfig.json",
-    "assets": ["**/*.yaml", "**/*.json"],
+    "assets": [
+      "**/*.yaml",
+      "**/*.json",
+      { "include": "../migrations/**/*.sql", "outDir": "dist/migrations", "watchAssets": false }
+    ],
     "watchAssets": true
   }
 }
