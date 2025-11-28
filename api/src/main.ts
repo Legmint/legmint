@@ -222,11 +222,18 @@ async function bootstrap() {
         tables = result.map((r: any) => r.tablename);
       }
 
+      const migrationsDir = path.join(__dirname, 'migrations');
+      let migrationFiles: string[] = [];
+      if (fs.existsSync(migrationsDir)) {
+        migrationFiles = fs.readdirSync(migrationsDir).filter(f => f.endsWith('.sql'));
+      }
+
       res.status(200).json({
         database_connected: isInitialized,
         tables,
-        migrations_dir_exists: fs.existsSync(path.join(__dirname, 'migrations')),
-        migrations_dir: path.join(__dirname, 'migrations'),
+        migrations_dir_exists: fs.existsSync(migrationsDir),
+        migrations_dir: migrationsDir,
+        migration_files: migrationFiles,
         cwd: process.cwd(),
         dirname: __dirname,
       });
@@ -240,9 +247,38 @@ async function bootstrap() {
 
   // Manual migration trigger endpoint
   app.getHttpAdapter().post('/v1/run-migrations', async (req, res) => {
+    const migrationResults: Array<{file: string; status: string; error?: string}> = [];
+
     try {
       const dataSource = app.get(DataSource);
-      await runMigrations(dataSource, logger);
+      const migrationsDir = path.join(__dirname, 'migrations');
+
+      if (!fs.existsSync(migrationsDir)) {
+        return res.status(500).json({
+          error: `Migrations directory not found: ${migrationsDir}`,
+          success: false,
+        });
+      }
+
+      const migrationFiles = fs.readdirSync(migrationsDir)
+        .filter(f => f.endsWith('.sql'))
+        .sort();
+
+      for (const file of migrationFiles) {
+        try {
+          const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf-8');
+          await dataSource.query(sql);
+          migrationResults.push({ file, status: 'applied' });
+        } catch (error) {
+          if (error.message?.includes('already exists') ||
+              error.message?.includes('duplicate key') ||
+              error.message?.includes('violates check constraint')) {
+            migrationResults.push({ file, status: 'already_applied' });
+          } else {
+            migrationResults.push({ file, status: 'failed', error: error.message });
+          }
+        }
+      }
 
       const result = await dataSource.query(`
         SELECT tablename FROM pg_tables WHERE schemaname = 'public'
@@ -252,11 +288,13 @@ async function bootstrap() {
       res.status(200).json({
         success: true,
         tables,
+        migrations: migrationResults,
       });
     } catch (error) {
       res.status(500).json({
         error: error.message,
         success: false,
+        migrations: migrationResults,
       });
     }
   });
