@@ -353,5 +353,38 @@ CREATE TABLE IF NOT EXISTS template_versions (
 CREATE INDEX IF NOT EXISTS idx_template_versions_code ON template_versions(template_code);
 
 -- =========================================
+-- 12. SEED SAMPLE TEMPLATES
+-- =========================================
+-- Insert sample templates for testing
+
+INSERT INTO templates (code, title, category, jurisdictions, languages, description, render_engine, price_cents, is_active, is_featured)
+VALUES
+    ('founders-agreement', 'Founders Agreement', 'startup', ARRAY['UK', 'DE', 'CZ', 'US-DE', 'US-CA'], ARRAY['en'], 'Comprehensive founders agreement covering equity split, vesting, roles, IP assignment, and exit provisions.', 'html', 2900, true, true),
+    ('safe-agreement', 'SAFE Agreement', 'startup', ARRAY['US-DE', 'US-CA', 'UK'], ARRAY['en'], 'Simple Agreement for Future Equity - Y Combinator standard SAFE note for early-stage funding.', 'html', 2900, true, true),
+    ('nda-mutual', 'Mutual NDA', 'b2b', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'Two-way confidentiality agreement for protecting sensitive business information between parties.', 'html', 1900, true, true),
+    ('nda-one-way', 'One-Way NDA', 'b2b', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'One-way confidentiality agreement where only one party discloses confidential information.', 'html', 1500, true, false),
+    ('employment-contract', 'Employment Contract', 'b2b', ARRAY['UK', 'DE', 'CZ'], ARRAY['en'], 'Standard employment agreement compliant with local labor laws.', 'html', 3900, true, true),
+    ('consulting-agreement', 'Consulting Agreement', 'b2b', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'Professional services agreement for consultants and freelancers.', 'html', 2900, true, false),
+    ('ip-assignment', 'IP Assignment Agreement', 'startup', ARRAY['UK', 'DE', 'US-DE', 'US-CA'], ARRAY['en'], 'Transfer of intellectual property rights from founders or contractors to the company.', 'html', 2500, true, true),
+    ('advisor-agreement', 'Advisor Agreement', 'startup', ARRAY['UK', 'DE', 'US-DE', 'US-CA'], ARRAY['en'], 'Standard agreement for startup advisors with equity compensation.', 'html', 2500, true, false),
+    ('terms-of-service', 'Terms of Service', 'b2c', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'Website and application terms of service for end users.', 'html', 2900, true, true),
+    ('privacy-policy', 'Privacy Policy', 'b2c', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'GDPR and CCPA compliant privacy policy for websites and applications.', 'html', 2900, true, true),
+    ('convertible-note', 'Convertible Note', 'startup', ARRAY['US-DE', 'US-CA', 'UK'], ARRAY['en'], 'Debt instrument that converts to equity at a future funding round.', 'html', 3500, true, false),
+    ('shareholder-agreement', 'Shareholder Agreement', 'startup', ARRAY['UK', 'DE', 'CZ'], ARRAY['en'], 'Agreement governing relationships between company shareholders.', 'html', 4500, true, false),
+    ('service-agreement', 'Service Agreement', 'b2b', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'General service agreement template for service providers.', 'html', 2500, true, false),
+    ('loan-agreement', 'Loan Agreement', 'p2p', ARRAY['UK', 'DE', 'US-DE', 'CZ'], ARRAY['en'], 'Simple loan agreement between parties with repayment terms.', 'html', 1900, true, false),
+    ('contractor-agreement', 'Independent Contractor Agreement', 'b2b', ARRAY['UK', 'DE', 'US-DE', 'US-CA', 'CZ'], ARRAY['en'], 'Agreement for hiring independent contractors.', 'html', 2500, true, false)
+ON CONFLICT (code) DO UPDATE SET
+    title = EXCLUDED.title,
+    category = EXCLUDED.category,
+    jurisdictions = EXCLUDED.jurisdictions,
+    languages = EXCLUDED.languages,
+    description = EXCLUDED.description,
+    render_engine = EXCLUDED.render_engine,
+    price_cents = EXCLUDED.price_cents,
+    is_featured = EXCLUDED.is_featured,
+    updated_at = CURRENT_TIMESTAMP;
+
+-- =========================================
 -- MIGRATION COMPLETE
 -- =========================================
