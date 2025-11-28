@@ -89,10 +89,14 @@ async function bootstrap() {
 
   // Run database migrations on startup
   try {
+    logger.log('Attempting to run database migrations...');
     const dataSource = app.get(DataSource);
+    logger.log(`DataSource initialized: ${dataSource?.isInitialized}`);
     await runMigrations(dataSource, logger);
+    logger.log('Database migrations completed');
   } catch (error) {
     logger.warn(`Database migrations skipped: ${error.message}`);
+    logger.warn(`Full error: ${JSON.stringify(error)}`);
   }
 
   // Security middleware

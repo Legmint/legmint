@@ -9,7 +9,7 @@ services:
     plan: starter
     branch: main
     rootDir: api
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && rm -rf dist && npm run build && ls -la dist/migrations/
     startCommand: npm run start:prod
     healthCheckPath: /v1/health
     autoDeploy: true
@@ -98,9 +98,6 @@ services:
 
       - key: PUPPETEER_EXECUTABLE_PATH
         value: /usr/bin/chromium-browser
-
-    # Build and copy migrations to dist folder
-    buildCommand: npm ci && npm run build && cp -r migrations dist/migrations
 
 # ===========================================
 # PostgreSQL Database
