@@ -7,6 +7,47 @@ import compression from 'compression';
 import { AppModule } from './app.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { DataSource } from 'typeorm';
+import * as fs from 'fs';
+import * as path from 'path';
+
+/**
+ * Run database migrations on startup
+ * This ensures the database schema is up to date
+ */
+async function runMigrations(dataSource: DataSource, logger: any) {
+  if (!dataSource?.isInitialized) {
+    logger.log('Database not connected, skipping migrations');
+    return;
+  }
+
+  const migrationsDir = path.join(__dirname, '..', 'migrations');
+
+  if (!fs.existsSync(migrationsDir)) {
+    logger.log('Migrations directory not found, skipping');
+    return;
+  }
+
+  const migrationFiles = fs.readdirSync(migrationsDir)
+    .filter(f => f.endsWith('.sql'))
+    .sort();
+
+  logger.log(`Found ${migrationFiles.length} migration files`);
+
+  for (const file of migrationFiles) {
+    try {
+      const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf-8');
+      await dataSource.query(sql);
+      logger.log(`Migration ${file} applied successfully`);
+    } catch (error) {
+      // Ignore "already exists" errors
+      if (!error.message?.includes('already exists') &&
+          !error.message?.includes('duplicate key')) {
+        logger.error(`Migration ${file} failed: ${error.message}`);
+      }
+    }
+  }
+}
 
 async function bootstrap() {
   // Configure logging
@@ -27,6 +68,14 @@ async function bootstrap() {
   });
 
   const configService = app.get(ConfigService);
+
+  // Run database migrations on startup
+  try {
+    const dataSource = app.get(DataSource);
+    await runMigrations(dataSource, logger);
+  } catch (error) {
+    logger.warn(`Database migrations skipped: ${error.message}`);
+  }
 
   // Security middleware
   app.use(helmet());

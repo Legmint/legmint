@@ -60,35 +60,60 @@ export class TemplatesController {
       `Listing templates - category: ${category}, jurisdiction: ${jurisdiction}, search: ${search}`,
     );
 
-    let query = this.dataSource
-      .createQueryBuilder()
-      .select('*')
-      .from('templates', 't')
-      .where('t.is_active = true');
+    try {
+      let query = this.dataSource
+        .createQueryBuilder()
+        .select([
+          't.id',
+          't.code',
+          't.title',
+          't.description',
+          't.category',
+          't.jurisdictions',
+          't.languages',
+          't.is_active',
+          'COALESCE(t.is_featured, false) as is_featured',
+          't.render_engine',
+          't.price_cents',
+          't.created_at',
+          't.updated_at',
+        ])
+        .from('templates', 't')
+        .where('t.is_active = true');
 
-    if (category) {
-      query = query.andWhere('t.category = :category', { category });
-    }
+      if (category) {
+        query = query.andWhere('t.category = :category', { category });
+      }
 
-    if (jurisdiction) {
-      query = query.andWhere(':jurisdiction = ANY(t.jurisdictions)', {
-        jurisdiction,
-      });
-    }
+      if (jurisdiction) {
+        query = query.andWhere(':jurisdiction = ANY(t.jurisdictions)', {
+          jurisdiction,
+        });
+      }
 
-    if (search) {
-      query = query.andWhere(
-        '(t.title ILIKE :search OR t.description ILIKE :search)',
-        { search: `%${search}%` },
+      if (search) {
+        query = query.andWhere(
+          '(t.title ILIKE :search OR t.description ILIKE :search)',
+          { search: `%${search}%` },
+        );
+      }
+
+      const templates = await query.orderBy('t.category', 'ASC').addOrderBy('t.title', 'ASC').getRawMany();
+
+      return {
+        templates,
+        total: templates.length,
+      };
+    } catch (error) {
+      this.logger.error(`Failed to list templates: ${error.message}`, error.stack);
+      throw new HttpException(
+        {
+          message: 'Failed to load templates',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-
-    const templates = await query.orderBy('t.category', 'ASC').addOrderBy('t.title', 'ASC').getRawMany();
-
-    return {
-      templates,
-      total: templates.length,
-    };
   }
 
   /**

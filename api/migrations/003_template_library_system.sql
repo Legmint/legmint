@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS templates (
     description TEXT,
     version INTEGER DEFAULT 1,
     is_active BOOLEAN DEFAULT true,
+    is_featured BOOLEAN DEFAULT false,
     render_engine VARCHAR(50) DEFAULT 'html' CHECK (render_engine IN ('html', 'docx')),
     price_cents INTEGER DEFAULT 2900,
     currency VARCHAR(10) DEFAULT 'eur',
