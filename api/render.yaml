@@ -94,7 +94,7 @@ services:
         value: info
 
       - key: CORS_ORIGINS
-        value: https://legalmind.tech,https://www.legalmind.tech,https://legmint.vercel.app,https://legmint-frontend.vercel.app,http://localhost:3001
+        value: https://legmint.com,https://www.legmint.com,https://legalmind.tech,https://www.legalmind.tech,https://legmint.vercel.app,https://legmint-frontend.vercel.app,http://localhost:3001
 
       - key: PUPPETEER_EXECUTABLE_PATH
         value: /usr/bin/chromium-browser
