@@ -208,6 +208,59 @@ async function bootstrap() {
     });
   });
 
+  // Database status endpoint for debugging
+  app.getHttpAdapter().get('/v1/db-status', async (req, res) => {
+    try {
+      const dataSource = app.get(DataSource);
+      const isInitialized = dataSource?.isInitialized;
+
+      let tables = [];
+      if (isInitialized) {
+        const result = await dataSource.query(`
+          SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+        `);
+        tables = result.map((r: any) => r.tablename);
+      }
+
+      res.status(200).json({
+        database_connected: isInitialized,
+        tables,
+        migrations_dir_exists: fs.existsSync(path.join(__dirname, 'migrations')),
+        migrations_dir: path.join(__dirname, 'migrations'),
+        cwd: process.cwd(),
+        dirname: __dirname,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+        database_connected: false,
+      });
+    }
+  });
+
+  // Manual migration trigger endpoint
+  app.getHttpAdapter().post('/v1/run-migrations', async (req, res) => {
+    try {
+      const dataSource = app.get(DataSource);
+      await runMigrations(dataSource, logger);
+
+      const result = await dataSource.query(`
+        SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+      `);
+      const tables = result.map((r: any) => r.tablename);
+
+      res.status(200).json({
+        success: true,
+        tables,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+        success: false,
+      });
+    }
+  });
+
   const port = configService.get('PORT', 3000);
   await app.listen(port);
 
