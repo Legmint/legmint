@@ -106,13 +106,25 @@ async function bootstrap() {
   app.use(compression());
 
   // CORS configuration
-  const corsOrigins = configService
-    .get<string>('CORS_ORIGINS', 'http://localhost:3001')
-    .split(',')
-    .map(origin => origin.trim());
+  const corsOriginsEnv = configService.get<string>('CORS_ORIGINS', 'http://localhost:3001');
+  const corsOrigins = corsOriginsEnv.split(',').map(origin => origin.trim());
+
+  logger.log(`CORS origins configured: ${JSON.stringify(corsOrigins)}`);
 
   app.enableCors({
-    origin: corsOrigins,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (corsOrigins.includes(origin)) {
+        callback(null, origin);
+      } else {
+        logger.warn(`CORS blocked origin: ${origin}`);
+        callback(null, false);
+      }
+    },
     credentials: true,
     allowedHeaders: [
       'Content-Type',
