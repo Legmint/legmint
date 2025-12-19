@@ -126,13 +126,15 @@ export default function TemplatesPage() {
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-medium">
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                          <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-medium capitalize">
                             {template.category}
                           </span>
-                          <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
-                            {template.jurisdictions.join(', ')}
-                          </span>
+                          {template.jurisdictions && template.jurisdictions.length > 0 && (
+                            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
+                              {template.jurisdictions.join(', ')}
+                            </span>
+                          )}
                         </div>
                         <h3 className="font-bold text-lg text-gray-900 group-hover:text-indigo-600 transition">
                           {template.title}
@@ -185,13 +187,15 @@ export default function TemplatesPage() {
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-medium">
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <span className="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-medium capitalize">
                               {template.category}
                             </span>
-                            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
-                              {template.jurisdictions.join(', ')}
-                            </span>
+                            {template.jurisdictions && template.jurisdictions.length > 0 && (
+                              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
+                                {template.jurisdictions.join(', ')}
+                              </span>
+                            )}
                             {template.is_featured && (
                               <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-medium">
                                 Featured

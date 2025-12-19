@@ -1,8 +1,8 @@
 /**
  * Template Detail Page with Stripe Checkout
  *
- * Shows how one-time template purchase appears
- * Example: /templates/incorporation-delaware
+ * Displays template details fetched from the API
+ * Example: /templates/founders-agreement
  */
 
 'use client';
@@ -10,45 +10,144 @@
 import { useParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-// Mock template data - in real app, fetch from API
-const TEMPLATES: Record<string, any> = {
-  'incorporation-delaware': {
-    name: 'Delaware C-Corp Incorporation',
-    description: 'Complete incorporation package for Delaware C-Corporations',
-    category: 'Formation',
-    difficulty: 'Beginner',
-    estimatedTime: '15 minutes',
-    features: [
-      'Certificate of Incorporation',
-      'Bylaws template',
-      'Initial board resolutions',
-      'Stock issuance documents',
-      'Jurisdiction-specific compliance checklist',
+// Use API_BASE_URL (without /v1) to avoid double path
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+
+interface Template {
+  id: string;
+  code: string;
+  title: string;
+  description: string;
+  category: string;
+  jurisdictions: string[];
+  languages: string[];
+  is_featured?: boolean;
+  is_active?: boolean;
+  render_engine?: string;
+  price_cents?: number;
+  availableOverlays?: Array<{ jurisdiction: string; language: string }>;
+}
+
+// Default features for templates (could be enhanced with template-specific features from API)
+const getTemplateFeatures = (category: string): string[] => {
+  const featuresByCategory: Record<string, string[]> = {
+    startup: [
+      'Equity and ownership provisions',
+      'Vesting schedules and cliffs',
+      'IP assignment clauses',
+      'Exit and dispute resolution',
+      'Jurisdiction-specific compliance',
     ],
-  },
-  'nda-mutual': {
-    name: 'Mutual Non-Disclosure Agreement',
-    description: 'Two-way NDA for sharing confidential information',
-    category: 'Contracts',
-    difficulty: 'Beginner',
-    estimatedTime: '10 minutes',
-    features: [
-      'Mutual confidentiality obligations',
-      'Customizable term length',
-      'Standard exclusions',
-      'Return/destruction provisions',
+    b2b: [
+      'Professional service terms',
+      'Confidentiality provisions',
+      'Liability limitations',
+      'Payment and termination terms',
       'Governing law selection',
     ],
-  },
+    b2c: [
+      'User terms and conditions',
+      'Privacy and data protection',
+      'GDPR/CCPA compliance',
+      'Dispute resolution',
+      'Service level agreements',
+    ],
+    p2p: [
+      'Party obligations',
+      'Payment terms',
+      'Confidentiality clauses',
+      'Term and termination',
+      'Governing law',
+    ],
+    other: [
+      'Comprehensive legal coverage',
+      'Clear definitions',
+      'Standard legal provisions',
+      'Customizable terms',
+      'Professional formatting',
+    ],
+  };
+  return featuresByCategory[category] || featuresByCategory.other;
 };
 
 export default function TemplateDetailPage() {
   const params = useParams();
   const { isSignedIn } = useUser();
+  const [template, setTemplate] = useState<Template | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const templateCode = params?.code as string;
-  const template = TEMPLATES[templateCode] || TEMPLATES['incorporation-delaware'];
+
+  useEffect(() => {
+    async function fetchTemplate() {
+      if (!templateCode) return;
+
+      try {
+        setLoading(true);
+        const response = await fetch(`${API_BASE_URL}/v1/templates/${templateCode}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('Template not found');
+          }
+          throw new Error('Failed to fetch template');
+        }
+
+        const data = await response.json();
+        setTemplate(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load template');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTemplate();
+  }, [templateCode]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <p className="mt-4 text-gray-600">Loading template...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !template) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="bg-indigo-600 text-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link href="/templates" className="text-indigo-200 hover:text-white mb-4 inline-block">
+              ← Back to Templates
+            </Link>
+            <h1 className="text-4xl font-bold mb-4">Template Not Found</h1>
+            <p className="text-xl text-indigo-100">
+              {error || 'The template you are looking for does not exist or is no longer available.'}
+            </p>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <Link
+            href="/templates"
+            className="inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition"
+          >
+            Browse All Templates
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const features = getTemplateFeatures(template.category);
 
   return (
     <div className="min-h-screen bg-white">
@@ -60,30 +159,43 @@ export default function TemplateDetailPage() {
           </Link>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="bg-indigo-500 px-3 py-1 rounded-full text-sm font-medium">
+              <div className="flex items-center gap-3 mb-4 flex-wrap">
+                <span className="bg-indigo-500 px-3 py-1 rounded-full text-sm font-medium capitalize">
                   {template.category}
                 </span>
-                <span className="bg-indigo-500 px-3 py-1 rounded-full text-sm font-medium">
-                  {template.difficulty}
-                </span>
+                {template.is_featured && (
+                  <span className="bg-amber-500 px-3 py-1 rounded-full text-sm font-medium">
+                    Featured
+                  </span>
+                )}
+                {template.jurisdictions && template.jurisdictions.length > 0 && (
+                  <span className="bg-indigo-400 px-3 py-1 rounded-full text-sm font-medium">
+                    {template.jurisdictions.length} jurisdiction{template.jurisdictions.length > 1 ? 's' : ''}
+                  </span>
+                )}
               </div>
-              <h1 className="text-4xl font-bold mb-4">{template.name}</h1>
+              <h1 className="text-4xl font-bold mb-4">{template.title}</h1>
               <p className="text-xl text-indigo-100 mb-6">
                 {template.description}
               </p>
-              <div className="flex items-center gap-6 text-indigo-100">
+              <div className="flex items-center gap-6 text-indigo-100 flex-wrap">
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span>{template.estimatedTime}</span>
+                  <span>~15 minutes</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   <span>PDF & DOCX</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{template.jurisdictions?.join(', ') || 'Global'}</span>
                 </div>
               </div>
             </div>
@@ -175,7 +287,7 @@ export default function TemplateDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold mb-8">What you'll get</h2>
         <div className="grid md:grid-cols-2 gap-6">
-          {template.features.map((feature: string, idx: number) => (
+          {features.map((feature: string, idx: number) => (
             <div key={idx} className="flex items-start bg-gray-50 p-6 rounded-lg">
               <svg className="w-6 h-6 text-indigo-600 mr-4 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -238,7 +350,7 @@ export default function TemplateDetailPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
           <p className="text-xl text-indigo-100 mb-8">
-            Subscribe to Pro and generate {template.name} (and all templates) unlimited times
+            Subscribe to Pro and generate {template.title} (and all templates) unlimited times
           </p>
           <Link
             href="/pricing"
