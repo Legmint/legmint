@@ -106,8 +106,16 @@ async function bootstrap() {
   app.use(compression());
 
   // CORS configuration
-  const corsOriginsEnv = configService.get<string>('CORS_ORIGINS', 'http://localhost:3001');
-  const corsOrigins = corsOriginsEnv.split(',').map(origin => origin.trim());
+  // Always include production domains in addition to env var
+  const defaultCorsOrigins = [
+    'https://legmint.com',
+    'https://www.legmint.com',
+    'https://legmint.vercel.app',
+    'http://localhost:3001',
+  ];
+  const corsOriginsEnv = configService.get<string>('CORS_ORIGINS', '');
+  const envOrigins = corsOriginsEnv ? corsOriginsEnv.split(',').map(origin => origin.trim()) : [];
+  const corsOrigins = [...new Set([...defaultCorsOrigins, ...envOrigins])];
 
   logger.log(`CORS origins configured: ${JSON.stringify(corsOrigins)}`);
 
@@ -121,8 +129,10 @@ async function bootstrap() {
       if (corsOrigins.includes(origin)) {
         callback(null, origin);
       } else {
-        logger.warn(`CORS blocked origin: ${origin}`);
-        callback(null, false);
+        // Log but still allow with explicit origin for debugging
+        logger.warn(`CORS request from unlisted origin: ${origin}`);
+        // Return error to properly block with CORS headers
+        callback(new Error(`Origin ${origin} not allowed by CORS`), false);
       }
     },
     credentials: true,
@@ -131,6 +141,7 @@ async function bootstrap() {
       'Authorization',
       'X-Requested-With',
       'Accept',
+      'X-User-Id',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     exposedHeaders: ['X-Total-Count', 'X-Page-Number'],
