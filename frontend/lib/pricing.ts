@@ -82,8 +82,8 @@ export function getYearlySavings(monthlyPrice: number, discountPercent: number =
   return monthlyPrice * 12 - getYearlyPrice(monthlyPrice, discountPercent);
 }
 
-// Stripe Price IDs (set via environment variables)
+// Stripe Price IDs (set via environment variables, with production defaults)
 export const STRIPE_PRICE_IDS = {
-  proMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_PRO_MONTHLY',
-  proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_PRO_YEARLY',
+  proMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_1SVHMJQ9KFcDL1QqYwn72e2q',
+  proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_1SVHMKQ9KFcDL1QqOBUNlZkJ',
 } as const;
