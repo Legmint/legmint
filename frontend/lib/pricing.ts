@@ -81,7 +81,7 @@ export const PRICING_CONFIG = {
       'SLA-backed uptime guarantee (99.9%)',
       'Custom contract review & negotiation support'
     ],
-    cta: 'Contact Sales',
+    cta: 'Reach out to onboard your enterprise',
     ctaHref: '/pricing',
     highlighted: false,
     buttonStyle: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600',

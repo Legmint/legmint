@@ -257,7 +257,7 @@ export default function PricingPage() {
                   Redirecting to Stripe...
                 </span>
               ) : (
-                `Subscribe to Enterprise${billingCycle === 'yearly' ? ' (Annual)' : ''}`
+                PRICING_CONFIG.enterprise.cta
               )}
             </button>
             {error && loadingPlan === 'enterprise' && (
