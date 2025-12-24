@@ -199,17 +199,14 @@ export default function PricingPage() {
           </div>
 
           {/* Enterprise - Gold Theme */}
-          <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-400 rounded-xl p-8 shadow-lg relative overflow-hidden">
-            {/* Gold shimmer effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent -skew-x-12 animate-pulse"></div>
-
+          <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-400 rounded-xl p-8 shadow-lg relative">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
               <span className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
                 Premium
               </span>
             </div>
 
-            <div className="relative text-center mb-6">
+            <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-amber-900 mb-2">{PRICING_CONFIG.enterprise.name}</h3>
               <div className="flex items-baseline justify-center mb-4">
                 {billingCycle === 'monthly' ? (
@@ -232,7 +229,7 @@ export default function PricingPage() {
               <p className="text-amber-800">{PRICING_CONFIG.enterprise.description}</p>
             </div>
 
-            <ul className="relative space-y-3 mb-8 text-sm">
+            <ul className="space-y-3 mb-8 text-sm">
               {PRICING_CONFIG.enterprise.features.map((feature, index) => (
                 <li key={index} className="flex items-start">
                   <svg className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -246,7 +243,7 @@ export default function PricingPage() {
             <button
               onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.enterpriseMonthly : STRIPE_PRICE_IDS.enterpriseYearly, 'enterprise')}
               disabled={isLoading}
-              className="relative w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-yellow-600 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-yellow-600 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loadingPlan === 'enterprise' ? (
                 <span className="flex items-center justify-center">
