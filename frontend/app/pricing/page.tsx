@@ -1,6 +1,6 @@
 /**
- * Pricing Page - Simplified 2-Tier Model
- * Free (preview only) + Pro (€99/mo with 15% yearly discount)
+ * Pricing Page - 3-Tier Model
+ * Free (preview only) + Pro (€99/mo) + Enterprise (€3,500/mo)
  */
 'use client';
 
@@ -14,22 +14,30 @@ export default function PricingPage() {
   const { isSignedIn } = useUser();
   const { checkoutSubscription, isLoading, error } = useCheckout();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  const handleSubscribe = async (priceId: string) => {
+  const handleSubscribe = async (priceId: string, planId: string) => {
     if (!isSignedIn) {
-      // Redirect to sign up
       window.location.href = '/sign-up';
       return;
     }
+    setLoadingPlan(planId);
     await checkoutSubscription(priceId);
+    setLoadingPlan(null);
   };
 
   // Calculate pricing with shared config
   const proMonthlyPrice = PRICING_CONFIG.pro.price;
-  const yearlyDiscount = PRICING_CONFIG.pro.yearlyDiscount || 15;
-  const yearlyPrice = getYearlyPrice(proMonthlyPrice, yearlyDiscount);
-  const yearlyMonthlyEquivalent = getYearlyMonthlyEquivalent(proMonthlyPrice, yearlyDiscount);
-  const yearlySavings = getYearlySavings(proMonthlyPrice, yearlyDiscount);
+  const proYearlyDiscount = PRICING_CONFIG.pro.yearlyDiscount || 15;
+  const proYearlyPrice = getYearlyPrice(proMonthlyPrice, proYearlyDiscount);
+  const proYearlyMonthlyEquivalent = getYearlyMonthlyEquivalent(proMonthlyPrice, proYearlyDiscount);
+  const proYearlySavings = getYearlySavings(proMonthlyPrice, proYearlyDiscount);
+
+  const enterpriseMonthlyPrice = PRICING_CONFIG.enterprise.price;
+  const enterpriseYearlyDiscount = PRICING_CONFIG.enterprise.yearlyDiscount || 15;
+  const enterpriseYearlyPrice = getYearlyPrice(enterpriseMonthlyPrice, enterpriseYearlyDiscount);
+  const enterpriseYearlyMonthlyEquivalent = getYearlyMonthlyEquivalent(enterpriseMonthlyPrice, enterpriseYearlyDiscount);
+  const enterpriseYearlySavings = getYearlySavings(enterpriseMonthlyPrice, enterpriseYearlyDiscount);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
@@ -76,8 +84,8 @@ export default function PricingPage() {
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid md:grid-cols-3 gap-8">
 
           {/* Free Tier */}
           <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-lg transition">
@@ -141,14 +149,14 @@ export default function PricingPage() {
                   </>
                 ) : (
                   <>
-                    <span className="text-5xl font-extrabold text-emerald-600">{PRICING_CONFIG.pro.currency}{yearlyMonthlyEquivalent}</span>
+                    <span className="text-5xl font-extrabold text-emerald-600">{PRICING_CONFIG.pro.currency}{proYearlyMonthlyEquivalent}</span>
                     <span className="text-gray-600 ml-2">/{PRICING_CONFIG.pro.period}</span>
                   </>
                 )}
               </div>
               {billingCycle === 'yearly' && (
                 <p className="text-sm text-emerald-600 font-medium mb-2">
-                  {PRICING_CONFIG.pro.currency}{Math.round(yearlyPrice)}/year • Save {PRICING_CONFIG.pro.currency}{Math.round(yearlySavings)} annually
+                  {PRICING_CONFIG.pro.currency}{Math.round(proYearlyPrice)}/year • Save {PRICING_CONFIG.pro.currency}{Math.round(proYearlySavings)} annually
                 </p>
               )}
               <p className="text-gray-600">{PRICING_CONFIG.pro.description}</p>
@@ -166,11 +174,11 @@ export default function PricingPage() {
             </ul>
 
             <button
-              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.proMonthly : STRIPE_PRICE_IDS.proYearly)}
+              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.proMonthly : STRIPE_PRICE_IDS.proYearly, 'pro')}
               disabled={isLoading}
               className="w-full bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? (
+              {loadingPlan === 'pro' ? (
                 <span className="flex items-center justify-center">
                   <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -182,11 +190,81 @@ export default function PricingPage() {
                 `${PRICING_CONFIG.pro.cta}${billingCycle === 'yearly' ? ' (Annual)' : ''}`
               )}
             </button>
-            {error && (
+            {error && loadingPlan === 'pro' && (
               <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             )}
             <p className="text-xs text-gray-500 text-center mt-3">
               Secure checkout with Stripe • Cancel anytime
+            </p>
+          </div>
+
+          {/* Enterprise - Gold Theme */}
+          <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-400 rounded-xl p-8 shadow-lg relative overflow-hidden">
+            {/* Gold shimmer effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/20 to-transparent -skew-x-12 animate-pulse"></div>
+
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                Premium
+              </span>
+            </div>
+
+            <div className="relative text-center mb-6">
+              <h3 className="text-2xl font-bold text-amber-900 mb-2">{PRICING_CONFIG.enterprise.name}</h3>
+              <div className="flex items-baseline justify-center mb-4">
+                {billingCycle === 'monthly' ? (
+                  <>
+                    <span className="text-5xl font-extrabold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">{PRICING_CONFIG.enterprise.currency}{enterpriseMonthlyPrice.toLocaleString()}</span>
+                    <span className="text-amber-700 ml-2">/{PRICING_CONFIG.enterprise.period}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-5xl font-extrabold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">{PRICING_CONFIG.enterprise.currency}{enterpriseYearlyMonthlyEquivalent.toLocaleString()}</span>
+                    <span className="text-amber-700 ml-2">/{PRICING_CONFIG.enterprise.period}</span>
+                  </>
+                )}
+              </div>
+              {billingCycle === 'yearly' && (
+                <p className="text-sm text-amber-700 font-medium mb-2">
+                  {PRICING_CONFIG.enterprise.currency}{Math.round(enterpriseYearlyPrice).toLocaleString()}/year • Save {PRICING_CONFIG.enterprise.currency}{Math.round(enterpriseYearlySavings).toLocaleString()} annually
+                </p>
+              )}
+              <p className="text-amber-800">{PRICING_CONFIG.enterprise.description}</p>
+            </div>
+
+            <ul className="relative space-y-3 mb-8 text-sm">
+              {PRICING_CONFIG.enterprise.features.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <svg className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-amber-900" dangerouslySetInnerHTML={{ __html: feature }} />
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.enterpriseMonthly : STRIPE_PRICE_IDS.enterpriseYearly, 'enterprise')}
+              disabled={isLoading}
+              className="relative w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-yellow-600 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loadingPlan === 'enterprise' ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Redirecting to Stripe...
+                </span>
+              ) : (
+                `Subscribe to Enterprise${billingCycle === 'yearly' ? ' (Annual)' : ''}`
+              )}
+            </button>
+            {error && loadingPlan === 'enterprise' && (
+              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
+            )}
+            <p className="text-xs text-amber-700 text-center mt-3">
+              Dedicated support • Custom onboarding included
             </p>
           </div>
         </div>
@@ -215,6 +293,13 @@ export default function PricingPage() {
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold text-lg mb-2">What's included in Enterprise legal consultation?</h3>
+              <p className="text-gray-600">
+                Enterprise subscribers receive 10 hours per month of direct consultation with specialist attorneys.
+                This includes contract review, legal strategy sessions, and compliance guidance across all supported jurisdictions.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h3 className="font-semibold text-lg mb-2">Do you offer refunds?</h3>
               <p className="text-gray-600">
                 We offer a 14-day money-back guarantee on subscriptions. See our{' '}
@@ -222,13 +307,6 @@ export default function PricingPage() {
                   Refund Policy
                 </Link>{' '}
                 for complete details.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h3 className="font-semibold text-lg mb-2">What's included in the lawyer referral integration?</h3>
-              <p className="text-gray-600">
-                Pro subscribers get access to our verified network of local attorneys across all supported jurisdictions.
-                Book consultations directly through the platform with transparent pricing and vetted professionals.
               </p>
             </div>
           </div>
@@ -250,6 +328,12 @@ export default function PricingPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <span className="font-medium">SSL Encrypted</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="font-medium">24/7 Enterprise Support</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">

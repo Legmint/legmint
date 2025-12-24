@@ -61,6 +61,31 @@ export const PRICING_CONFIG = {
     highlighted: true,
     buttonStyle: 'bg-emerald-600 text-white hover:bg-emerald-700',
     yearlyDiscount: 15 // 15% discount for yearly billing
+  },
+  enterprise: {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: 3500,
+    currency: '€',
+    period: 'month' as const,
+    displayPrice: '€3,500',
+    description: 'For scaling companies with dedicated legal needs',
+    features: [
+      'Everything in Pro, plus:',
+      '<strong>24/7 Priority Support</strong> – dedicated account manager & instant response',
+      '<strong>10 hours/month</strong> of legal consultation with specialist attorneys',
+      'Custom template development tailored to your business',
+      'Multi-user team access with role-based permissions',
+      'API access for workflow automation',
+      'Dedicated onboarding & training sessions',
+      'SLA-backed uptime guarantee (99.9%)',
+      'Custom contract review & negotiation support'
+    ],
+    cta: 'Contact Sales',
+    ctaHref: '/pricing',
+    highlighted: false,
+    buttonStyle: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600',
+    yearlyDiscount: 15 // 15% discount for yearly billing
   }
 } as const;
 
@@ -87,4 +112,6 @@ export function getYearlySavings(monthlyPrice: number, discountPercent: number =
 export const STRIPE_PRICE_IDS = {
   proMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_1Sht4vQ5A3vEghA1mOf7qhZA',
   proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_1Sht4wQ5A3vEghA1vQh8ARFq',
+  enterpriseMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_1ShtPPQ5A3vEghA1zzIejV55',
+  enterpriseYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY || 'price_1ShtPPQ5A3vEghA1DRDLdtsf',
 } as const;
