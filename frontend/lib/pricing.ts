@@ -85,7 +85,7 @@ export const PRICING_CONFIG = {
     ctaHref: '/pricing',
     highlighted: false,
     buttonStyle: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600',
-    yearlyDiscount: 15 // 15% discount for yearly billing
+    yearlyDiscount: 5 // 5% discount for yearly billing
   }
 } as const;
 
@@ -113,5 +113,5 @@ export const STRIPE_PRICE_IDS = {
   proMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_1Sht4vQ5A3vEghA1mOf7qhZA',
   proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_1Sht4wQ5A3vEghA1vQh8ARFq',
   enterpriseMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_1ShtPPQ5A3vEghA1zzIejV55',
-  enterpriseYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY || 'price_1ShtPPQ5A3vEghA1DRDLdtsf',
+  enterpriseYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY || 'price_1ShtmwQ5A3vEghA1tvPciQDA',
 } as const;
