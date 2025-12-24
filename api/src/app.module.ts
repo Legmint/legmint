@@ -1,10 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 // Import configuration
 import { getDatabaseConfig } from './config/database.config';
+
+// Import middleware
+import { ClerkAuthMiddleware } from './middleware/clerk-auth.middleware';
 
 // Import controllers
 import {
@@ -36,9 +39,6 @@ import {
 // Import modules
 import { PaymentsModule } from './payments/payments.module';
 import { EmailModule } from './email/email.module';
-
-// TODO: Import middleware when implemented
-// import { PaywallMiddleware } from './middleware/paywall.middleware';
 
 @Module({
   imports: [
@@ -90,8 +90,6 @@ import { EmailModule } from './email/email.module';
     // Email module (SendGrid integration)
     EmailModule,
 
-    // TODO: Add JWT authentication module
-    // TODO: Add Passport module for authentication strategies
   ],
 
   controllers: [
@@ -132,4 +130,9 @@ import { EmailModule } from './email/email.module';
     // UserService,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Apply Clerk auth middleware to all routes
+    consumer.apply(ClerkAuthMiddleware).forRoutes('*');
+  }
+}
