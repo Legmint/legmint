@@ -39,6 +39,12 @@ export default function PricingPage() {
   const enterpriseYearlyMonthlyEquivalent = getYearlyMonthlyEquivalent(enterpriseMonthlyPrice, enterpriseYearlyDiscount);
   const enterpriseYearlySavings = getYearlySavings(enterpriseMonthlyPrice, enterpriseYearlyDiscount);
 
+  const enterpriseUltraMonthlyPrice = PRICING_CONFIG.enterpriseUltra.price;
+  const enterpriseUltraYearlyDiscount = PRICING_CONFIG.enterpriseUltra.yearlyDiscount || 8;
+  const enterpriseUltraYearlyPrice = getYearlyPrice(enterpriseUltraMonthlyPrice, enterpriseUltraYearlyDiscount);
+  const enterpriseUltraYearlyMonthlyEquivalent = getYearlyMonthlyEquivalent(enterpriseUltraMonthlyPrice, enterpriseUltraYearlyDiscount);
+  const enterpriseUltraYearlySavings = getYearlySavings(enterpriseUltraMonthlyPrice, enterpriseUltraYearlyDiscount);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
       {/* Header */}
@@ -85,7 +91,7 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
           {/* Free Tier */}
           <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-sm hover:shadow-lg transition">
@@ -264,6 +270,73 @@ export default function PricingPage() {
               Dedicated support • Custom onboarding included
             </p>
           </div>
+
+          {/* Enterprise Ultra - Purple/Indigo Theme */}
+          <div className="bg-gradient-to-br from-purple-50 via-indigo-50 to-violet-50 border-2 border-purple-500 rounded-xl p-8 shadow-xl relative">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                Ultimate
+              </span>
+            </div>
+
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-purple-900 mb-2">{PRICING_CONFIG.enterpriseUltra.name}</h3>
+              <div className="flex items-baseline justify-center mb-4">
+                {billingCycle === 'monthly' ? (
+                  <>
+                    <span className="text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">{PRICING_CONFIG.enterpriseUltra.currency}{enterpriseUltraMonthlyPrice.toLocaleString()}</span>
+                    <span className="text-purple-700 ml-2">/{PRICING_CONFIG.enterpriseUltra.period}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">{PRICING_CONFIG.enterpriseUltra.currency}{enterpriseUltraYearlyMonthlyEquivalent.toLocaleString()}</span>
+                    <span className="text-purple-700 ml-2">/{PRICING_CONFIG.enterpriseUltra.period}</span>
+                  </>
+                )}
+              </div>
+              {billingCycle === 'yearly' && (
+                <p className="text-sm text-purple-700 font-medium mb-2">
+                  {PRICING_CONFIG.enterpriseUltra.currency}{Math.round(enterpriseUltraYearlyPrice).toLocaleString()}/year • Save {PRICING_CONFIG.enterpriseUltra.currency}{Math.round(enterpriseUltraYearlySavings).toLocaleString()} annually
+                </p>
+              )}
+              <p className="text-purple-800">{PRICING_CONFIG.enterpriseUltra.description}</p>
+            </div>
+
+            <ul className="space-y-3 mb-8 text-sm">
+              {PRICING_CONFIG.enterpriseUltra.features.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <svg className="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-purple-900" dangerouslySetInnerHTML={{ __html: feature }} />
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.enterpriseUltraMonthly : STRIPE_PRICE_IDS.enterpriseUltraYearly, 'enterprise-ultra')}
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loadingPlan === 'enterprise-ultra' ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Redirecting to Stripe...
+                </span>
+              ) : (
+                PRICING_CONFIG.enterpriseUltra.cta
+              )}
+            </button>
+            {error && loadingPlan === 'enterprise-ultra' && (
+              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
+            )}
+            <p className="text-xs text-purple-700 text-center mt-3">
+              White-label solution • Unlimited legal support
+            </p>
+          </div>
         </div>
 
         {/* FAQ Section */}
@@ -294,6 +367,14 @@ export default function PricingPage() {
               <p className="text-gray-600">
                 Enterprise subscribers receive 10 hours per month of direct consultation with specialist attorneys.
                 This includes contract review, legal strategy sessions, and compliance guidance across all supported jurisdictions.
+              </p>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-lg shadow-sm border-2 border-purple-300">
+              <h3 className="font-semibold text-lg mb-2 text-purple-900">What makes Enterprise Ultra different?</h3>
+              <p className="text-purple-800">
+                Enterprise Ultra is our premium tier for fast-scaling companies. It includes <strong>unlimited legal consultations</strong> with
+                no hourly caps, a fully <strong>white-label solution</strong> with your company branding, priority 48-hour custom template development,
+                a dedicated legal team, and 99.99% SLA guarantee. Perfect for companies needing maximum legal coverage and flexibility.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">

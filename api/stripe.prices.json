@@ -6,5 +6,21 @@
   "pro-yearly": {
     "productId": "prod_TfDVmHDFSsD3YS",
     "priceId": "price_1Sht4wQ5A3vEghA1vQh8ARFq"
+  },
+  "enterprise-monthly": {
+    "productId": "prod_enterprise",
+    "priceId": "price_1ShtPPQ5A3vEghA1zzIejV55"
+  },
+  "enterprise-yearly": {
+    "productId": "prod_enterprise",
+    "priceId": "price_1ShtmwQ5A3vEghA1tvPciQDA"
+  },
+  "enterprise-ultra-monthly": {
+    "productId": "prod_Tgj5eRfmYl2rez",
+    "priceId": "price_1SjLdIQ9KFcDL1QqmmZ9TEuU"
+  },
+  "enterprise-ultra-yearly": {
+    "productId": "prod_Tgj5eRfmYl2rez",
+    "priceId": "price_1SjLdJQ9KFcDL1QqPaABCpWT"
   }
 }

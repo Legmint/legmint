@@ -86,6 +86,33 @@ export const PRICING_CONFIG = {
     highlighted: false,
     buttonStyle: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600',
     yearlyDiscount: 5 // 5% discount for yearly billing
+  },
+  enterpriseUltra: {
+    id: 'enterprise-ultra',
+    name: 'Enterprise Ultra',
+    price: 6500,
+    currency: '€',
+    period: 'month' as const,
+    displayPrice: '€6,500',
+    description: 'Maximum legal protection for fast-growing enterprises',
+    features: [
+      'Everything in Enterprise, plus:',
+      '<strong>Unlimited Legal Consultation</strong> – on-demand access to specialist attorneys',
+      '<strong>White-label Solution</strong> – fully branded legal portal for your company',
+      '<strong>Priority Template Development</strong> – custom templates built within 48 hours',
+      'Dedicated legal team assigned to your account',
+      'Advanced compliance monitoring & alerts (GDPR, CCPA, etc.)',
+      'Multi-jurisdiction expansion support (new regions on request)',
+      'Executive quarterly business reviews with legal strategy planning',
+      'Direct integration with your legal & HR systems',
+      '<strong>99.99% SLA</strong> with guaranteed response times',
+      'Exclusive access to beta features and new jurisdictions'
+    ],
+    cta: 'Contact Sales',
+    ctaHref: '/pricing',
+    highlighted: false,
+    buttonStyle: 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700',
+    yearlyDiscount: 8 // 8% discount for yearly billing
   }
 } as const;
 
@@ -114,4 +141,6 @@ export const STRIPE_PRICE_IDS = {
   proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_1Sht4wQ5A3vEghA1vQh8ARFq',
   enterpriseMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_1ShtPPQ5A3vEghA1zzIejV55',
   enterpriseYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY || 'price_1ShtmwQ5A3vEghA1tvPciQDA',
+  enterpriseUltraMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_MONTHLY || 'price_1SjLdIQ9KFcDL1QqmmZ9TEuU',
+  enterpriseUltraYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_YEARLY || 'price_1SjLdJQ9KFcDL1QqPaABCpWT',
 } as const;

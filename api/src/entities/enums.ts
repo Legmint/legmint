@@ -1,6 +1,8 @@
 export enum Plan {
   FREE = 'free',
   PRO = 'pro',
+  ENTERPRISE = 'enterprise',
+  ENTERPRISE_ULTRA = 'enterprise-ultra',
 }
 
 export enum JurisdictionCode {
