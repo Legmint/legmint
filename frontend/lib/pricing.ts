@@ -141,6 +141,6 @@ export const STRIPE_PRICE_IDS = {
   proYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY || 'price_1Sht4wQ5A3vEghA1vQh8ARFq',
   enterpriseMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_1ShtPPQ5A3vEghA1zzIejV55',
   enterpriseYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_YEARLY || 'price_1ShtmwQ5A3vEghA1tvPciQDA',
-  enterpriseUltraMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_MONTHLY || 'price_1SjLdIQ9KFcDL1QqmmZ9TEuU',
-  enterpriseUltraYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_YEARLY || 'price_1SjLdJQ9KFcDL1QqPaABCpWT',
+  enterpriseUltraMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_MONTHLY || 'price_1SjMCHQ5A3vEghA15zthuMtF',
+  enterpriseUltraYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ULTRA_YEARLY || 'price_1SjMCHQ5A3vEghA1Ogf0faie',
 } as const;
