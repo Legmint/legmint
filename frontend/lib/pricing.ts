@@ -81,8 +81,8 @@ export const PRICING_CONFIG = {
       'SLA-backed uptime guarantee (99.9%)',
       'Custom contract review & negotiation support'
     ],
-    cta: 'Reach out to onboard your enterprise',
-    ctaHref: '/pricing',
+    cta: 'Apply for Enterprise',
+    ctaHref: '/enterprise/apply',
     highlighted: false,
     buttonStyle: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600',
     yearlyDiscount: 5 // 5% discount for yearly billing
@@ -108,8 +108,8 @@ export const PRICING_CONFIG = {
       '<strong>99.99% SLA</strong> with guaranteed response times',
       'Exclusive access to beta features and new jurisdictions'
     ],
-    cta: 'Contact Sales',
-    ctaHref: '/pricing',
+    cta: 'Apply for Enterprise Ultra',
+    ctaHref: '/enterprise/apply?plan=ultra',
     highlighted: false,
     buttonStyle: 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700',
     yearlyDiscount: 8 // 8% discount for yearly billing

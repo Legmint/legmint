@@ -39,6 +39,7 @@ import {
 // Import modules
 import { PaymentsModule } from './payments/payments.module';
 import { EmailModule } from './email/email.module';
+import { EnterpriseModule } from './enterprise/enterprise.module';
 
 @Module({
   imports: [
@@ -89,6 +90,9 @@ import { EmailModule } from './email/email.module';
 
     // Email module (SendGrid integration)
     EmailModule,
+
+    // Enterprise applications module (vetting workflow)
+    EnterpriseModule,
 
   ],
 

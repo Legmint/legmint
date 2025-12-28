@@ -246,28 +246,14 @@ export default function PricingPage() {
               ))}
             </ul>
 
-            <button
-              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.enterpriseMonthly : STRIPE_PRICE_IDS.enterpriseYearly, 'enterprise')}
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-yellow-600 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            <Link
+              href="/enterprise/apply"
+              className="block w-full text-center bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-amber-600 hover:to-yellow-600 transition shadow-lg"
             >
-              {loadingPlan === 'enterprise' ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Redirecting to Stripe...
-                </span>
-              ) : (
-                PRICING_CONFIG.enterprise.cta
-              )}
-            </button>
-            {error && loadingPlan === 'enterprise' && (
-              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
-            )}
+              Apply for Enterprise
+            </Link>
             <p className="text-xs text-amber-700 text-center mt-3">
-              Dedicated support • Custom onboarding included
+              Applications reviewed within 24 hours
             </p>
           </div>
 
@@ -313,28 +299,14 @@ export default function PricingPage() {
               ))}
             </ul>
 
-            <button
-              onClick={() => handleSubscribe(billingCycle === 'monthly' ? STRIPE_PRICE_IDS.enterpriseUltraMonthly : STRIPE_PRICE_IDS.enterpriseUltraYearly, 'enterprise-ultra')}
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            <Link
+              href="/enterprise/apply?plan=ultra"
+              className="block w-full text-center bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition shadow-lg"
             >
-              {loadingPlan === 'enterprise-ultra' ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Redirecting to Stripe...
-                </span>
-              ) : (
-                PRICING_CONFIG.enterpriseUltra.cta
-              )}
-            </button>
-            {error && loadingPlan === 'enterprise-ultra' && (
-              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
-            )}
+              Apply for Enterprise Ultra
+            </Link>
             <p className="text-xs text-purple-700 text-center mt-3">
-              White-label solution • Unlimited legal support
+              Includes dedicated onboarding call
             </p>
           </div>
         </div>
